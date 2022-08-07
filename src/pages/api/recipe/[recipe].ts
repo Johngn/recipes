@@ -1,4 +1,4 @@
-import prisma from '../../db/client';
+import prisma from '../../../db/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -13,13 +13,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   const data = await prisma.Recipe.findFirst({
-    // console.log(data);
     where: {
       title: {
         equals: recipe,
       },
     },
   });
+
+  const ingredients = await prisma.Ingredient.findMany({
+    where: {
+      recipeId: {
+        equals: data.id,
+      },
+    },
+  });
+
+  data.ingredients = ingredients;
 
   if (!data) {
     res.statusCode = 404;
@@ -29,7 +38,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  res.send(JSON.stringify({ message: `Recipe is ${data.title}` }));
-
-  return;
+  return res.json(data);
 };

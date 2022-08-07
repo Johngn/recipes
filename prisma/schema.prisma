@@ -12,9 +12,24 @@ datasource db {
   referentialIntegrity = "prisma"
 }
 
+model Ingredient {
+  id       Int     @id @default(autoincrement())
+  name     String
+  Recipe   Recipe? @relation(fields: [recipeId], references: [id])
+  recipeId Int?
+}
+
+model Step {
+  id       Int     @id @default(autoincrement())
+  text     String
+  Recipe   Recipe? @relation(fields: [recipeId], references: [id])
+  recipeId Int?
+}
+
 model Recipe {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  title     String
-  content   String
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now())
+  title       String
+  ingredients Ingredient[]
+  directions  Step[]
 }
