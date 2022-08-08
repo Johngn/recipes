@@ -29,7 +29,7 @@ model Step {
 model Recipe {
   id          Int          @id @default(autoincrement())
   createdAt   DateTime     @default(now())
-  title       String
+  title       String       @unique
   ingredients Ingredient[]
   directions  Step[]
 }

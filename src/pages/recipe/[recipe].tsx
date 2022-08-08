@@ -21,8 +21,6 @@ const Recipe: FunctionComponent<RecipeProps> = ({ recipe }) => {
     return <div>...loading</div>;
   }
 
-  console.log(recipe.ingredients);
-
   return (
     <div className="h-screen w-screen flex flex-col justify-center items-center">
       <h1 className="text-lg text-lime-700">Title: {recipe.title}</h1>

@@ -2,15 +2,28 @@ import prisma from '../../db/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const data = await prisma.Recipe.findMany();
+  if (req.method === 'POST') {
+    try {
+      const createRecipe = await prisma.Recipe.create({
+        data: {
+          title: req.body.title,
+          ingredients: {
+            create: [{ name: 'Bread' }, { name: 'Milk' }],
+          },
+        },
+      });
 
-  if (!data) {
-    res.statusCode = 404;
+      return res.status(200).json(createRecipe);
+    } catch (error) {
+      return res.status(404).json({ message: 'Server error' });
+    }
+  } else {
+    const data = await prisma.Recipe.findMany();
 
-    res.send(JSON.stringify({ message: 'No recipes' }));
+    if (!data) {
+      return res.status(404).json({ message: 'No recipes' });
+    }
 
-    return;
+    return res.status(200).json(data);
   }
-
-  return res.status(200).json(data);
 };

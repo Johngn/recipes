@@ -5,7 +5,7 @@ import Link, { LinkProps } from 'next/link';
 
 export const getServerSideProps: GetServerSideProps = async context => {
   //Fetch data from external API
-  const res = await fetch(`http://localhost:3000/api/recipes`);
+  const res = await fetch('http://localhost:3000/api/recipes');
   const recipes = await res.json();
   console.log('data', recipes);
   // Pass data to the page via props
@@ -44,7 +44,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({ recipe }) => {
 
   return (
     <div className="flex flex-row text-center w-full border">
-      <h1 className="text-center text-xl p-10 m-0 text-blue-900">
+      <h1 className="text-center text-xl p-2 m-0 text-blue-900">
         <Link href={`/recipe/${recipe.title}`}>
           <a>{recipe.title}</a>
         </Link>
