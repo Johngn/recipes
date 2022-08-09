@@ -18,8 +18,8 @@ type ingredientType = {
 };
 
 type directionType = {
-  id: number;
-  direction: String;
+  order: number;
+  text: string;
 };
 
 type recipeType = {
@@ -65,6 +65,9 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="h-screen w-screen flex flex-col justify-center items-center">
+        <Link href={`/add-recipe`}>
+          <a>Add Recipe</a>
+        </Link>
         {recipes.map(recipe => (
           <div key={recipe.id} className="max-w-2xl border">
             <Recipe recipe={recipe} />

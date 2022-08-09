@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
@@ -15,12 +12,15 @@ datasource db {
 model Ingredient {
   id       Int     @id @default(autoincrement())
   name     String
+  unit     String
+  amount   Float
   Recipe   Recipe? @relation(fields: [recipeId], references: [id])
   recipeId Int?
 }
 
-model Step {
+model Direction {
   id       Int     @id @default(autoincrement())
+  order    Int
   text     String
   Recipe   Recipe? @relation(fields: [recipeId], references: [id])
   recipeId Int?
@@ -31,5 +31,5 @@ model Recipe {
   createdAt   DateTime     @default(now())
   title       String       @unique
   ingredients Ingredient[]
-  directions  Step[]
+  directions  Direction[]
 }

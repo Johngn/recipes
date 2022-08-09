@@ -28,7 +28,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     },
   });
 
+  const directions = await prisma.Direction.findMany({
+    where: {
+      recipeId: {
+        equals: data.id,
+      },
+    },
+  });
+
   data.ingredients = ingredients;
+  data.directions = directions;
 
   if (!data) {
     res.statusCode = 404;

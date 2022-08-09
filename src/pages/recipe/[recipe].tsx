@@ -29,6 +29,11 @@ const Recipe: FunctionComponent<RecipeProps> = ({ recipe }) => {
           <h2>Ingredients: {ingredient.name}</h2>
         </>
       ))}
+      {recipe.directions?.map(direction => (
+        <>
+          <h2>directions: {direction.text}</h2>
+        </>
+      ))}
     </div>
   );
 };

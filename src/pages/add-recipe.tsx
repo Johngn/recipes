@@ -1,43 +1,24 @@
 import { FunctionComponent, useState } from 'react';
 
-type ingredient = {
-  name: String;
-  unit: String;
+type ingredientType = {
+  name: string;
+  unit: string;
   amount: number;
 };
 
-const IngredientInput: FunctionComponent = () => {
-  const [name, setName] = useState('');
-  const [unit, setUnit] = useState('');
-  const [amount, setAmount] = useState(0);
-
-  return (
-    <div className="m-2">
-      <input
-        placeholder="Ingredient"
-        className="m-2"
-        value={name}
-        onChange={e => setName(e.currentTarget.value)}
-      />
-      <input
-        placeholder="Unit"
-        className="m-2"
-        value={unit}
-        onChange={e => setUnit(e.currentTarget.value)}
-      />
-      <input
-        placeholder="Amount"
-        className="m-2"
-        value={amount}
-        onChange={e => setAmount(parseFloat(e.currentTarget.value))}
-      />
-    </div>
-  );
+type directionType = {
+  order: number;
+  text: string;
 };
 
 const AddRecipe: FunctionComponent = () => {
   const [title, setTitle] = useState('');
-  const [ingredients, setIngredients] = useState<ingredient[]>([]);
+  const [name, setName] = useState('');
+  const [unit, setUnit] = useState('');
+  const [amount, setAmount] = useState(0);
+  const [ingredients, setIngredients] = useState<ingredientType[]>([]);
+  const [directionText, setDirectionText] = useState('');
+  const [directions, setDirections] = useState<directionType[]>([]);
 
   const createRecipe = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -46,6 +27,8 @@ const AddRecipe: FunctionComponent = () => {
 
     const newRecipe = {
       title,
+      ingredients,
+      directions,
     };
 
     fetch('http://localhost:3000/api/recipes', {
@@ -63,6 +46,33 @@ const AddRecipe: FunctionComponent = () => {
       });
   };
 
+  const onAddIngredient = () => {
+    setName('');
+    setUnit('');
+    setAmount(0);
+    setIngredients(prevState => [
+      ...prevState,
+      {
+        name: name,
+        unit: unit,
+        amount: amount,
+      },
+    ]);
+  };
+
+  const onAddDirection = () => {
+    const lastDirection = directions.length + 1;
+    console.log(lastDirection);
+    setDirectionText('');
+    setDirections(prevState => [
+      ...prevState,
+      {
+        text: directionText,
+        order: directions.length + 1,
+      },
+    ]);
+  };
+
   return (
     <div className="h-screen w-screen flex flex-col justify-center items-center">
       <button onClick={e => createRecipe(e)}>Add recipe</button>
@@ -73,8 +83,44 @@ const AddRecipe: FunctionComponent = () => {
           value={title}
           onChange={e => setTitle(e.currentTarget.value)}
         />
-        <IngredientInput />
-        <button>Add Ingredient</button>
+
+        {ingredients.map(ingredient => (
+          <div className="flex border justify-between">
+            <p>{ingredient.name}</p>
+            <p>{ingredient.unit}</p>
+            <p>{ingredient.amount}</p>
+          </div>
+        ))}
+
+        <div className="m-2">
+          <input
+            placeholder="Ingredient"
+            className="m-2"
+            value={name}
+            onChange={e => setName(e.currentTarget.value)}
+          />
+          <input
+            placeholder="Unit"
+            className="m-2"
+            value={unit}
+            onChange={e => setUnit(e.currentTarget.value)}
+          />
+          <input
+            placeholder="Amount"
+            className="m-2"
+            value={amount}
+            onChange={e => setAmount(parseFloat(e.currentTarget.value))}
+          />
+        </div>
+        <button onClick={onAddIngredient}>Add Ingredient</button>
+        {directions.map(direction => (
+          <p>{direction.text}</p>
+        ))}
+        <textarea
+          value={directionText}
+          onChange={e => setDirectionText(e.currentTarget.value)}
+        />
+        <button onClick={onAddDirection}>Add Direction</button>
       </div>
     </div>
   );
