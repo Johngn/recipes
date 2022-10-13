@@ -2,9 +2,9 @@ import prisma from '../../../db/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const recipe = req.query['recipe'];
+  const recipeName = req.query['recipe'];
 
-  if (!recipe || typeof recipe !== 'string') {
+  if (!recipeName || typeof recipeName !== 'string') {
     res.statusCode = 404;
 
     res.send(JSON.stringify({ message: 'Not found' }));
@@ -12,34 +12,29 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  const data = await prisma.Recipe.findFirst({
+  const recipe = await prisma.recipe.findFirst({
     where: {
-      title: {
-        equals: recipe,
-      },
+      title: recipeName,
     },
   });
 
-  const ingredients = await prisma.Ingredient.findMany({
-    where: {
-      recipeId: {
-        equals: data.id,
+  const ingredients = await prisma.recipe
+    .findFirst({
+      where: {
+        title: recipeName,
       },
-    },
-  });
+    })
+    .ingredients();
 
-  const directions = await prisma.Direction.findMany({
+  const directions = await prisma.direction.findMany({
     where: {
       recipeId: {
-        equals: data.id,
+        equals: recipe.id,
       },
     },
   });
 
-  data.ingredients = ingredients;
-  data.directions = directions;
-
-  if (!data) {
+  if (!recipe) {
     res.statusCode = 404;
 
     res.send(JSON.stringify({ message: 'Recipe not found' }));
@@ -47,5 +42,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  return res.json(data);
+  return res.json({ recipe, ingredients, directions });
 };
