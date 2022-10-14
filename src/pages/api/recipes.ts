@@ -3,30 +3,38 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    try {
-      const createRecipe = await prisma.recipe.create({
-        data: {
-          title: req.body.title,
-          ingredients: {
-            create: req.body.ingredients,
-          },
-          directions: {
-            create: req.body.directions,
-          },
-        },
-      });
-
-      return res.status(200).json(createRecipe);
-    } catch (error) {
-      return res.status(404).json({ message: 'Server error' });
-    }
+    createRecipe(req, res);
   } else {
-    const data = await prisma.recipe.findMany();
+    getAllRecipes(req, res);
+  }
+};
 
-    if (!data) {
-      return res.status(404).json({ message: 'No recipes' });
-    }
+const getAllRecipes = async (req: NextApiRequest, res: NextApiResponse) => {
+  const data = await prisma.recipe.findMany();
 
-    return res.status(200).json(data);
+  if (!data) {
+    return res.status(404).json({ message: 'No recipes' });
+  }
+
+  return res.status(200).json(data);
+};
+
+const createRecipe = async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    const createReciped = await prisma.recipe.create({
+      data: {
+        title: req.body.title,
+        ingredients: {
+          create: req.body.ingredients,
+        },
+        directions: {
+          create: req.body.directions,
+        },
+      },
+    });
+
+    return res.status(200).json(createReciped);
+  } catch (error) {
+    return res.status(404).json({ message: 'Server error' });
   }
 };

@@ -1,9 +1,10 @@
-import Head from 'next/head';
+import HeadWrapper from '../layout/headWrapper';
 import prisma from '../db/client';
 import React, { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
-import Link, { LinkProps } from 'next/link';
+import Link from 'next/link';
 import Navbar from '../layout/navbar';
+import { recipeType } from '../types/types';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const data = await prisma.recipe.findMany();
@@ -13,25 +14,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
   return { props: { recipes } };
 };
 
-export type ingredientType = {
-  id: number;
-  name: String;
-  unit: String;
-  amount: number;
-};
-
-export type directionType = {
-  order: number;
-  text: string;
-};
-
-export type recipeType = {
-  id: React.Key;
-  title: String;
-  directions: directionType[];
-  ingredients: ingredientType[];
-};
-
 type HomeProps = {
   recipes: recipeType[];
 };
@@ -39,11 +21,7 @@ type HomeProps = {
 const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
   return (
     <>
-      <Head>
-        <title>Recipe Builder</title>
-        <link rel="icon" href="/fork.png" />
-      </Head>
-
+      <HeadWrapper />
       <Navbar />
 
       <div className="w-2/4 m-auto bg-slate-200 rounded-md mt-5 flex flex-col justify-center items-center">

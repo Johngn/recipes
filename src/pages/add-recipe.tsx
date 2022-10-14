@@ -1,18 +1,8 @@
 import { FunctionComponent, useState } from 'react';
 import Navbar from '../layout/navbar';
 import Router from 'next/router';
-import Head from 'next/head';
-
-type ingredientType = {
-  name: string;
-  unit: string;
-  amount: number;
-};
-
-type directionType = {
-  order: number;
-  text: string;
-};
+import HeadWrapper from '../layout/headWrapper';
+import { ingredientType, directionType } from '../types/types';
 
 const buttonClasses =
   'inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out w-full';
@@ -45,9 +35,8 @@ const AddRecipe: FunctionComponent = () => {
         },
         body: JSON.stringify(newRecipe),
       })
-        .then(response => {
-          console.log(response);
-          Router.push(`/recipe/${title}`);
+        .then(() => {
+          // Router.push(`/recipe/${title}`);
         })
         .catch(error => {
           console.log(error);
@@ -86,11 +75,7 @@ const AddRecipe: FunctionComponent = () => {
 
   return (
     <>
-      <Head>
-        <title>Recipe Builder</title>
-        <link rel="icon" href="/fork.png" />
-      </Head>
-
+      <HeadWrapper />
       <Navbar />
 
       <div className="w-2/4 m-auto mt-5">
@@ -106,12 +91,12 @@ const AddRecipe: FunctionComponent = () => {
         <div className="flex mt-3 bg-slate-200 rounded-md">
           <div className="p-10">
             <h2 className="text-3xl font-bold mb-5">Ingredients</h2>
-            {ingredients.map(ingredient => (
-              <div key={ingredient.name} className="flex justify-between mb-2">
-                <p>{ingredient.name}</p>
+            {ingredients.map(({ name, amount, unit }) => (
+              <div key={name} className="flex justify-between mb-2">
+                <p>{name}</p>
                 <div className="flex">
-                  <p className="mr-1">{ingredient.amount}</p>
-                  <p>{ingredient.unit}</p>
+                  <p className="mr-1">{amount}</p>
+                  <p>{unit}</p>
                 </div>
               </div>
             ))}
@@ -137,6 +122,7 @@ const AddRecipe: FunctionComponent = () => {
                 onChange={e => setUnit(e.currentTarget.value)}
               />
             </div>
+
             <button className={buttonClasses} onClick={onAddIngredient}>
               Add Ingredient
             </button>
@@ -144,24 +130,27 @@ const AddRecipe: FunctionComponent = () => {
 
           <div className="p-10">
             <h2 className="text-3xl font-bold mb-5">Directions</h2>
-            {directions.map(direction => (
-              <div key={direction.order} className="mb-5">
-                <h2 className="text-xl font-bold">Step {direction.order}:</h2>
-                <p>{direction.text}</p>
+
+            {directions.map(({ order, text }) => (
+              <div key={order} className="mb-5">
+                <h2 className="text-xl font-bold">Step {order}:</h2>
+                <p>{text}</p>
               </div>
             ))}
+
             <textarea
               value={directionText}
               onChange={e => setDirectionText(e.currentTarget.value)}
               className="w-full mb-2"
             />
+
             <button className={buttonClasses} onClick={onAddDirection}>
               Add Direction
             </button>
           </div>
         </div>
         <div className="w-2/4 m-auto mt-10">
-          <button onClick={e => createRecipe(e)} className={buttonClasses}>
+          <button className={buttonClasses} onClick={e => createRecipe(e)}>
             Add recipe
           </button>
         </div>
