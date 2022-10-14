@@ -32,7 +32,7 @@ const AddRecipe: FunctionComponent = () => {
       directions,
     };
 
-    fetch(`${process.env.API_URL}/api/recipes`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/recipes`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
