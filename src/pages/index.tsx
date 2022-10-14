@@ -5,12 +5,11 @@ import { GetServerSideProps } from 'next';
 import Link, { LinkProps } from 'next/link';
 import Navbar from '../layout/navbar';
 
-export const getServerSideProps: GetServerSideProps = async context => {
-  console.log('get-recipe', context);
+export const getServerSideProps: GetServerSideProps = async () => {
   const data = await prisma.recipe.findMany();
 
-  const recipes = data ? JSON.parse(JSON.stringify(data)) : [];
-  // Pass data to the page via props
+  const recipes = data ? JSON.parse(JSON.stringify(data)) : []; // Need to do this because props need to be serializable
+
   return { props: { recipes } };
 };
 

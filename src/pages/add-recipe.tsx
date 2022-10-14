@@ -32,7 +32,7 @@ const AddRecipe: FunctionComponent = () => {
       directions,
     };
 
-    fetch('http://localhost:3000/api/recipes', {
+    fetch(`${process.env.API_URL}/api/recipes`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -63,7 +63,6 @@ const AddRecipe: FunctionComponent = () => {
 
   const onAddDirection = () => {
     const lastDirection = directions.length + 1;
-    console.log(lastDirection);
     setDirectionText('');
     setDirections(prevState => [
       ...prevState,

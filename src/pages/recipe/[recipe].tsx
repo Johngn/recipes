@@ -6,7 +6,7 @@ import Navbar from '../../layout/navbar';
 export const getServerSideProps: GetServerSideProps = async context => {
   const recipeTitle = context.query.recipe;
 
-  const res = await fetch(`http://localhost:3000/api/recipe/${recipeTitle}`);
+  const res = await fetch(`${process.env.API_URL}/api/recipe/${recipeTitle}`);
   const data = await res.json();
 
   return {
