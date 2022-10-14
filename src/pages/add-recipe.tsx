@@ -87,7 +87,7 @@ const AddRecipe: FunctionComponent = () => {
           />
 
           {ingredients.map(ingredient => (
-            <div className="flex border justify-between">
+            <div key={ingredient.name} className="flex border justify-between">
               <p>{ingredient.name}</p>
               <p>{ingredient.unit}</p>
               <p>{ingredient.amount}</p>
@@ -116,7 +116,7 @@ const AddRecipe: FunctionComponent = () => {
           </div>
           <button onClick={onAddIngredient}>Add Ingredient</button>
           {directions.map(direction => (
-            <p>{direction.text}</p>
+            <p key={direction.order}>{direction.text}</p>
           ))}
           <textarea
             value={directionText}
