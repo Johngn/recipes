@@ -1,4 +1,5 @@
 import { FunctionComponent, useState } from 'react';
+import Navbar from '../layout/navbar';
 
 type ingredientType = {
   name: string;
@@ -74,55 +75,58 @@ const AddRecipe: FunctionComponent = () => {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col justify-center items-center">
-      <button onClick={e => createRecipe(e)}>Add recipe</button>
-      <div className="flex flex-col">
-        <input
-          placeholder="Recipe name"
-          className="m-2"
-          value={title}
-          onChange={e => setTitle(e.currentTarget.value)}
-        />
+    <>
+      <Navbar />
+      <div className="h-screen w-screen flex flex-col justify-center items-center">
+        <button onClick={e => createRecipe(e)}>Add recipe</button>
+        <div className="flex flex-col">
+          <input
+            placeholder="Recipe name"
+            className="m-2"
+            value={title}
+            onChange={e => setTitle(e.currentTarget.value)}
+          />
 
-        {ingredients.map(ingredient => (
-          <div className="flex border justify-between">
-            <p>{ingredient.name}</p>
-            <p>{ingredient.unit}</p>
-            <p>{ingredient.amount}</p>
+          {ingredients.map(ingredient => (
+            <div className="flex border justify-between">
+              <p>{ingredient.name}</p>
+              <p>{ingredient.unit}</p>
+              <p>{ingredient.amount}</p>
+            </div>
+          ))}
+
+          <div className="m-2">
+            <input
+              placeholder="Ingredient"
+              className="m-2"
+              value={name}
+              onChange={e => setName(e.currentTarget.value)}
+            />
+            <input
+              placeholder="Unit"
+              className="m-2"
+              value={unit}
+              onChange={e => setUnit(e.currentTarget.value)}
+            />
+            <input
+              placeholder="Amount"
+              className="m-2"
+              value={amount}
+              onChange={e => setAmount(parseFloat(e.currentTarget.value))}
+            />
           </div>
-        ))}
-
-        <div className="m-2">
-          <input
-            placeholder="Ingredient"
-            className="m-2"
-            value={name}
-            onChange={e => setName(e.currentTarget.value)}
+          <button onClick={onAddIngredient}>Add Ingredient</button>
+          {directions.map(direction => (
+            <p>{direction.text}</p>
+          ))}
+          <textarea
+            value={directionText}
+            onChange={e => setDirectionText(e.currentTarget.value)}
           />
-          <input
-            placeholder="Unit"
-            className="m-2"
-            value={unit}
-            onChange={e => setUnit(e.currentTarget.value)}
-          />
-          <input
-            placeholder="Amount"
-            className="m-2"
-            value={amount}
-            onChange={e => setAmount(parseFloat(e.currentTarget.value))}
-          />
+          <button onClick={onAddDirection}>Add Direction</button>
         </div>
-        <button onClick={onAddIngredient}>Add Ingredient</button>
-        {directions.map(direction => (
-          <p>{direction.text}</p>
-        ))}
-        <textarea
-          value={directionText}
-          onChange={e => setDirectionText(e.currentTarget.value)}
-        />
-        <button onClick={onAddDirection}>Add Direction</button>
       </div>
-    </div>
+    </>
   );
 };
 

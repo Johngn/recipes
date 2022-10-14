@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
 import { recipeType, ingredientType, directionType } from '../index';
+import Navbar from '../../layout/navbar';
 
 export const getServerSideProps: GetServerSideProps = async context => {
   const recipeTitle = context.query.recipe;
@@ -29,35 +30,37 @@ const Recipe: FunctionComponent<RecipeProps> = ({
   directions,
 }) => {
   return (
-    <div className="p-10 w-2/4 m-auto bg-slate-200">
-      <h1 className="text-8xl text-lime-700">{recipe.title}</h1>
+    <>
+      <Navbar />
+      <div className="w-2/4 m-auto mt-5">
+        <h1 className="text-8xl text-lime-700">{recipe.title}</h1>
 
-      <div className="flex">
-        <div className="p-10   border">
-          <h2 className="text-3xl font-bold mb-5">Ingredients</h2>
+        <div className="flex mt-3 bg-slate-200 rounded-md">
+          <div className="p-10">
+            <h2 className="text-3xl font-bold mb-5">Ingredients</h2>
 
-          {ingredients?.map(ingredient => (
-            <div className="flex justify-between">
-              <h2>{ingredient.name}</h2>
-              <div className="flex">
-                <h2>{ingredient.amount}</h2>
-                <h2>{ingredient.unit}</h2>
+            {ingredients?.map(ingredient => (
+              <div className="flex  justify-between">
+                <h2>{ingredient.name}</h2>
+                <div className="flex">
+                  <h2>{ingredient.amount + ' ' + ingredient.unit}</h2>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
 
-        <div className="p-10 border">
-          <h2 className="text-3xl font-bold mb-5">Directions</h2>
-          {directions?.map(direction => (
-            <div className="mb-5">
-              <h2 className="text-xl font-bold">Step {direction.order}:</h2>{' '}
-              {direction.text}
-            </div>
-          ))}
+          <div className="p-10 ">
+            <h2 className="text-3xl font-bold mb-5 ">Directions</h2>
+            {directions?.map(direction => (
+              <div className="mb-5">
+                <h2 className="text-xl font-bold">Step {direction.order}:</h2>{' '}
+                {direction.text}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

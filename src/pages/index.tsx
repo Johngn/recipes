@@ -3,6 +3,7 @@ import prisma from '../db/client';
 import React, { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
 import Link, { LinkProps } from 'next/link';
+import Navbar from '../layout/navbar';
 
 export const getServerSideProps: GetServerSideProps = async context => {
   console.log('get-recipe', context);
@@ -48,7 +49,9 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="h-screen w-screen flex flex-col justify-center items-center">
+      <Navbar />
+
+      <div className="w-2/4 m-auto bg-slate-200 rounded-md mt-5 flex flex-col justify-center items-center">
         <Link href={`/add-recipe`}>
           <a>Add Recipe</a>
         </Link>
