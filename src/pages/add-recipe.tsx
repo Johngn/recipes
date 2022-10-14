@@ -1,6 +1,7 @@
 import { FunctionComponent, useState } from 'react';
 import Navbar from '../layout/navbar';
 import Router from 'next/router';
+import Head from 'next/head';
 
 type ingredientType = {
   name: string;
@@ -85,7 +86,13 @@ const AddRecipe: FunctionComponent = () => {
 
   return (
     <>
+      <Head>
+        <title>Recipe Builder</title>
+        <link rel="icon" href="/fork.png" />
+      </Head>
+
       <Navbar />
+
       <div className="w-2/4 m-auto mt-5">
         <div className="w-full flex">
           <input
