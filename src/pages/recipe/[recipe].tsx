@@ -4,18 +4,39 @@ import { recipeType, ingredientType, directionType } from '../index';
 import Navbar from '../../layout/navbar';
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const recipeTitle = context.query.recipe;
+  const recipeName = context.query.recipe;
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/recipe/${recipeTitle}`
-  );
-  const data = await res.json();
+  if (!recipeName || typeof recipeName !== 'string') return { notFound: true };
+
+  const recipe = await prisma.recipe.findFirst({
+    where: {
+      title: recipeName,
+    },
+  });
+
+  const ingredients = await prisma.recipe
+    .findFirst({
+      where: {
+        title: recipeName,
+      },
+    })
+    .ingredients();
+
+  const directions = await prisma.direction.findMany({
+    where: {
+      recipeId: {
+        equals: recipe.id,
+      },
+    },
+  });
+
+  if (!recipe) return { notFound: true };
 
   return {
     props: {
-      recipe: data.recipe,
-      ingredients: data.ingredients,
-      directions: data.directions,
+      recipe: JSON.parse(JSON.stringify(recipe)),
+      ingredients: JSON.parse(JSON.stringify(ingredients)),
+      directions: JSON.parse(JSON.stringify(directions)),
     },
   };
 };
