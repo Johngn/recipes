@@ -5,7 +5,7 @@ import Navbar from '../../layout/navbar';
 import HeadWrapper from '../../layout/headWrapper';
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const recipeSlug = context.query.recipe;
+  const recipeSlug = context.params['recipe'];
 
   if (!recipeSlug || typeof recipeSlug !== 'string') return { notFound: true };
 
