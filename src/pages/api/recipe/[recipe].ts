@@ -37,7 +37,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  console.log(recipe, ingredients, directions);
-
   return res.json({ recipe, ingredients, directions });
 };
