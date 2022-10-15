@@ -18,6 +18,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 // };
 
 const createRecipe = async (req: NextApiRequest, res: NextApiResponse) => {
+  console.log(req.body.slug);
   try {
     const createdRecipe = await prisma.recipe.create({
       data: {
