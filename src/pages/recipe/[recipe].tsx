@@ -35,28 +35,6 @@ export const getServerSideProps: GetServerSideProps = async context => {
       directions: JSON.parse(JSON.stringify(directions)),
     },
   };
-
-  return {
-    props: {
-      recipe: {
-        id: 1,
-        title: 'Deploy test',
-      },
-      ingredients: [
-        {
-          name: 'banana',
-          amount: 1,
-          unit: '',
-        },
-      ],
-      directions: [
-        {
-          order: 1,
-          text: 'wewerw werwerwer werwer',
-        },
-      ],
-    },
-  };
 };
 
 type RecipeProps = {
@@ -65,23 +43,11 @@ type RecipeProps = {
   directions: directionType[];
 };
 
-const Recipe: FunctionComponent<RecipeProps> = ({ recipe }) => {
-  // const [recipe, setRecipe] = useState<recipeType>();
-
-  // useEffect(() => {
-  //   fetchData().then(res => {
-  //     console.log('data???', res);
-  //     setRecipe(res.recipe);
-  //   });
-  //   // setRecipe(data.recipe);
-  // }, []);
-
-  // const fetchData = async () => {
-  //   return await fetch(
-  //     `${process.env.NEXT_PUBLIC_API_URL}/api/recipe/test`
-  //   ).then(res => res.json());
-  // };
-
+const Recipe: FunctionComponent<RecipeProps> = ({
+  recipe,
+  ingredients,
+  directions,
+}) => {
   return (
     <>
       <HeadWrapper />
@@ -94,23 +60,23 @@ const Recipe: FunctionComponent<RecipeProps> = ({ recipe }) => {
           <div className="p-10">
             <h2 className="text-3xl font-bold mb-5">Ingredients</h2>
 
-            {/* {ingredients?.map(({ name, amount, unit }) => (
+            {ingredients?.map(({ name, amount, unit }) => (
               <div key={name} className="flex justify-between">
                 <h2>{name}</h2>
                 <div className="flex">
                   <h2>{amount + ' ' + unit}</h2>
                 </div>
               </div>
-            ))} */}
+            ))}
           </div>
 
           <div className="p-10 ">
             <h2 className="text-3xl font-bold mb-5 ">Directions</h2>
-            {/* {directions?.map(({ order, text }) => (
+            {directions?.map(({ order, text }) => (
               <div key={order} className="mb-5">
                 <h2 className="text-xl font-bold">Step {order}:</h2> {text}
               </div>
-            ))} */}
+            ))}
           </div>
         </div>
       </div>
