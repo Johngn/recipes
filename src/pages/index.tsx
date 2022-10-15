@@ -11,14 +11,47 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   const recipes = data ? JSON.parse(JSON.stringify(data)) : []; // Need to do this because props need to be serializable
 
-  return { props: { recipes } };
+  // return { props: { recipes } };
+
+  const recipeSlug = 'test';
+
+  if (!recipeSlug || typeof recipeSlug !== 'string') return { notFound: true };
+
+  const recipe = await prisma.recipe.findFirst({
+    where: {
+      slug: recipeSlug,
+    },
+  });
+
+  const ingredients = await prisma.ingredient.findMany({
+    where: {
+      recipeId: recipe.id,
+    },
+  });
+
+  const directions = await prisma.direction.findMany({
+    where: {
+      recipeId: recipe.id,
+    },
+  });
+
+  return {
+    props: {
+      recipes,
+      recipe: JSON.parse(JSON.stringify(recipe)),
+      ingredients: JSON.parse(JSON.stringify(ingredients)),
+      directions: JSON.parse(JSON.stringify(directions)),
+    },
+  };
 };
 
 type HomeProps = {
   recipes: recipeType[];
 };
 
-const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
+const Home: FunctionComponent<HomeProps> = props => {
+  const { recipes } = props;
+  console.log(props);
   return (
     <>
       <HeadWrapper />
