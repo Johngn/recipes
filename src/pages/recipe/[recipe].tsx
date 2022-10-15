@@ -5,33 +5,55 @@ import Navbar from '../../layout/navbar';
 import HeadWrapper from '../../layout/headWrapper';
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const recipeSlug = context.params['recipe'];
+  // const recipeSlug = context.params['recipe'];
 
-  if (!recipeSlug || typeof recipeSlug !== 'string') return { notFound: true };
+  // if (!recipeSlug || typeof recipeSlug !== 'string') return { notFound: true };
 
-  const recipe = await prisma.recipe.findFirst({
-    where: {
-      slug: recipeSlug,
-    },
-  });
+  // const recipe = await prisma.recipe.findFirst({
+  //   where: {
+  //     slug: recipeSlug,
+  //   },
+  // });
 
-  const ingredients = await prisma.ingredient.findMany({
-    where: {
-      recipeId: recipe.id,
-    },
-  });
+  // const ingredients = await prisma.ingredient.findMany({
+  //   where: {
+  //     recipeId: recipe.id,
+  //   },
+  // });
 
-  const directions = await prisma.direction.findMany({
-    where: {
-      recipeId: recipe.id,
-    },
-  });
+  // const directions = await prisma.direction.findMany({
+  //   where: {
+  //     recipeId: recipe.id,
+  //   },
+  // });
+
+  // return {
+  //   props: {
+  //     recipe: JSON.parse(JSON.stringify(recipe)),
+  //     ingredients: JSON.parse(JSON.stringify(ingredients)),
+  //     directions: JSON.parse(JSON.stringify(directions)),
+  //   },
+  // };
 
   return {
     props: {
-      recipe: JSON.parse(JSON.stringify(recipe)),
-      ingredients: JSON.parse(JSON.stringify(ingredients)),
-      directions: JSON.parse(JSON.stringify(directions)),
+      recipe: {
+        id: 1,
+        title: 'Deploy test',
+      },
+      ingredients: [
+        {
+          name: 'banana',
+          amount: 1,
+          unit: '',
+        },
+      ],
+      directions: [
+        {
+          order: 1,
+          text: 'wewerw werwerwer werwer',
+        },
+      ],
     },
   };
 };
