@@ -5,14 +5,13 @@ import Navbar from '../../layout/navbar';
 import HeadWrapper from '../../layout/headWrapper';
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const recipeTitle = context.query.recipe;
+  const recipeSlug = context.query.recipe;
 
-  if (!recipeTitle || typeof recipeTitle !== 'string')
-    return { notFound: true };
+  if (!recipeSlug || typeof recipeSlug !== 'string') return { notFound: true };
 
   const recipe = await prisma.recipe.findFirst({
     where: {
-      title: recipeTitle,
+      slug: recipeSlug,
     },
   });
 
@@ -53,8 +52,8 @@ const Recipe: FunctionComponent<RecipeProps> = ({
       <HeadWrapper />
       <Navbar />
 
-      <div className="w-2/4 m-auto mt-5">
-        <h1 className="text-8xl text-lime-700">{recipe.title}</h1>
+      <div className="max-w-4xl m-auto mt-5">
+        <h1 className="text-6xl text-lime-700">{recipe.title}</h1>
 
         <div className="flex mt-3 bg-slate-200 rounded-md">
           <div className="p-10">

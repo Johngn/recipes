@@ -12,6 +12,7 @@ export type directionType = {
 export type recipeType = {
   id: React.Key;
   title: String;
+  slug: String;
   directions: directionType[];
   ingredients: ingredientType[];
 };

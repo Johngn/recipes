@@ -15,9 +15,14 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({ path, name }) => (
 const Navbar: FunctionComponent = () => {
   return (
     <nav className="w-screen h-12 bg-white">
-      <div className="max-w-6xl mx-auto h-full flex items-center">
-        <CustomLink path={'/'} name={'All Recipes'} />
-        <CustomLink path={'/add-recipe'} name={'Add Recipe'} />
+      <div className="max-w-6xl mx-auto h-full flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl">Recipe Builder</h1>
+        </div>
+        <div className="flex">
+          <CustomLink path={'/'} name={'All Recipes'} />
+          <CustomLink path={'/add-recipe'} name={'Add Recipe'} />
+        </div>
       </div>
     </nav>
   );

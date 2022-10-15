@@ -25,12 +25,12 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
       <Navbar />
 
       <div className="w-2/4 m-auto bg-slate-200 rounded-md mt-5 flex flex-col justify-center items-center">
-        {recipes.map(recipe => (
-          <div key={recipe.id} className="max-w-2xl border">
+        {recipes.map(({ id, title, slug }) => (
+          <div key={id} className="max-w-2xl border">
             <div className="flex flex-row text-center w-full border">
               <h1 className="text-center text-xl p-2 m-0 text-blue-900">
-                <Link href={`/recipe/${recipe.title}`}>
-                  <a>{recipe.title}</a>
+                <Link href={`/recipe/${slug}`}>
+                  <a>{title}</a>
                 </Link>
               </h1>
             </div>

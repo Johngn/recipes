@@ -30,6 +30,7 @@ model Recipe {
   id          Int          @id @default(autoincrement())
   createdAt   DateTime     @default(now())
   title       String       @unique
+  slug        String
   ingredients Ingredient[]
   directions  Direction[]
 }

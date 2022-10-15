@@ -3,6 +3,7 @@ import Navbar from '../layout/navbar';
 import Router from 'next/router';
 import HeadWrapper from '../layout/headWrapper';
 import { ingredientType, directionType } from '../types/types';
+import slugify from 'slugify';
 
 const buttonClasses =
   'inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out w-full';
@@ -22,7 +23,10 @@ const AddRecipe: FunctionComponent = () => {
     event.preventDefault();
 
     if (title !== '' && ingredients.length > 0 && directions.length > 0) {
+      const slug = slugify(title, { lower: true });
+
       const newRecipe = {
+        slug,
         title,
         ingredients,
         directions,
@@ -34,13 +38,9 @@ const AddRecipe: FunctionComponent = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(newRecipe),
-      })
-        .then(() => {
-          // Router.push(`/recipe/${title}`);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      }).then(() => {
+        Router.push(`/recipe/${slug}`);
+      });
     }
   };
 
@@ -61,7 +61,7 @@ const AddRecipe: FunctionComponent = () => {
   };
 
   const onAddDirection = () => {
-    if (directionText !== '') {
+    if (directionText !== '' && directionText.length < 1000) {
       setDirectionText('');
       setDirections(prevState => [
         ...prevState,
