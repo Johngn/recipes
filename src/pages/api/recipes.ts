@@ -19,7 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 const createRecipe = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const createReciped = await prisma.recipe.create({
+    const createdRecipe = await prisma.recipe.create({
       data: {
         title: req.body.title,
         slug: req.body.slug,
@@ -32,7 +32,7 @@ const createRecipe = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
 
-    return res.status(200).json(createReciped);
+    return res.status(200).json(createdRecipe);
   } catch (error) {
     return res.status(404).json({ message: 'Server error' });
   }

@@ -52,7 +52,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
       <HeadWrapper />
       <Navbar />
 
-      <div className="max-w-4xl m-auto mt-5">
+      <div className="max-w-4xl m-auto mt-5 mb-5">
         <h1 className="text-6xl text-lime-700">{recipe.title}</h1>
 
         <div className="flex mt-3 bg-slate-200 rounded-md">
