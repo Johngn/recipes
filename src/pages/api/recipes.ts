@@ -7,18 +7,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-// const getAllRecipes = async (req: NextApiRequest, res: NextApiResponse) => {
-//   const data = await prisma.recipe.findMany();
-
-//   if (!data) {
-//     return res.status(404).json({ message: 'No recipes' });
-//   }
-
-//   return res.status(200).json(data);
-// };
-
 const createRecipe = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log(req.body.slug);
   try {
     const createdRecipe = await prisma.recipe.create({
       data: {

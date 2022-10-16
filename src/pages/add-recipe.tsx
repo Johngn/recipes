@@ -10,12 +10,12 @@ const buttonClasses =
 
 const AddRecipe: FunctionComponent = () => {
   const [title, setTitle] = useState('');
-  const [name, setName] = useState('');
-  const [unit, setUnit] = useState('');
-  const [amount, setAmount] = useState(0);
-  const [ingredients, setIngredients] = useState<ingredientType[]>([]);
-  const [directionText, setDirectionText] = useState('');
-  const [directions, setDirections] = useState<directionType[]>([]);
+  const [ingredients, setIngredients] = useState<ingredientType[]>([
+    { name: '', amount: 0, unit: '' },
+  ]);
+  const [directions, setDirections] = useState<directionType[]>([
+    { order: 1, text: '' },
+  ]);
 
   const createRecipe = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -45,32 +45,72 @@ const AddRecipe: FunctionComponent = () => {
   };
 
   const onAddIngredient = () => {
-    if (name !== '' && amount !== 0) {
-      setName('');
-      setUnit('');
-      setAmount(0);
-      setIngredients(prevState => [
-        ...prevState,
-        {
-          name: name,
-          unit: unit,
-          amount: amount,
-        },
-      ]);
-    }
+    setIngredients(prevState => [
+      ...prevState,
+      {
+        name: '',
+        amount: 0,
+        unit: '',
+      },
+    ]);
   };
 
   const onAddDirection = () => {
-    if (directionText !== '' && directionText.length < 1000) {
-      setDirectionText('');
-      setDirections(prevState => [
-        ...prevState,
-        {
-          text: directionText,
-          order: directions.length + 1,
-        },
-      ]);
-    }
+    setDirections(prevState => [
+      ...prevState,
+      { order: directions.length + 1, text: '' },
+    ]);
+  };
+
+  const onDeleteIngredient = (i: number) => {
+    ingredients.splice(i, 1);
+    setIngredients([...ingredients]);
+  };
+
+  const onDeleteDirection = (i: number) => {
+    directions.splice(i, 1);
+
+    const updatedDirections = directions.map((direction, i) => {
+      return {
+        ...direction,
+        order: i + 1,
+      };
+    });
+
+    setDirections(updatedDirections);
+  };
+
+  const updateIngredientsArray = (e: any, i: number) => {
+    setIngredients(
+      ingredients.map((ingredient, j) => {
+        if (i === j) {
+          return (ingredient = {
+            ...ingredient,
+            [e.currentTarget.name]:
+              e.currentTarget.name === 'amount'
+                ? parseFloat(e.currentTarget.value)
+                : e.currentTarget.value,
+          });
+        } else {
+          return ingredient;
+        }
+      })
+    );
+  };
+
+  const updateDirectionsArray = (e: any, i: number) => {
+    setDirections(
+      directions.map((direction, j) => {
+        if (i === j) {
+          return (direction = {
+            ...direction,
+            text: e.currentTarget.value,
+          });
+        } else {
+          return direction;
+        }
+      })
+    );
   };
 
   return (
@@ -78,7 +118,7 @@ const AddRecipe: FunctionComponent = () => {
       <HeadWrapper />
       <Navbar />
 
-      <div className="w-2/4 m-auto mt-5">
+      <div className="max-w-3xl m-auto mt-5">
         <div className="w-full flex">
           <input
             placeholder="Recipe name"
@@ -88,61 +128,70 @@ const AddRecipe: FunctionComponent = () => {
           />
         </div>
 
-        <div className="flex mt-3 bg-slate-200 rounded-md">
-          <div className="p-10">
+        <div className="flex mt-3 bg-slate-200 rounded-md w-full">
+          <div className="m-10 mr-0 w-2/6">
             <h2 className="text-3xl font-bold mb-5">Ingredients</h2>
-            {ingredients.map(({ name, amount, unit }) => (
-              <div key={name} className="flex justify-between mb-2">
-                <p>{name}</p>
-                <div className="flex">
-                  <p className="mr-1">{amount}</p>
-                  <p>{unit}</p>
+            {ingredients.map(({ name, amount, unit }, i) => (
+              <div key={i} className="flex justify-between mb-2">
+                <div className="flex mb-2 k">
+                  <input
+                    placeholder="Ingredient"
+                    className="mr-2 w-32"
+                    value={name}
+                    name="name"
+                    onChange={e => updateIngredientsArray(e, i)}
+                  />
+                  <input
+                    placeholder="Amount"
+                    className="mr-2 w-10"
+                    type="number"
+                    value={amount}
+                    name="amount"
+                    onChange={e => updateIngredientsArray(e, i)}
+                  />
+                  <input
+                    placeholder="Unit"
+                    className="w-10"
+                    value={unit}
+                    name="unit"
+                    onChange={e => updateIngredientsArray(e, i)}
+                  />
                 </div>
+                <button
+                  onClick={() => onDeleteIngredient(i)}
+                  className="text-red-600"
+                >
+                  Delete
+                </button>
               </div>
             ))}
-
-            <div className="flex mb-2">
-              <input
-                placeholder="Ingredient"
-                className="mr-2 w-32"
-                value={name}
-                onChange={e => setName(e.currentTarget.value)}
-              />
-              <input
-                placeholder="Amount"
-                className="mr-2 w-10"
-                type="number"
-                value={amount}
-                onChange={e => setAmount(parseFloat(e.currentTarget.value))}
-              />
-              <input
-                placeholder="Unit"
-                className="w-10"
-                value={unit}
-                onChange={e => setUnit(e.currentTarget.value)}
-              />
-            </div>
 
             <button className={buttonClasses} onClick={onAddIngredient}>
               Add Ingredient
             </button>
           </div>
 
-          <div className="p-10">
+          <div className="m-10 w-4/6">
             <h2 className="text-3xl font-bold mb-5">Directions</h2>
 
-            {directions.map(({ order, text }) => (
-              <div key={order} className="mb-5">
-                <h2 className="text-xl font-bold">Step {order}:</h2>
-                <p>{text}</p>
+            {directions.map(({ text }, i) => (
+              <div key={i} className="mb-5">
+                <div className="flex justify-between w-full">
+                  <h2 className="text-xl font-bold">Step {i + 1}:</h2>
+                  <button
+                    onClick={() => onDeleteDirection(i)}
+                    className="text-red-600"
+                  >
+                    Delete
+                  </button>
+                </div>
+                <textarea
+                  className="w-full"
+                  value={text}
+                  onChange={e => updateDirectionsArray(e, i)}
+                />
               </div>
             ))}
-
-            <textarea
-              value={directionText}
-              onChange={e => setDirectionText(e.currentTarget.value)}
-              className="w-full mb-2"
-            />
 
             <button className={buttonClasses} onClick={onAddDirection}>
               Add Direction

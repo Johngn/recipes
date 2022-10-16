@@ -60,8 +60,8 @@ const Recipe: FunctionComponent<RecipeProps> = ({
           <div className="p-10">
             <h2 className="text-3xl font-bold mb-5">Ingredients</h2>
 
-            {ingredients?.map(({ name, amount, unit }) => (
-              <div key={name} className="flex justify-between">
+            {ingredients?.map(({ name, amount, unit }, i) => (
+              <div key={i} className="flex justify-between">
                 <h2>{name}</h2>
                 <div className="flex">
                   <h2>{amount + ' ' + unit}</h2>
@@ -72,8 +72,8 @@ const Recipe: FunctionComponent<RecipeProps> = ({
 
           <div className="p-10 ">
             <h2 className="text-3xl font-bold mb-5 ">Directions</h2>
-            {directions?.map(({ order, text }) => (
-              <div key={order} className="mb-5">
+            {directions?.map(({ order, text }, i) => (
+              <div key={i} className="mb-5">
                 <h2 className="text-xl font-bold">Step {order}:</h2> {text}
               </div>
             ))}
