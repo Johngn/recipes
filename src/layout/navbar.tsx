@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from 'react';
-import Link from 'next/link';
+import React, { FunctionComponent } from "react";
+import Link from "next/link";
 
 type CustomLinkProps = {
   path: string;
@@ -17,13 +17,13 @@ const Navbar: FunctionComponent = () => {
     <nav className="w-screen h-12 bg-white">
       <div className="max-w-6xl mx-auto h-full flex items-center justify-between">
         <div>
-          <Link href={'/'}>
-            <a className="text-2xl">Recipe Builder</a>
+          <Link href={"/"}>
+            <a className="text-2xl text-white">Recipe Builder</a>
           </Link>
         </div>
         <div className="flex">
-          <CustomLink path={'/'} name={'All Recipes'} />
-          <CustomLink path={'/add-recipe'} name={'Add Recipe'} />
+          <CustomLink path={"/"} name={"All Recipes"} />
+          <CustomLink path={"/add-recipe"} name={"Add Recipe"} />
         </div>
       </div>
     </nav>
