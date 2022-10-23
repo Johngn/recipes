@@ -23,16 +23,12 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
     <>
       <HeadWrapper />
       {/* <Navbar /> */}
-      <div className="w-96 mx-auto mt-16 flex items-end">
-        <div>
-          <input type="text" placeholder="Search recipes" />
-        </div>
-        <div className="text-8xl tracking-wider font-gothic text-neutral-800">
+      <div className="w-160 mx-auto my-16 flex items-end">
+        <input type="text" placeholder="Search recipes" className="w-64" />
+        <div className="w-32 text-8xl tracking-wider font-gothic text-neutral-800">
           OR
         </div>
-        <div>
-          <button>Add new recipe</button>
-        </div>
+        <button className="w-64 text-right">Add new recipe</button>
       </div>
       <div>
         {recipes.map(({ id, title, slug }) => (
