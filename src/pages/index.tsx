@@ -1,10 +1,10 @@
-import HeadWrapper from '../layout/headWrapper';
-import prisma from '../db/client';
-import React, { FunctionComponent } from 'react';
-import { GetServerSideProps } from 'next';
-import Link from 'next/link';
-import Navbar from '../layout/navbar';
-import { recipeType } from '../types/types';
+import HeadWrapper from "../layout/headWrapper";
+import prisma from "../db/client";
+import React, { FunctionComponent } from "react";
+import { GetServerSideProps } from "next";
+import Link from "next/link";
+import Navbar from "../layout/navbar";
+import { recipeType } from "../types/types";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const data = await prisma.recipe.findMany();

@@ -18,7 +18,7 @@ const Navbar: FunctionComponent = () => {
       <div className="max-w-6xl mx-auto h-full flex items-center justify-between">
         <div>
           <Link href={"/"}>
-            <a className="text-2xl text-white">Recipe Builder</a>
+            <a className="text-2xl text-rose-800">Recipe Builder</a>
           </Link>
         </div>
         <div className="flex">
