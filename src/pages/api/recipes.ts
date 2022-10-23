@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import prisma from '../../db/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
