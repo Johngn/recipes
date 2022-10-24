@@ -35,7 +35,10 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
         <div className="w-32 text-8xl tracking-wider font-gothic text-neutral-800">
           OR
         </div>
-        <button className="w-64 text-right">Add new recipe</button>
+        <button className="w-64 text-right flex border-b border-neutral-800 justify-between">
+          <img className="w-5 h-5" src="/plus-symbol.png" />
+          Add new recipe
+        </button>
       </div>
       <div className="flex ml-3">
         <div className="ml-4 tracking-widest border border-solid border-neutral-700 text-neutral-700 px-6 py-3">
@@ -63,7 +66,10 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
           <div key={id} className="w-64 mx-3 mb-8">
             <div className="flex justify-center items-center w-64 h-40 bg-neutral-400 text-white">
               <p className="font-gothic text-4xl text-center">
-                M<span className="underline underline-offset-8">ain</span>
+                M
+                <span className="underline decoration-1 underline-offset-8">
+                  ain
+                </span>
               </p>
             </div>
             <h1 className="h-16 text-2xl overflow-hidden font-gothic capitalize text-justify text-neutral-800">
