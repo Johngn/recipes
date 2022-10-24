@@ -22,31 +22,38 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
   return (
     <>
       <HeadWrapper />
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="w-160 mx-auto mt-16 mb-40 flex items-end">
-        <input type="text" placeholder="Search recipes" className="w-64" />
+        <div className="relative flex">
+          <input
+            type="text"
+            placeholder="Search recipes"
+            className="w-64 border-b border-neutral-800"
+          />
+          <img className="w-5 h-5 absolute left-58" src="/search-symbol.png" />
+        </div>
         <div className="w-32 text-8xl tracking-wider font-gothic text-neutral-800">
           OR
         </div>
         <button className="w-64 text-right">Add new recipe</button>
       </div>
       <div className="flex ml-3">
-        <div className="ml-4 tracking-widest border-2 border-solid border-neutral-700 text-neutral-700 px-6 py-3">
+        <div className="ml-4 tracking-widest border border-solid border-neutral-700 text-neutral-700 px-6 py-3">
           ALL
         </div>
-        <div className="ml-4 tracking-widest border-2 border-solid border-neutral-700 text-neutral-700 px-6 py-3">
+        <div className="ml-4 tracking-widest border border-solid border-neutral-700 text-neutral-700 px-6 py-3">
           BREAKFASTS
         </div>
-        <div className="ml-4 tracking-widest border-2 border-solid border-neutral-700 text-neutral-700 px-6 py-3">
+        <div className="ml-4 tracking-widest border border-solid border-neutral-700 text-neutral-700 px-6 py-3">
           SNACKS
         </div>
-        <div className="ml-4 tracking-widest border-2 border-solid border-neutral-700 text-neutral-700 px-6 py-3">
+        <div className="ml-4 tracking-widest border border-solid border-neutral-700 text-neutral-700 px-6 py-3">
           LUNCHES
         </div>
-        <div className="ml-4 tracking-widest border-2 border-solid border-neutral-700 text-neutral-700 px-6 py-3">
+        <div className="ml-4 tracking-widest border border-solid border-neutral-700 text-neutral-700 px-6 py-3">
           MAINS
         </div>
-        <div className="ml-4 tracking-widest border-2 border-solid border-neutral-700 text-neutral-700 px-6 py-3">
+        <div className="ml-4 tracking-widest border border-solid border-neutral-700 text-neutral-700 px-6 py-3">
           SIDES
         </div>
       </div>
@@ -59,16 +66,17 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
                 M<span className="underline underline-offset-8">ain</span>
               </p>
             </div>
-            <h1 className="text-2xl font-gothic capitalize text-justify text-neutral-800">
+            <h1 className="h-16 text-2xl overflow-hidden font-gothic capitalize text-justify text-neutral-800">
               <Link href={`/recipe/${slug}`}>
                 <a>{title}</a>
               </Link>
             </h1>
-            <div className="text-justify text-neutral-800">
+            <p className="w-64 h-36 text-ellipsis overflow-hidden text-justify text-neutral-800">
               Here is a great weeknight dinner that comes together on the stove
               in just under 20 minutes. Soft, sticky and flavor-packed aubergine
-              meets crunchy broccoli and earthy noodles. Heaven in a bowl.
-            </div>
+              meets crunchy broccoli and earthy noodles. This truly tastes like
+              heaven in a bowl.
+            </p>
           </div>
         ))}
       </div>
