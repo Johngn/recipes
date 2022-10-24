@@ -23,16 +23,16 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
     <>
       <HeadWrapper />
       {/* <Navbar /> */}
-      <div className="w-160 mx-auto mt-16 mb-40 flex items-end">
+      <div className="mt-40 mb-36 flex items-end justify-center">
         <div className="relative flex">
           <input
             type="text"
             placeholder="Search recipes"
-            className="w-64 border-b border-neutral-800"
+            className="w-64 border-b border-neutral-800 placeholder-neutral-800"
           />
           <img className="w-5 h-5 absolute left-58" src="/search-symbol.png" />
         </div>
-        <div className="w-32 text-8xl tracking-wider font-gothic text-neutral-800">
+        <div className="mx-8 text-7xl tracking-wider font-gothic text-neutral-800">
           OR
         </div>
         <button className="w-64 text-right flex border-b border-neutral-800 justify-between">
