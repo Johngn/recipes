@@ -1,9 +1,9 @@
 /* eslint-disable import/no-anonymous-default-export */
-import prisma from '../../db/client';
-import { NextApiRequest, NextApiResponse } from 'next';
+import prisma from "../../db/client";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'POST') {
+  if (req.method === "POST") {
     createRecipe(req, res);
   }
 };
@@ -20,11 +20,14 @@ const createRecipe = async (req: NextApiRequest, res: NextApiResponse) => {
         directions: {
           create: req.body.directions,
         },
+        intro: req.body.intro,
+        image: req.body.image,
+        category: req.body.category,
       },
     });
 
     return res.status(200).json(createdRecipe);
   } catch (error) {
-    return res.status(404).json({ message: 'Server error' });
+    return res.status(404).json({ message: "Server error" });
   }
 };

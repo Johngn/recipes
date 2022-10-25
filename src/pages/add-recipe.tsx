@@ -1,20 +1,23 @@
-import { FunctionComponent, useState } from 'react';
-import Navbar from '../layout/navbar';
-import Router from 'next/router';
-import HeadWrapper from '../layout/headWrapper';
-import { ingredientType, directionType } from '../types/types';
-import slugify from 'slugify';
+import { FunctionComponent, useState } from "react";
+import Navbar from "../layout/navbar";
+import Router from "next/router";
+import HeadWrapper from "../layout/headWrapper";
+import { ingredientType, directionType } from "../types/types";
+import slugify from "slugify";
+import { categoryOptions } from "../../utils/constants";
 
 const buttonClasses =
-  'inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out w-full';
+  "inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out w-full";
 
 const AddRecipe: FunctionComponent = () => {
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
   const [ingredients, setIngredients] = useState<ingredientType[]>([
-    { name: '', amount: 0, unit: '' },
+    { name: "", amount: 0, unit: "" },
   ]);
   const [directions, setDirections] = useState<directionType[]>([
-    { order: 1, text: '' },
+    { order: 1, text: "" },
   ]);
 
   const createRecipe = async (
@@ -22,7 +25,7 @@ const AddRecipe: FunctionComponent = () => {
   ) => {
     event.preventDefault();
 
-    if (title !== '' && ingredients.length > 0 && directions.length > 0) {
+    if (title !== "" && ingredients.length > 0 && directions.length > 0) {
       const slug = slugify(title, { lower: true });
 
       const newRecipe = {
@@ -30,12 +33,16 @@ const AddRecipe: FunctionComponent = () => {
         title,
         ingredients,
         directions,
+        category,
+        image:
+          "https://www.pixelstalk.net/wp-content/uploads/2016/08/Fast-food-backgrounds-free-download.jpg",
+        intro: description,
       };
 
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/recipes`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(newRecipe),
       }).then(() => {
@@ -48,9 +55,9 @@ const AddRecipe: FunctionComponent = () => {
     setIngredients(prevState => [
       ...prevState,
       {
-        name: '',
+        name: "",
         amount: 0,
-        unit: '',
+        unit: "",
       },
     ]);
   };
@@ -58,7 +65,7 @@ const AddRecipe: FunctionComponent = () => {
   const onAddDirection = () => {
     setDirections(prevState => [
       ...prevState,
-      { order: directions.length + 1, text: '' },
+      { order: directions.length + 1, text: "" },
     ]);
   };
 
@@ -87,7 +94,7 @@ const AddRecipe: FunctionComponent = () => {
           return (ingredient = {
             ...ingredient,
             [e.currentTarget.name]:
-              e.currentTarget.name === 'amount'
+              e.currentTarget.name === "amount"
                 ? parseFloat(e.currentTarget.value)
                 : e.currentTarget.value,
           });
@@ -125,6 +132,18 @@ const AddRecipe: FunctionComponent = () => {
             className="text-6xl w-full"
             value={title}
             onChange={e => setTitle(e.currentTarget.value)}
+          />
+          <select value={category} onChange={e => setCategory(e.target.value)}>
+            {categoryOptions.map(selectOption => (
+              <option key={selectOption}>{selectOption}</option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <textarea
+            value={description}
+            onChange={e => setDescription(e.target.value)}
           />
         </div>
 
