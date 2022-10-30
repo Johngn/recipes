@@ -11,7 +11,7 @@ const buttonClasses =
 
 const AddRecipe: FunctionComponent = () => {
   const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState('Breakfast');
   const [description, setDescription] = useState('');
   const [ingredients, setIngredients] = useState<ingredientType[]>([
     { name: '', amount: 0, unit: '' },
