@@ -1,12 +1,12 @@
-import HeadWrapper from "../layout/headWrapper";
-import prisma from "../db/client";
-import React, { FunctionComponent, useState } from "react";
-import { GetServerSideProps } from "next";
-import Link from "next/link";
-import Navbar from "../layout/navbar";
-import { recipeType } from "../types/types";
-import Image from "next/image";
-import { categoryOptions } from "../../utils/constants";
+import HeadWrapper from '../layout/headWrapper';
+import prisma from '../db/client';
+import React, { FunctionComponent, useState } from 'react';
+import { GetServerSideProps } from 'next';
+import Link from 'next/link';
+import Navbar from '../layout/navbar';
+import { recipeType } from '../types/types';
+import Image from 'next/image';
+import { categoryOptions } from '../../utils/constants';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const data = await prisma.recipe.findMany();
@@ -21,7 +21,7 @@ type HomeProps = {
 };
 
 const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   return (
     <>
@@ -56,7 +56,7 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
       </div>
       <div className="flex flex-wrap ml-3 w-full justify-center">
         <button
-          onClick={() => setSelectedCategory("")}
+          onClick={() => setSelectedCategory('')}
           className="ml-4 mb-1 tracking-widest border border-solid border-neutral-700 text-neutral-700 px-6 py-3"
         >
           ALL
@@ -80,12 +80,15 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
           .map(({ id, title, slug, image, category, intro }) => (
             <div key={id} className="w-64 mx-3 mb-8">
               <div className="flex justify-center items-center w-64 h-40 bg-neutral-400 text-white relative">
-                <Image
-                  src={image.toString()}
-                  alt={title.toString()}
-                  width={260}
-                  height={162}
-                />
+                <Link href={`/recipe/${slug}`}>
+                  <Image
+                    style={{ cursor: 'pointer' }}
+                    src={image.toString()}
+                    alt={title.toString()}
+                    width={260}
+                    height={162}
+                  />
+                </Link>
                 <div className="absolute">
                   <p className="font-gothic text-4xl text-center">
                     {category.slice(0, 1)}
