@@ -31,6 +31,9 @@ model Recipe {
   createdAt   DateTime     @default(now())
   title       String       @unique
   slug        String
+  intro       String
+  image       String
+  category    String
   ingredients Ingredient[]
   directions  Direction[]
 }
