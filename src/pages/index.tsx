@@ -22,6 +22,7 @@ type HomeProps = {
 
 const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   return (
     <>
@@ -32,6 +33,7 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
           <input
             type="text"
             placeholder="Search recipes"
+            onChange={e => setSearchTerm(e.target.value)}
             className="w-64 border-b border-neutral-800 placeholder-neutral-800"
           />
           <div className="w-5 h-5 absolute left-58">
@@ -77,6 +79,7 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
           .filter(({ category }) =>
             selectedCategory ? selectedCategory === category : true
           )
+          .filter(({ title }) => title.includes(searchTerm))
           .map(({ id, title, slug, image, category, intro }) => (
             <div key={id} className="w-64 mx-3 mb-8">
               <div className="flex justify-center items-center w-64 h-40 bg-neutral-400 text-white relative">
