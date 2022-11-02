@@ -43,7 +43,7 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
         <div className="mx-8 text-7xl tracking-wider font-gothic text-neutral-800">
           OR
         </div>
-        <button className="w-64 text-right flex border-b border-neutral-800 justify-between">
+        <button className="w-64 text-right flex border-b text-neutral-800 border-neutral-800 justify-between">
           <Image
             className="w-5 h-5"
             width={20}
@@ -93,7 +93,7 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
                   />
                 </Link>
                 <div className="absolute">
-                  <p className="font-gothic text-4xl text-center">
+                  <p className="font-gothic text-4xl text-neutral-800 text-center">
                     {category.slice(0, 1)}
                     <span className="underline decoration-1 underline-offset-8">
                       {category.slice(1)}
