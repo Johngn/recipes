@@ -21,6 +21,8 @@ type HomeProps = {
 };
 
 const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
+  const awsImageUrl =
+    'https://recipe-builder-pictures.s3.eu-west-1.amazonaws.com';
   const [selectedCategory, setSelectedCategory] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -86,7 +88,7 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
                 <Link href={`/recipe/${slug}`}>
                   <Image
                     style={{ cursor: 'pointer' }}
-                    src={image.toString()}
+                    src={`${awsImageUrl}/${image.toString()}`}
                     alt={title.toString()}
                     width={260}
                     height={162}
