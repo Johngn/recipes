@@ -1,18 +1,17 @@
-import HeadWrapper from '../layout/headWrapper';
-import prisma from '../db/client';
-import React, { FunctionComponent, useState } from 'react';
-import { GetServerSideProps } from 'next';
-import Link from 'next/link';
-import Navbar from '../layout/navbar';
-import { recipeType } from '../types/types';
-import Image from 'next/image';
-import { categoryOptions } from '../../utils/constants';
+import HeadWrapper from "../layout/headWrapper";
+import prisma from "../db/client";
+import React, { FunctionComponent, useState } from "react";
+import { GetServerSideProps } from "next";
+import Link from "next/link";
+import { recipeType } from "../types/types";
+import Image from "next/image";
+import { categoryOptions } from "../../utils/constants";
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const data = await prisma.recipe.findMany();
+  // const data = await prisma.recipe.findMany();
 
-  const recipes = data ? JSON.parse(JSON.stringify(data)) : []; // Need to do this because props need to be serializable
-
+  // const recipes = data ? JSON.parse(JSON.stringify(data)) : []; // Need to do this because props need to be serializable
+  const recipes = [];
   return { props: { recipes } };
 };
 
@@ -21,9 +20,10 @@ type HomeProps = {
 };
 
 const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
+  console.log(process.env.NEXT_PUBLIC_DATABASE_URL);
   return (
     <>
       <HeadWrapper />
@@ -33,7 +33,7 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
           <input
             type="text"
             placeholder="Search recipes"
-            onChange={e => setSearchTerm(e.target.value)}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="w-64 border-b border-neutral-800 placeholder-neutral-800"
           />
           <div className="w-5 h-5 absolute left-58">
@@ -58,7 +58,7 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
       </div>
       <div className="flex flex-wrap ml-3 w-full justify-center">
         <button
-          onClick={() => setSelectedCategory('')}
+          onClick={() => setSelectedCategory("")}
           className="ml-4 mb-1 tracking-widest border border-solid border-neutral-700 text-neutral-700 px-6 py-3"
         >
           ALL
@@ -85,7 +85,7 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
               <div className="flex justify-center items-center w-64 h-40 bg-neutral-400 text-white relative">
                 <Link href={`/recipe/${slug}`}>
                   <Image
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: "pointer" }}
                     src={image.toString()}
                     alt={title.toString()}
                     width={260}
