@@ -1,10 +1,12 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useState, useCallback } from 'react';
 import Navbar from '../layout/navbar';
 import Router from 'next/router';
 import HeadWrapper from '../layout/headWrapper';
 import { ingredientType, directionType } from '../types/types';
 import slugify from 'slugify';
 import { categoryOptions } from '../../utils/constants';
+import { useDropzone } from 'react-dropzone';
+import Image from 'next/image';
 
 const buttonClasses =
   'inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out w-full';
@@ -13,12 +15,41 @@ const AddRecipe: FunctionComponent = () => {
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
+  const [image, setImage] = useState('');
   const [ingredients, setIngredients] = useState<ingredientType[]>([
     { name: '', amount: 0, unit: '' },
   ]);
   const [directions, setDirections] = useState<directionType[]>([
     { order: 1, text: '' },
   ]);
+
+  const onDrop = useCallback(async acceptedFiles => {
+    const file = acceptedFiles[0];
+    const filename = encodeURIComponent(file.name);
+    const res = await fetch(`/api/upload-url?file=${filename}`); // Get presigned URL
+    const { url, fields } = await res.json();
+    const formData = new FormData();
+
+    Object.entries({ ...fields, file }).forEach(([key, value]: any[]) => {
+      formData.append(key, value);
+    });
+
+    const upload = await fetch(url, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (upload.ok) {
+      console.log('Uploaded successfully!');
+      setImage(filename);
+    } else {
+      console.error('Upload failed.');
+    }
+  }, []);
+
+  console.log(image);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const createRecipe = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -34,8 +65,7 @@ const AddRecipe: FunctionComponent = () => {
         ingredients,
         directions,
         category,
-        image:
-          'https://www.pixelstalk.net/wp-content/uploads/2016/08/Fast-food-backgrounds-free-download.jpg',
+        image,
         intro: description,
       };
 
@@ -146,6 +176,22 @@ const AddRecipe: FunctionComponent = () => {
             onChange={e => setDescription(e.target.value)}
           />
         </div>
+        <div {...getRootProps()}>
+          <input {...getInputProps()} />
+          {isDragActive ? (
+            <p>Drop the files here ...</p>
+          ) : (
+            <p>Drag n drop some files here, or click to select files</p>
+          )}
+        </div>
+
+        <Image
+          className="w-5 h-5"
+          width={200}
+          height={100}
+          src={`https://recipe-builder-pictures.s3.eu-west-1.amazonaws.com/${image}`}
+          alt=""
+        />
 
         <div className="flex mt-3 bg-slate-200 rounded-md w-full">
           <div className="m-10 mr-0 w-2/6">
