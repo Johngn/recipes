@@ -1,23 +1,20 @@
-import { FunctionComponent, useState } from 'react';
-import Navbar from '../layout/navbar';
-import Router from 'next/router';
-import HeadWrapper from '../layout/headWrapper';
-import { ingredientType, directionType } from '../types/types';
-import slugify from 'slugify';
-import { categoryOptions } from '../../utils/constants';
-
-const buttonClasses =
-  'inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out w-full';
+import { FunctionComponent, useState } from "react";
+import Router from "next/router";
+import { ingredientType, directionType } from "../types/types";
+import slugify from "slugify";
+import { categoryOptions } from "../../utils/constants";
+import Link from "next/link";
+import Image from "next/image";
 
 const AddRecipe: FunctionComponent = () => {
-  const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('Breakfast');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("Breakfast");
+  const [description, setDescription] = useState("");
   const [ingredients, setIngredients] = useState<ingredientType[]>([
-    { name: '', amount: 0, unit: '' },
+    { name: "", amount: 0, unit: "" },
   ]);
   const [directions, setDirections] = useState<directionType[]>([
-    { order: 1, text: '' },
+    { order: 1, text: "" },
   ]);
 
   const createRecipe = async (
@@ -25,7 +22,7 @@ const AddRecipe: FunctionComponent = () => {
   ) => {
     event.preventDefault();
 
-    if (title !== '' && ingredients.length > 0 && directions.length > 0) {
+    if (title !== "" && ingredients.length > 0 && directions.length > 0) {
       const slug = slugify(title, { lower: true });
 
       const newRecipe = {
@@ -35,14 +32,14 @@ const AddRecipe: FunctionComponent = () => {
         directions,
         category,
         image:
-          'https://www.pixelstalk.net/wp-content/uploads/2016/08/Fast-food-backgrounds-free-download.jpg',
+          "https://www.pixelstalk.net/wp-content/uploads/2016/08/Fast-food-backgrounds-free-download.jpg",
         intro: description,
       };
 
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/recipes`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(newRecipe),
       }).then(() => {
@@ -52,20 +49,20 @@ const AddRecipe: FunctionComponent = () => {
   };
 
   const onAddIngredient = () => {
-    setIngredients(prevState => [
+    setIngredients((prevState) => [
       ...prevState,
       {
-        name: '',
+        name: "",
         amount: 0,
-        unit: '',
+        unit: "",
       },
     ]);
   };
 
   const onAddDirection = () => {
-    setDirections(prevState => [
+    setDirections((prevState) => [
       ...prevState,
-      { order: directions.length + 1, text: '' },
+      { order: directions.length + 1, text: "" },
     ]);
   };
 
@@ -94,7 +91,7 @@ const AddRecipe: FunctionComponent = () => {
           return (ingredient = {
             ...ingredient,
             [e.currentTarget.name]:
-              e.currentTarget.name === 'amount'
+              e.currentTarget.name === "amount"
                 ? parseFloat(e.currentTarget.value)
                 : e.currentTarget.value,
           });
@@ -122,70 +119,74 @@ const AddRecipe: FunctionComponent = () => {
 
   return (
     <>
-      <HeadWrapper />
-      <Navbar />
-
-      <div className="max-w-3xl m-auto mt-5">
-        <div className="w-full flex">
-          <input
-            placeholder="Recipe name"
-            className="text-6xl w-full"
-            value={title}
-            onChange={e => setTitle(e.currentTarget.value)}
+      <div className="">
+        <button className="w-64 mt-5 ml-5 text-right text-neutral-800 flex border-b border-neutral-800 justify-between">
+          <Image
+            className="w-72 h-5"
+            width={72}
+            height={10}
+            src="/arrow-symbol.png"
+            alt=""
           />
-          <select value={category} onChange={e => setCategory(e.target.value)}>
-            {categoryOptions.map(selectOption => (
-              <option key={selectOption}>{selectOption}</option>
-            ))}
-          </select>
-        </div>
+          <Link href={`/`}>
+            <a>Back to all recipes</a>
+          </Link>
+        </button>
+        <input
+          placeholder="Recipe name"
+          className=""
+          value={title}
+          onChange={(e) => setTitle(e.currentTarget.value)}
+        />
+        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          {categoryOptions.map((selectOption) => (
+            <option key={selectOption}>{selectOption}</option>
+          ))}
+        </select>
 
         <div>
           <textarea
             value={description}
-            onChange={e => setDescription(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </div>
 
-        <div className="flex mt-3 bg-slate-200 rounded-md w-full">
-          <div className="m-10 mr-0 w-2/6">
-            <h2 className="text-3xl font-bold mb-5">Ingredients</h2>
+        <div className="">
+          <div className="">
+            <h2 className="">Ingredients</h2>
             {ingredients.map(({ name, amount, unit }, i) => (
-              <div key={i} className="flex justify-between mb-2">
-                <div className="flex mb-2 k">
+              <div key={i} className="">
+                <div className="">
                   <input
                     placeholder="Ingredient"
-                    className="mr-2 w-32"
+                    className=""
                     value={name}
                     name="name"
-                    onChange={e => updateIngredientsArray(e, i)}
+                    onChange={(e) => updateIngredientsArray(e, i)}
                   />
                   <input
                     placeholder="Amount"
-                    className="mr-2 w-10"
+                    className=""
                     type="number"
                     value={amount}
                     name="amount"
-                    onChange={e => updateIngredientsArray(e, i)}
+                    onChange={(e) => updateIngredientsArray(e, i)}
                   />
                   <input
                     placeholder="Unit"
-                    className="w-10"
+                    className=""
                     value={unit}
                     name="unit"
-                    onChange={e => updateIngredientsArray(e, i)}
+                    onChange={(e) => updateIngredientsArray(e, i)}
                   />
                 </div>
-                <button
-                  onClick={() => onDeleteIngredient(i)}
-                  className="text-red-600"
-                >
+                <button onClick={() => onDeleteIngredient(i)} className="">
                   Delete
                 </button>
               </div>
             ))}
 
-            <button className={buttonClasses} onClick={onAddIngredient}>
+            <button className="" onClick={onAddIngredient}>
               Add Ingredient
             </button>
           </div>
@@ -207,18 +208,18 @@ const AddRecipe: FunctionComponent = () => {
                 <textarea
                   className="w-full"
                   value={text}
-                  onChange={e => updateDirectionsArray(e, i)}
+                  onChange={(e) => updateDirectionsArray(e, i)}
                 />
               </div>
             ))}
 
-            <button className={buttonClasses} onClick={onAddDirection}>
+            <button className="" onClick={onAddDirection}>
               Add Direction
             </button>
           </div>
         </div>
         <div className="w-2/4 m-auto mt-10">
-          <button className={buttonClasses} onClick={e => createRecipe(e)}>
+          <button className="" onClick={(e) => createRecipe(e)}>
             Add recipe
           </button>
         </div>
