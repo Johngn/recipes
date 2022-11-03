@@ -11,6 +11,15 @@ module.exports = {
         160: "40rem",
         400: "100rem",
       },
+      animation: {
+        appear1: "appear1 1s ease-in-out 1",
+      },
+      keyframes: {
+        appear1: {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
+        },
+      },
     },
     fontFamily: {
       gothic: ['"Didact Gothic"'],
