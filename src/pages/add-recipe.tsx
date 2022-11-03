@@ -119,9 +119,9 @@ const AddRecipe: FunctionComponent = () => {
 
   return (
     <>
-      <div className="max-w-screen-2xl mx-auto animate-appear1">
+      <div className="max-w-screen-2xl mx-auto">
         <Link href={`/`}>
-          <button className="w-64 mt-5 ml-5 text-right text-neutral-800 flex border-b border-neutral-800 justify-between">
+          <button className="w-64 mt-5 ml-5 text-right text-neutral-800 flex border-b border-neutral-800 justify-between animate-[appear1_1s_ease_1]">
             <Image
               className=""
               width={72}
@@ -132,7 +132,7 @@ const AddRecipe: FunctionComponent = () => {
             <a>Back to all recipes</a>
           </button>
         </Link>
-        <div className="max-w-6xl w-10/12 mt-27 mx-auto flex justify-between">
+        <div className="max-w-6xl w-10/12 mt-27 mx-auto flex justify-between animate-[appear2_1.3s_ease_1]">
           <div>
             <input
               placeholder="Recipe name"
@@ -162,7 +162,7 @@ const AddRecipe: FunctionComponent = () => {
           </div>
         </div>
 
-        <div className="max-w-6xl w-10/12 mt-20 mx-auto flex">
+        <div className="max-w-6xl w-10/12 mt-20 mx-auto flex animate-[appear3_1.7s_ease_1]">
           <div className="w-1/2 border-r border-neutral-700 text-center">
             <h2 className="py-3 text-xs text-left tracking-widest border-b border-neutral-700 text-neutral-700  uppercase">
               Ingredients
