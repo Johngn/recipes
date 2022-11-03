@@ -121,7 +121,7 @@ const AddRecipe: FunctionComponent = () => {
     <>
       <div className="max-w-screen-2xl mx-auto">
         <Link href={`/`}>
-          <button className="w-64 mt-5 ml-5 text-right text-neutral-800 flex border-b border-neutral-800 justify-between animate-[appear1_1s_ease_1]">
+          <button className="w-64 mt-5 ml-5 items-center text-right text-neutral-800 flex border-b border-neutral-800 justify-between animate-[appear1_1s_ease_1]">
             <Image
               className=""
               width={72}
@@ -248,7 +248,7 @@ const AddRecipe: FunctionComponent = () => {
             </button>
           </div>
         </div>
-        <div className="my-20 text-center">
+        <div className="my-14 text-center">
           <button
             className="px-6 py-3 text-xs uppercase tracking-widest border border-solid border-neutral-700 text-neutral-700 bg-neutral-200 transition-transform hover:scale-110 active:bg-neutral-400 active:translate-y-1"
             onClick={(e) => createRecipe(e)}
