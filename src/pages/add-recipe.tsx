@@ -142,7 +142,7 @@ const AddRecipe: FunctionComponent = () => {
             />
             <div>
               <textarea
-                className="w-80 h-16 p-1 mt-4 bg-neutral-100 resize-none"
+                className="w-80 h-16 p-1 mt-4 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                 placeholder="Write a short description of your recipe here"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -158,7 +158,7 @@ const AddRecipe: FunctionComponent = () => {
                 <option key={selectOption}>{selectOption}</option>
               ))}
             </select>
-            <div className="w-80 h-16 p-1 mt-4 bg-neutral-100"></div>
+            <div className="w-80 h-16 p-1 mt-4 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"></div>
           </div>
         </div>
 
@@ -171,14 +171,14 @@ const AddRecipe: FunctionComponent = () => {
               {ingredients.map(({ name, amount, unit }, i) => (
                 <div key={i} className="mt-3 flex items-start">
                   <input
-                    className="w-[calc(100%-13rem)] p-1 bg-neutral-100 transition hover:bg-neutral-200 focus:bg-neutral-200"
+                    className="w-[calc(100%-13rem)] p-1 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                     value={name}
                     name="name"
                     onChange={(e) => updateIngredientsArray(e, i)}
                   />
                   <input
                     placeholder="0"
-                    className="w-14 p-1 ml-3 bg-neutral-100"
+                    className="w-14 p-1 ml-3 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                     type="number"
                     value={amount}
                     name="amount"
@@ -186,7 +186,7 @@ const AddRecipe: FunctionComponent = () => {
                   />
                   <input
                     placeholder="unit"
-                    className="w-16 p-1 ml-3 bg-neutral-100"
+                    className="w-16 p-1 ml-3 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                     value={unit}
                     name="unit"
                     onChange={(e) => updateIngredientsArray(e, i)}
@@ -224,7 +224,7 @@ const AddRecipe: FunctionComponent = () => {
                   <h2 className="text-neutral-700">{i + 1}.</h2>
                 </div>
                 <textarea
-                  className="w-[calc(100%-5rem)] h-[7.5rem] ml-3 p-1 bg-neutral-100 resize-none"
+                  className="w-[calc(100%-5rem)] h-[7.5rem] ml-3 p-1 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                   value={text}
                   onChange={(e) => updateDirectionsArray(e, i)}
                 />
