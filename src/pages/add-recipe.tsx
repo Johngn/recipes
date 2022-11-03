@@ -1,15 +1,17 @@
-import { FunctionComponent, useState } from "react";
 import Router from "next/router";
 import { ingredientType, directionType } from "../types/types";
 import slugify from "slugify";
 import { categoryOptions } from "../../utils/constants";
 import Link from "next/link";
 import Image from "next/image";
+import { useDropzone } from "react-dropzone";
+import { FunctionComponent, useState, useCallback } from "react";
 
 const AddRecipe: FunctionComponent = () => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Breakfast");
   const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
   const [ingredients, setIngredients] = useState<ingredientType[]>([
     { name: "", amount: 0, unit: "" },
     { name: "", amount: 0, unit: "" },
@@ -18,6 +20,34 @@ const AddRecipe: FunctionComponent = () => {
   const [directions, setDirections] = useState<directionType[]>([
     { order: 1, text: "" },
   ]);
+
+  const onDrop = useCallback(async (acceptedFiles) => {
+    const file = acceptedFiles[0];
+    const filename = encodeURIComponent(file.name);
+    const res = await fetch(`/api/upload-url?file=${filename}`); // Get presigned URL
+    const { url, fields } = await res.json();
+    const formData = new FormData();
+
+    Object.entries({ ...fields, file }).forEach(([key, value]: any[]) => {
+      formData.append(key, value);
+    });
+
+    const upload = await fetch(url, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (upload.ok) {
+      console.log("Uploaded successfully!");
+      setImage(filename);
+    } else {
+      console.error("Upload failed.");
+    }
+  }, []);
+
+  console.log(image);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const createRecipe = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -33,8 +63,7 @@ const AddRecipe: FunctionComponent = () => {
         ingredients,
         directions,
         category,
-        image:
-          "https://www.pixelstalk.net/wp-content/uploads/2016/08/Fast-food-backgrounds-free-download.jpg",
+        image,
         intro: description,
       };
 
@@ -160,7 +189,16 @@ const AddRecipe: FunctionComponent = () => {
                 <option key={selectOption}>{selectOption}</option>
               ))}
             </select>
-            <div className="w-80 h-16 p-1 mt-4 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"></div>
+            <div className="w-80 h-16 p-1 mt-4 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200">
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                {isDragActive ? (
+                  <p>Drop the files here ...</p>
+                ) : (
+                  <p>Drag n drop some files here, or click to select files</p>
+                )}
+              </div>
+            </div>
           </div>
         </div>
 
