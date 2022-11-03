@@ -12,6 +12,8 @@ const AddRecipe: FunctionComponent = () => {
   const [description, setDescription] = useState("");
   const [ingredients, setIngredients] = useState<ingredientType[]>([
     { name: "", amount: 0, unit: "" },
+    { name: "", amount: 0, unit: "" },
+    { name: "", amount: 0, unit: "" },
   ]);
   const [directions, setDirections] = useState<directionType[]>([
     { order: 1, text: "" },
