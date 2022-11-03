@@ -164,14 +164,14 @@ const AddRecipe: FunctionComponent = () => {
 
         <div className="max-w-6xl w-10/12 mt-20 mx-auto flex animate-[appear3_1.7s_ease_1]">
           <div className="w-1/2 border-r border-neutral-700 text-center">
-            <h2 className="py-3 text-xs text-left tracking-widest border-b border-neutral-700 text-neutral-700  uppercase">
-              Ingredients
-            </h2>
-            {ingredients.map(({ name, amount, unit }, i) => (
-              <div key={i}>
-                <div className="mt-3 flex items-start">
+            <div className="sticky top-8">
+              <h2 className="py-3 text-xs text-left tracking-widest border-b border-neutral-700 text-neutral-700  uppercase">
+                Ingredients
+              </h2>
+              {ingredients.map(({ name, amount, unit }, i) => (
+                <div key={i} className="mt-3 flex items-start">
                   <input
-                    className="w-[calc(100%-13rem)] p-1 bg-neutral-100"
+                    className="w-[calc(100%-13rem)] p-1 bg-neutral-100 transition hover:bg-neutral-200 focus:bg-neutral-200"
                     value={name}
                     name="name"
                     onChange={(e) => updateIngredientsArray(e, i)}
@@ -204,14 +204,14 @@ const AddRecipe: FunctionComponent = () => {
                     />
                   </button>
                 </div>
-              </div>
-            ))}
-            <button
-              className="mt-10 px-6 py-3 text-xs tracking-widest border border-solid border-neutral-700 text-neutral-700  active:translate-y-1"
-              onClick={onAddIngredient}
-            >
-              New Ingredient
-            </button>
+              ))}
+              <button
+                className="mt-10 px-6 py-3 text-xs tracking-widest border border-solid border-neutral-700 text-neutral-700 transition duration-300 hover:bg-neutral-200"
+                onClick={onAddIngredient}
+              >
+                New Ingredient
+              </button>
+            </div>
           </div>
 
           <div className="w-1/2 text-center">
@@ -239,9 +239,8 @@ const AddRecipe: FunctionComponent = () => {
                 </button>
               </div>
             ))}
-
             <button
-              className="mt-10 px-6 py-3 text-xs tracking-widest border border-solid border-neutral-700 text-neutral-700"
+              className="mt-10 px-6 py-3 text-xs tracking-widest border border-solid border-neutral-700 text-neutral-700 transition duration-300 hover:bg-neutral-200"
               onClick={onAddDirection}
             >
               New Instruction
