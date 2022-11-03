@@ -162,49 +162,62 @@ const AddRecipe: FunctionComponent = () => {
           </div>
         </div>
 
-        <div className="">
-          <div className="">
-            <h2 className="">Ingredients</h2>
+        <div className="max-w-6xl w-10/12 mt-20 mx-auto flex">
+          <div className="w-1/2 border-r border-neutral-700">
+            <h2 className="py-3 text-xs tracking-widest border-b border-neutral-700 text-neutral-700  uppercase">
+              Ingredients
+            </h2>
             {ingredients.map(({ name, amount, unit }, i) => (
-              <div key={i} className="">
-                <div className="">
+              <div key={i} className="text-right">
+                <div className="mt-3">
                   <input
-                    placeholder="Ingredient"
-                    className=""
+                    className="p-1 bg-neutral-100"
                     value={name}
                     name="name"
                     onChange={(e) => updateIngredientsArray(e, i)}
                   />
                   <input
-                    placeholder="Amount"
-                    className=""
+                    placeholder="0"
+                    className="w-14 p-1 ml-3 bg-neutral-100"
                     type="number"
                     value={amount}
                     name="amount"
                     onChange={(e) => updateIngredientsArray(e, i)}
                   />
                   <input
-                    placeholder="Unit"
-                    className=""
+                    placeholder="unit"
+                    className="w-20 p-1 ml-3 bg-neutral-100"
                     value={unit}
                     name="unit"
                     onChange={(e) => updateIngredientsArray(e, i)}
                   />
+                  <button
+                    onClick={() => onDeleteIngredient(i)}
+                    className="mx-3"
+                  >
+                    <Image
+                      className="w-6 h-6 rotate-45"
+                      width={20}
+                      height={22}
+                      src="/plus-symbol.png"
+                      alt=""
+                    />
+                  </button>
                 </div>
-                <button onClick={() => onDeleteIngredient(i)} className="">
-                  Delete
-                </button>
               </div>
             ))}
-
-            <button className="" onClick={onAddIngredient}>
-              Add Ingredient
+            <button
+              className="text-xs tracking-widest border border-solid border-neutral-700 text-neutral-700 px-6 py-3"
+              onClick={onAddIngredient}
+            >
+              New Ingredient
             </button>
           </div>
 
-          <div className="m-10 w-4/6">
-            <h2 className="text-3xl font-bold mb-5">Directions</h2>
-
+          <div className="w-1/2">
+            <h2 className="py-3 text-xs tracking-widest border-b border-neutral-700 text-neutral-700  uppercase text-right">
+              Instructions
+            </h2>
             {directions.map(({ text }, i) => (
               <div key={i} className="mb-5">
                 <div className="flex justify-between w-full">
@@ -225,11 +238,11 @@ const AddRecipe: FunctionComponent = () => {
             ))}
 
             <button className="" onClick={onAddDirection}>
-              Add Direction
+              New Instruction
             </button>
           </div>
         </div>
-        <div className="w-2/4 m-auto mt-10">
+        <div className="">
           <button className="" onClick={(e) => createRecipe(e)}>
             Add recipe
           </button>
