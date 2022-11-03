@@ -43,18 +43,18 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
         <div className="mx-8 text-7xl tracking-wider font-gothic text-neutral-800">
           OR
         </div>
-        <button className="w-64 text-right flex border-b text-neutral-800 border-neutral-800 justify-between">
-          <Image
-            className="w-5 h-5"
-            width={20}
-            height={20}
-            src="/plus-symbol.png"
-            alt=""
-          />
-          <Link href={`/add-recipe`}>
+        <Link href={`/add-recipe`}>
+          <button className="w-64 text-right flex border-b text-neutral-800 border-neutral-800 justify-between">
+            <Image
+              className="w-5 h-5"
+              width={20}
+              height={20}
+              src="/plus-symbol.png"
+              alt=""
+            />
             <a>Add new recipe</a>
-          </Link>
-        </button>
+          </button>
+        </Link>
       </div>
       <div className="flex flex-wrap ml-3 w-full justify-center">
         <button

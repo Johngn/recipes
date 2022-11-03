@@ -119,40 +119,48 @@ const AddRecipe: FunctionComponent = () => {
 
   return (
     <>
-      <div className="">
-        <button className="w-64 mt-5 ml-5 text-right text-neutral-800 flex border-b border-neutral-800 justify-between">
-          <Image
-            className="w-72 h-5"
-            width={72}
-            height={10}
-            src="/arrow-symbol.png"
-            alt=""
-          />
-          <Link href={`/`}>
-            <a>Back to all recipes</a>
-          </Link>
-        </button>
-        <div className="mt-27">
-          <input
-            placeholder="Recipe name"
-            className="w-96 border-b border-neutral-800 placeholder-neutral-800 font-gothic text-3xl text-neutral-800"
-            value={title}
-            onChange={(e) => setTitle(e.currentTarget.value)}
-          />
-          <div>
-            <textarea
-              className="resize-none"
-              placeholder="Write a short description of your recipe here"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+      <div className="max-w-screen-2xl mx-auto">
+        <Link href={`/`}>
+          <button className="w-64 mt-5 ml-5 text-right text-neutral-800 flex border-b border-neutral-800 justify-between">
+            <Image
+              className="w-72 h-5"
+              width={72}
+              height={10}
+              src="/arrow-symbol.png"
+              alt="arrow symbol"
             />
+            <a>Back to all recipes</a>
+          </button>
+        </Link>
+        <div className="max-w-6xl w-10/12 mt-27 mx-auto flex justify-between">
+          <div>
+            <input
+              placeholder="Recipe name"
+              className="w-80 border-b border-neutral-800 placeholder-neutral-800 font-gothic text-3xl text-neutral-800"
+              value={title}
+              onChange={(e) => setTitle(e.currentTarget.value)}
+            />
+            <div>
+              <textarea
+                className="w-80 h-16 p-1 mt-4 bg-neutral-100 resize-none"
+                placeholder="Write a short description of your recipe here"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="mt-4 text-right">
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              {categoryOptions.map((selectOption) => (
+                <option key={selectOption}>{selectOption}</option>
+              ))}
+            </select>
+            <div className="w-80 h-16 p-1 mt-4 bg-neutral-100"></div>
           </div>
         </div>
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          {categoryOptions.map((selectOption) => (
-            <option key={selectOption}>{selectOption}</option>
-          ))}
-        </select>
 
         <div className="">
           <div className="">
