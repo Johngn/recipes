@@ -189,15 +189,16 @@ const AddRecipe: FunctionComponent = () => {
                 <option key={selectOption}>{selectOption}</option>
               ))}
             </select>
-            <div className="w-80 h-16 p-1 mt-4 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200">
-              <div {...getRootProps()}>
-                <input {...getInputProps()} />
-                {isDragActive ? (
-                  <p>Drop the files here ...</p>
-                ) : (
-                  <p>Drag n drop some files here, or click to select files</p>
-                )}
-              </div>
+            <div
+              {...getRootProps()}
+              className="w-80 h-16 p-1 mt-4 text-gray-400 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200 cursor-pointer"
+            >
+              <input {...getInputProps()} />
+              {isDragActive ? (
+                <p>Drop the files here ...</p>
+              ) : (
+                <p>Upload an image of your dish here</p>
+              )}
             </div>
           </div>
         </div>
