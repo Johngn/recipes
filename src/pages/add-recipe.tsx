@@ -263,7 +263,7 @@ const AddRecipe: FunctionComponent = () => {
             {directions.map(({ text }, i) => (
               <div key={i} className="mt-3 flex items-start">
                 <div className="ml-8">
-                  <h2 className="text-neutral-700">{i + 1}.</h2>
+                  <h2 className="w-4 text-neutral-700">{i + 1}.</h2>
                 </div>
                 <textarea
                   className="w-[calc(100%-5rem)] h-[7.5rem] ml-3 p-1 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
