@@ -166,8 +166,8 @@ const AddRecipe: FunctionComponent = () => {
         <div className="max-w-6xl w-10/12 mt-27 mx-auto flex justify-between animate-[appear2_1.3s_ease_1]">
           <div>
             <input
-              placeholder="Recipe name"
-              className="w-80 border-b border-neutral-800 placeholder-neutral-800 font-gothic text-3xl text-neutral-800"
+              placeholder="Enter recipe name"
+              className="w-80 border-b border-neutral-800 placeholder-neutral-500 font-gothic text-3xl text-neutral-700 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
               value={title}
               onChange={(e) => setTitle(e.currentTarget.value)}
             />
@@ -180,8 +180,9 @@ const AddRecipe: FunctionComponent = () => {
               />
             </div>
           </div>
-          <div className="mt-4 text-right">
+          <div>
             <select
+              className="appearance-none cursor-pointer w-80 border-b border-neutral-800 font-gothic text-3xl rounded-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
@@ -189,15 +190,16 @@ const AddRecipe: FunctionComponent = () => {
                 <option key={selectOption}>{selectOption}</option>
               ))}
             </select>
-            <div className="w-80 h-16 p-1 mt-4 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200">
-              <div {...getRootProps()}>
-                <input {...getInputProps()} />
-                {isDragActive ? (
-                  <p>Drop the files here ...</p>
-                ) : (
-                  <p>Drag n drop some files here, or click to select files</p>
-                )}
-              </div>
+            <div
+              {...getRootProps()}
+              className="w-80 h-16 p-1 mt-4 text-gray-400 bg-neutral-100 transition duration-300 hover:bg-neutral-200 cursor-pointer"
+            >
+              <input {...getInputProps()} />
+              {isDragActive ? (
+                <p>Drop the file here</p>
+              ) : (
+                <p>Upload an image of your dish here</p>
+              )}
             </div>
           </div>
         </div>
@@ -261,7 +263,7 @@ const AddRecipe: FunctionComponent = () => {
             {directions.map(({ text }, i) => (
               <div key={i} className="mt-3 flex items-start">
                 <div className="ml-8">
-                  <h2 className="text-neutral-700">{i + 1}.</h2>
+                  <h2 className="w-4 text-neutral-700">{i + 1}.</h2>
                 </div>
                 <textarea
                   className="w-[calc(100%-5rem)] h-[7.5rem] ml-3 p-1 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
