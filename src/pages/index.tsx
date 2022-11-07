@@ -8,10 +8,10 @@ import Image from "next/image";
 import { categoryOptions } from "../../utils/constants";
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  // const data = await prisma.recipe.findMany();
+  const data = await prisma.recipe.findMany();
 
-  // const recipes = data ? JSON.parse(JSON.stringify(data)) : []; // Need to do this because props need to be serializable
-  const recipes = [];
+  const recipes = data ? JSON.parse(JSON.stringify(data)) : []; // Need to do this because props need to be serializable
+  // const recipes = [];
   return { props: { recipes } };
 };
 
@@ -34,7 +34,7 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
           <input
             type="text"
             placeholder="Search recipes"
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={e => setSearchTerm(e.target.value)}
             className="w-64 border-b border-neutral-700 placeholder-neutral-700"
           />
           <div className="w-5 h-5 absolute left-58">
@@ -57,7 +57,7 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
           </button>
         </Link>
       </div>
-      <div className="flex flex-wrap ml-3 w-full justify-center">
+      <div className="flex flex-wrap w-full justify-center">
         <button
           onClick={() => setSelectedCategory("")}
           className="ml-4 mb-1 tracking-widest border border-solid border-neutral-700 text-neutral-700 px-6 py-3 uppercase transition duration-300 hover:bg-neutral-200 animate-[appear3_1.7s_ease_1]"
