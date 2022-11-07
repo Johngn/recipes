@@ -25,7 +25,6 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
-  console.log(process.env.NEXT_PUBLIC_DATABASE_URL);
   return (
     <>
       <HeadWrapper />
@@ -82,35 +81,38 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
           )
           .filter(({ title }) => title.includes(searchTerm))
           .map(({ id, title, slug, image, category, intro }) => (
-            <div key={id} className="w-64 mx-3 mb-8">
-              <div className="flex justify-center items-center w-64 h-40 bg-neutral-400 text-white relative">
-                <Link href={`/recipe/${slug}`}>
-                  <Image
-                    style={{ cursor: "pointer" }}
-                    src={`${awsImageUrl}/${image.toString()}`}
-                    alt={title.toString()}
-                    width={260}
-                    height={162}
-                  />
-                </Link>
-                <div className="absolute">
-                  <p className="font-gothic text-4xl text-neutral-700 text-center">
-                    {category.slice(0, 1)}
-                    <span className="underline decoration-1 underline-offset-8">
-                      {category.slice(1)}
-                    </span>
+            <>
+              <Link href={`/recipe/${slug}`}>
+                <div key={id} className="w-64 mx-3 mb-8 cursor-pointer">
+                  <div className="flex justify-center items-center w-64 h-40 bg-neutral-400 text-white relative">
+                    <Image
+                      style={{ cursor: "pointer" }}
+                      src={`${awsImageUrl}/${image.toString()}`}
+                      alt={title.toString()}
+                      width={260}
+                      height={162}
+                    />
+
+                    <div className="absolute">
+                      <p className="font-gothic text-4xl text-neutral-700 text-center">
+                        {category.slice(0, 1)}
+                        <span className="underline decoration-1 underline-offset-8">
+                          {category.slice(1)}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                  <h1 className="h-16 text-2xl overflow-hidden font-gothic capitalize text-justify text-neutral-700">
+                    <Link href={`/recipe/${slug}`}>
+                      <a>{title}</a>
+                    </Link>
+                  </h1>
+                  <p className="w-64 h-24 text-ellipsis overflow-hidden text-justify text-neutral-700">
+                    {intro}
                   </p>
                 </div>
-              </div>
-              <h1 className="h-16 text-2xl overflow-hidden font-gothic capitalize text-justify text-neutral-700">
-                <Link href={`/recipe/${slug}`}>
-                  <a>{title}</a>
-                </Link>
-              </h1>
-              <p className="w-64 h-24 text-ellipsis overflow-hidden text-justify text-neutral-700">
-                {intro}
-              </p>
-            </div>
+              </Link>
+            </>
           ))}
       </div>
     </>
