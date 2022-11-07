@@ -7,6 +7,15 @@ import slugify from "slugify";
 import Router from "next/router";
 import Image from "next/image";
 
+const tags = [
+  "Asian",
+  "Spicy",
+  "Fusion",
+  "Quick dinner",
+  "Vegetarian",
+  "Healthy",
+];
+
 const buttonClasses =
   "inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out w-full";
 
@@ -169,7 +178,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
 
       {!editMode ? (
         <>
-          <div className="max-w-screen-2xl mx-auto">
+          <div className="max-w-screen-2xl mx-auto mb-20">
             <button className="w-64 mt-5 ml-5 items-center text-right text-neutral-800 flex border-b border-neutral-800 justify-between animate-[appear1_1s_ease_1]">
               <Image
                 className=""
@@ -181,20 +190,39 @@ const Recipe: FunctionComponent<RecipeProps> = ({
               <a>Back to all recipes</a>
             </button>
 
-            <div className="max-w-6xl w-10/12 mt-27 mx-auto flex justify-between animate-[appear2_1.3s_ease_1]">
-              <Image
-                className="bg-black"
-                width={500}
-                height={700}
-                src=""
-                alt="food"
-              />
-              <h2 className="">{recipe?.category}</h2>
-              <h1 className="">{recipe?.title}</h1>
-              <p className="w-60">{recipe?.intro}</p>
-              <button className="" onClick={() => setEditMode(!editMode)}>
-                Edit
-              </button>
+            <div className="max-w-6xl w-10/12 mt-27 mb-60 mx-auto flex justify-between animate-[appear2_1.3s_ease_1]">
+              <div className="relative w-[500px] h-[700px]">
+                <Image
+                  className="object-contain"
+                  sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              40%"
+                  layout="fill"
+                  src="/Lemon-polenta-ricotta-cake-01-1.jpg"
+                  alt="food"
+                />
+              </div>
+
+              <div className="w-1/2 ml-20 flex flex-col justify-between">
+                <h2 className="mb-4 tracking-widest uppercase">
+                  {recipe?.category}
+                </h2>
+                <h1 className="mb-10 text-8xl font-gothic">{recipe?.title}</h1>
+                <p className="mb-4 text-justify">{recipe?.intro}</p>
+                <div className="flex justify-between font-bold">
+                  {tags.map(tag => (
+                    <div key={tag} className="mx-2">
+                      {tag}
+                    </div>
+                  ))}
+                </div>
+                <button
+                  className="w-32 px-6 py-3 text-xs tracking-widest border border-solid border-neutral-700 text-neutral-700 transition duration-300 hover:bg-neutral-200"
+                  onClick={() => setEditMode(!editMode)}
+                >
+                  Edit recipe
+                </button>
+              </div>
             </div>
 
             <div className="max-w-6xl w-10/12 mt-20 mx-auto flex animate-[appear3_1.7s_ease_1]">
