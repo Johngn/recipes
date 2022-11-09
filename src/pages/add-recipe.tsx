@@ -12,6 +12,8 @@ const AddRecipe: FunctionComponent = () => {
   const [category, setCategory] = useState("Breakfast");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
+  const [newTag, setNewTag] = useState("");
   const [ingredients, setIngredients] = useState<ingredientType[]>([
     { name: "", amount: 0, unit: "" },
     { name: "", amount: 0, unit: "" },
@@ -45,8 +47,6 @@ const AddRecipe: FunctionComponent = () => {
     }
   }, []);
 
-  console.log("image", image);
-
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const createRecipe = async (
@@ -63,6 +63,7 @@ const AddRecipe: FunctionComponent = () => {
         ingredients,
         directions,
         category,
+        tags,
         image,
         intro: description,
       };
@@ -148,6 +149,18 @@ const AddRecipe: FunctionComponent = () => {
     );
   };
 
+  const addTagHandler = () => {
+    if (newTag !== "") {
+      setTags(prevState => [...prevState, newTag]);
+      setNewTag("");
+    }
+  };
+
+  const removeTag = (i: number) => {
+    tags.splice(i, 1);
+    setTags([...tags]);
+  };
+
   return (
     <>
       <div className="max-w-screen-2xl mx-auto">
@@ -178,6 +191,23 @@ const AddRecipe: FunctionComponent = () => {
                 value={description}
                 onChange={e => setDescription(e.target.value)}
               />
+            </div>
+            <div className="flex">
+              {tags.map((tag, i) => (
+                <div key={tag} className="mr-2 bg-slate-500 rounded-lg p-1">
+                  <button value={tag} onClick={() => removeTag(i)}>
+                    {tag}
+                  </button>
+                </div>
+              ))}
+              <div>
+                <input
+                  value={newTag}
+                  onChange={e => setNewTag(e.target.value)}
+                  className="w-24"
+                />
+                <button onClick={addTagHandler}>Add</button>
+              </div>
             </div>
           </div>
           <div>
