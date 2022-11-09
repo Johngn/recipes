@@ -259,19 +259,25 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                 </h2>
                 {directions?.map(({ order, text }, i) => (
                   <div key={i} className="mt-3 flex">
-                    <h2 className="ml-8">{order}.</h2>
+                    <h2
+                      className={
+                        checkedState[i] ? "ml-8 text-neutral-300" : "ml-8"
+                      }
+                    >
+                      {order}.
+                    </h2>
                     <label
                       htmlFor={`custom-checkbox-${i}`}
                       className={
                         checkedState[i]
-                          ? "instruction ml-3 text-justify text-neutral-300"
-                          : "instruction ml-3 text-justify"
+                          ? "instruction ml-3 text-justify w-[calc(100%-6rem)] text-neutral-300"
+                          : "instruction ml-3 text-justify w-[calc(100%-6rem)]"
                       }
                     >
                       {text}
                     </label>
                     <input
-                      className="ml-3 w-20 h-20"
+                      className="ml-3 mt-1 w-5 h-5"
                       type="checkbox"
                       id={`custom-checkbox-${i}`}
                       name={text}
