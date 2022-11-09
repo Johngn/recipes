@@ -8,6 +8,7 @@ import Router from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import { useDropzone } from "react-dropzone";
+import { categoryOptions } from "../../../utils/constants";
 
 const tags = [
   "Asian",
@@ -27,7 +28,7 @@ const tags = [
 const buttonClasses =
   "inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out w-full";
 
-export const getServerSideProps: GetServerSideProps = async context => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const recipeSlug = context.params["recipe"];
 
   if (!recipeSlug || typeof recipeSlug !== "string") return { notFound: true };
@@ -79,8 +80,10 @@ const Recipe: FunctionComponent<RecipeProps> = ({
     new Array(directions.length).fill(false)
   );
   const [image, setImage] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("Breakfast");
 
-  const onDrop = useCallback(async acceptedFiles => {
+  const onDrop = useCallback(async (acceptedFiles) => {
     const file = acceptedFiles[0];
     const filename = encodeURIComponent(file.name);
     const res = await fetch(`/api/upload-url?file=${filename}`); // Get presigned URL
@@ -106,7 +109,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const changeCheckbox = position => {
+  const changeCheckbox = (position) => {
     const updatedCheckedState = checkedState.map((item, i) =>
       i === position ? !item : item
     );
@@ -125,12 +128,13 @@ const Recipe: FunctionComponent<RecipeProps> = ({
         id: recipe.id,
         slug,
         title,
-        ingredients: ingredients.map(ingredient => ({
+        description,
+        ingredients: ingredients.map((ingredient) => ({
           name: ingredient.name,
           amount: ingredient.amount,
           unit: ingredient.unit,
         })),
-        directions: directions.map(direction => ({
+        directions: directions.map((direction) => ({
           order: direction.order,
           text: direction.text,
         })),
@@ -149,7 +153,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
   };
 
   const onAddIngredient = () => {
-    setIngredients(prevState => [
+    setIngredients((prevState) => [
       ...prevState,
       {
         name: "",
@@ -160,7 +164,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
   };
 
   const onAddDirection = () => {
-    setDirections(prevState => [
+    setDirections((prevState) => [
       ...prevState,
       { order: directions.length + 1, text: "" },
     ]);
@@ -223,9 +227,9 @@ const Recipe: FunctionComponent<RecipeProps> = ({
 
       {!editMode ? (
         <>
-          <div className="max-w-screen-2xl mx-auto mb-20">
+          <div className="max-w-screen-2xl pb-20 mx-auto bg-[url('/bg-yellow.png')] bg-no-repeat bg-fixed">
             <Link href={`/`}>
-              <button className="w-64 mt-5 ml-5 items-center text-right text-neutral-800 flex border-b border-neutral-800 justify-between animate-[appear1_1s_ease_1]">
+              <button className="w-64 pt-5 ml-5 items-center text-right text-neutral-800 flex border-b border-neutral-800 justify-between animate-[appear1_1s_ease_1]">
                 <Image
                   className=""
                   width={72}
@@ -257,7 +261,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                 <h1 className="mb-4 text-8xl font-gothic">{recipe?.title}</h1>
                 <p className="mb-4 text-justify">{recipe?.intro}</p>
                 <div className="flex justify-between font-bold flex-wrap">
-                  {tags.map(tag => (
+                  {tags.map((tag) => (
                     <div key={tag} className="mx-2">
                       {tag}
                     </div>
@@ -272,10 +276,10 @@ const Recipe: FunctionComponent<RecipeProps> = ({
               </div>
             </div>
 
-            <div className="max-w-6xl w-10/12 mt-20 mx-auto flex animate-[appear3_1.7s_ease_1]">
+            <div className="max-w-6xl w-10/12 mt-20 p-10 mx-auto flex animate-[appear3_1.7s_ease_1] bg-white bg-opacity-70">
               <div className="w-1/3 border-r border-neutral-700 text-center">
                 <div className="sticky top-8">
-                  <h2 className="py-3 text-xs text-left tracking-widest border-b border-neutral-700 text-neutral-700  uppercase">
+                  <h2 className="py-3 mb-10 text-xs text-left tracking-widest border-b border-neutral-700 text-neutral-700  uppercase">
                     Ingredients
                   </h2>
 
@@ -284,14 +288,14 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                       <h2 className="font-medium lowercase">
                         {amount + " " + unit}
                       </h2>
-                      <h2 className="ml-2 lowercase">{name}</h2>
+                      <h2 className="ml-2 lowercase text-left">{name}</h2>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div className="w-2/3">
-                <h2 className="py-3 text-xs tracking-widest border-b border-neutral-700 text-neutral-700  uppercase text-right">
+                <h2 className="py-3 mb-10 text-xs tracking-widest border-b border-neutral-700 text-neutral-700  uppercase text-right">
                   Instructions
                 </h2>
                 {directions?.map(({ order, text }, i) => (
@@ -329,127 +333,91 @@ const Recipe: FunctionComponent<RecipeProps> = ({
           </div>
         </>
       ) : (
-        <>
-          <div className="max-w-screen-2xl mx-auto">
-            <Link href={`/`}>
-              <button className="w-64 mt-5 ml-5 items-center text-right text-neutral-800 flex border-b border-neutral-800 justify-between animate-[appear1_1s_ease_1]">
-                <Image
-                  width={72}
-                  height={10}
-                  src="/arrow-symbol.png"
-                  alt="arrow symbol"
-                />
-                <a>Back to all recipes</a>
-              </button>
-            </Link>
-            <div className="max-w-6xl w-10/12 mt-27 mx-auto flex justify-between animate-[appear2_1.3s_ease_1]">
+        <div className="max-w-screen-2xl mx-auto">
+          <Link href={`/`}>
+            <button className="w-64 mt-5 ml-5 items-center text-right text-neutral-800 flex border-b border-neutral-800 justify-between animate-[appear1_1s_ease_1]">
+              <Image
+                width={72}
+                height={10}
+                src="/arrow-symbol.png"
+                alt="arrow symbol"
+              />
+              <a>Back to all recipes</a>
+            </button>
+          </Link>
+          <div className="max-w-6xl w-10/12 mt-27 mx-auto flex justify-between animate-[appear2_1.3s_ease_1]">
+            <div>
+              <input
+                placeholder="Enter recipe name"
+                className="w-80 border-b border-neutral-800 placeholder-neutral-500 font-gothic text-3xl text-neutral-700 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
+                value={title}
+                onChange={(e) => setTitle(e.currentTarget.value)}
+              />
               <div>
-                <input
-                  placeholder="Enter recipe name"
-                  className="w-80 border-b border-neutral-800 placeholder-neutral-500 font-gothic text-3xl text-neutral-700 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
-                  value={title}
-                  onChange={e => setTitle(e.currentTarget.value)}
+                <textarea
+                  className="w-80 h-16 p-1 mt-4 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
+                  placeholder="Write a short description of your recipe here"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
-                <div>
-                  <textarea
-                    className="w-80 h-16 p-1 mt-4 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
-                    placeholder="Write a short description of your recipe here"
-                    // value={description}
-                    // onChange={e => setDescription(e.target.value)}
-                  />
-                </div>
-              </div>
-              <div>
-                <select
-                  className="appearance-none cursor-pointer w-80 border-b border-neutral-800 font-gothic text-3xl rounded-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
-                  // value={category}
-                  // onChange={e => setCategory(e.target.value)}
-                >
-                  {/* {categoryOptions.map(selectOption => (
-                    <option key={selectOption}>{selectOption}</option>
-                  ))} */}
-                </select>
-                <div
-                  {...getRootProps()}
-                  className="w-80 h-16 p-1 mt-4 text-gray-400 bg-neutral-100 transition duration-300 hover:bg-neutral-200 cursor-pointer"
-                >
-                  <input {...getInputProps()} />
-                  {isDragActive ? (
-                    <p>Drop the file here</p>
-                  ) : (
-                    <p>Upload an image of your dish here</p>
-                  )}
-                </div>
               </div>
             </div>
-
-            <div className="max-w-6xl w-10/12 mt-20 mx-auto flex animate-[appear3_1.7s_ease_1]">
-              <div className="w-1/2 border-r border-neutral-700 text-center">
-                <div className="sticky top-8">
-                  <h2 className="py-3 text-xs text-left tracking-widest border-b border-neutral-700 text-neutral-700  uppercase">
-                    Ingredients
-                  </h2>
-                  {ingredients.map(({ name, amount, unit }, i) => (
-                    <div key={i} className="mt-3 flex items-start">
-                      <input
-                        className="w-[calc(100%-13rem)] p-1 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
-                        value={name}
-                        name="name"
-                        onChange={e => updateIngredientsArray(e, i)}
-                      />
-                      <input
-                        placeholder="0"
-                        className="w-14 p-1 ml-3 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
-                        type="number"
-                        value={amount}
-                        name="amount"
-                        onChange={e => updateIngredientsArray(e, i)}
-                      />
-                      <input
-                        placeholder="unit"
-                        className="w-16 p-1 ml-3 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
-                        value={unit}
-                        name="unit"
-                        onChange={e => updateIngredientsArray(e, i)}
-                      />
-                      <button
-                        onClick={() => onDeleteIngredient(i)}
-                        className="ml-3 mr-8"
-                      >
-                        <Image
-                          className="rotate-45"
-                          width={20}
-                          height={22}
-                          src="/plus-symbol.png"
-                          alt=""
-                        />
-                      </button>
-                    </div>
-                  ))}
-                  <button
-                    className="mt-10 px-6 py-3 text-xs tracking-widest border border-solid border-neutral-700 text-neutral-700 transition duration-300 hover:bg-neutral-200"
-                    onClick={onAddIngredient}
-                  >
-                    New ingredient
-                  </button>
-                </div>
+            <div>
+              <select
+                className="appearance-none cursor-pointer w-80 border-b border-neutral-800 font-gothic text-3xl rounded-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                {categoryOptions.map((selectOption) => (
+                  <option key={selectOption}>{selectOption}</option>
+                ))}
+              </select>
+              <div
+                {...getRootProps()}
+                className="w-80 h-16 p-1 mt-4 text-gray-400 bg-neutral-100 transition duration-300 hover:bg-neutral-200 cursor-pointer"
+              >
+                <input {...getInputProps()} />
+                {isDragActive ? (
+                  <p>Drop the file here</p>
+                ) : (
+                  <p>Upload an image of your dish here</p>
+                )}
               </div>
+            </div>
+          </div>
 
-              <div className="w-1/2 text-center">
-                <h2 className="py-3 text-xs tracking-widest border-b border-neutral-700 text-neutral-700  uppercase text-right">
-                  Instructions
+          <div className="max-w-6xl w-10/12 mt-20 mx-auto flex animate-[appear3_1.7s_ease_1]">
+            <div className="w-1/2 border-r border-neutral-700 text-center">
+              <div className="sticky top-8">
+                <h2 className="py-3 text-xs text-left tracking-widest border-b border-neutral-700 text-neutral-700  uppercase">
+                  Ingredients
                 </h2>
-                {directions.map(({ text }, i) => (
+                {ingredients.map(({ name, amount, unit }, i) => (
                   <div key={i} className="mt-3 flex items-start">
-                    <h2 className="ml-8 w-4 text-neutral-700">{i + 1}.</h2>
-                    <textarea
-                      className="w-[calc(100%-5rem)] h-[7.5rem] ml-3 p-1 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
-                      value={text}
-                      onChange={e => updateDirectionsArray(e, i)}
+                    <input
+                      className="w-[calc(100%-13rem)] p-1 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
+                      value={name}
+                      name="name"
+                      onChange={(e) => updateIngredientsArray(e, i)}
+                    />
+                    <input
+                      placeholder="0"
+                      className="w-14 p-1 ml-3 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
+                      type="number"
+                      value={amount}
+                      name="amount"
+                      onChange={(e) => updateIngredientsArray(e, i)}
+                    />
+                    <input
+                      placeholder="unit"
+                      className="w-16 p-1 ml-3 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
+                      value={unit}
+                      name="unit"
+                      onChange={(e) => updateIngredientsArray(e, i)}
                     />
                     <button
-                      onClick={() => onDeleteDirection(i)}
-                      className="ml-3"
+                      onClick={() => onDeleteIngredient(i)}
+                      className="ml-3 mr-8"
                     >
                       <Image
                         className="rotate-45"
@@ -463,69 +431,53 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                 ))}
                 <button
                   className="mt-10 px-6 py-3 text-xs tracking-widest border border-solid border-neutral-700 text-neutral-700 transition duration-300 hover:bg-neutral-200"
-                  onClick={onAddDirection}
+                  onClick={onAddIngredient}
                 >
-                  New instruction
+                  New ingredient
                 </button>
               </div>
             </div>
-            <div className="my-14 text-center animate-[appear3_1.7s_ease_1]">
-              <button
-                className="px-6 py-3 text-xs uppercase tracking-widest border border-solid border-neutral-700 text-white bg-neutral-700 transition-transform hover:scale-110 active:bg-neutral-500 active:translate-y-1"
-                onClick={e => updateRecipe(e)}
-              >
-                Save recipe
-              </button>
-            </div>
-          </div>
-          JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN
-          JOHN JOHN JOHN JOHNJOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN
-          JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHNJOHN JOHN JOHN JOHN JOHN JOHN
-          JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHNJOHN JOHN
-          JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN JOHN
-          JOHN JOHN
-          <div className="flex mt-3 bg-slate-200 rounded-md w-full">
-            <div className="m-10 mr-0 w-2/6">
-              <h2 className="text-3xl font-bold mb-5">Ingredients</h2>
-              {ingredients.map(({ name, amount, unit }, i) => (
-                <div key={i} className="flex justify-between mb-2">
-                  <div className="flex mb-2 k"></div>
-                </div>
-              ))}
 
-              <button className={buttonClasses} onClick={onAddIngredient}>
-                Add Ingredient
-              </button>
-            </div>
-
-            <div className="m-10 w-4/6">
-              <h2 className="text-3xl font-bold mb-5">Directions</h2>
-
+            <div className="w-1/2 text-center">
+              <h2 className="py-3 text-xs tracking-widest border-b border-neutral-700 text-neutral-700  uppercase text-right">
+                Instructions
+              </h2>
               {directions.map(({ text }, i) => (
-                <div key={i} className="mb-5">
-                  <div className="flex justify-between w-full">
-                    <h2 className="text-xl font-bold">Step {i + 1}:</h2>
-                    <button
-                      onClick={() => onDeleteDirection(i)}
-                      className="text-red-600"
-                    >
-                      Delete
-                    </button>
-                  </div>
+                <div key={i} className="mt-3 flex items-start">
+                  <h2 className="ml-8 w-4 text-neutral-700">{i + 1}.</h2>
                   <textarea
-                    className="w-full"
+                    className="w-[calc(100%-5rem)] h-[7.5rem] ml-3 p-1 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                     value={text}
-                    onChange={e => updateDirectionsArray(e, i)}
+                    onChange={(e) => updateDirectionsArray(e, i)}
                   />
+                  <button onClick={() => onDeleteDirection(i)} className="ml-3">
+                    <Image
+                      className="rotate-45"
+                      width={20}
+                      height={22}
+                      src="/plus-symbol.png"
+                      alt=""
+                    />
+                  </button>
                 </div>
               ))}
-
-              <button className={buttonClasses} onClick={onAddDirection}>
-                Add Direction
+              <button
+                className="mt-10 px-6 py-3 text-xs tracking-widest border border-solid border-neutral-700 text-neutral-700 transition duration-300 hover:bg-neutral-200"
+                onClick={onAddDirection}
+              >
+                New instruction
               </button>
             </div>
           </div>
-        </>
+          <div className="my-14 text-center animate-[appear3_1.7s_ease_1]">
+            <button
+              className="px-6 py-3 text-xs uppercase tracking-widest border border-solid border-neutral-700 text-white bg-neutral-700 transition-transform hover:scale-110 active:bg-neutral-500 active:translate-y-1"
+              onClick={(e) => updateRecipe(e)}
+            >
+              Save recipe
+            </button>
+          </div>
+        </div>
       )}
     </>
   );

@@ -9,9 +9,7 @@ import { categoryOptions } from "../../utils/constants";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const data = await prisma.recipe.findMany();
-
   const recipes = data ? JSON.parse(JSON.stringify(data)) : []; // Need to do this because props need to be serializable
-  // const recipes = [];
   return { props: { recipes } };
 };
 
@@ -33,7 +31,7 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
           <input
             type="text"
             placeholder="Search recipes"
-            onChange={e => setSearchTerm(e.target.value)}
+            onChange={(e) => setSearchTerm(e.target.value)}
             className="w-64 border-b border-neutral-700 placeholder-neutral-700"
           />
           <div className="w-5 h-5 absolute left-58">
