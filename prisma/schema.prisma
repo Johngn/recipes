@@ -34,6 +34,7 @@ model Recipe {
   intro       String
   image       String
   category    String
+  tags        String[]
   ingredients Ingredient[]
   directions  Direction[]
 }

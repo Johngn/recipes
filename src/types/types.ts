@@ -15,6 +15,7 @@ export type recipeType = {
   slug: String;
   intro: String;
   category: String;
+  tag: String[];
   image: String;
   directions: directionType[];
   ingredients: ingredientType[];
