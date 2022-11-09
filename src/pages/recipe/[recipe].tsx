@@ -25,9 +25,6 @@ const tags = [
   "Six",
 ];
 
-const buttonClasses =
-  "inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out w-full";
-
 export const getServerSideProps: GetServerSideProps = async context => {
   const recipeSlug = context.params["recipe"];
 
@@ -226,8 +223,8 @@ const Recipe: FunctionComponent<RecipeProps> = ({
       <HeadWrapper />
 
       {!editMode ? (
-        <>
-          <div className="max-w-screen-2xl pb-20 mx-auto bg-[url('/bg-yellow.png')] bg-no-repeat bg-fixed">
+        <div className="bg-[url('/bg-yellow.png')] bg-no-repeat bg-fixed">
+          <div className="max-w-screen-2xl h-auto pb-20 mx-auto ">
             <Link href={`/`}>
               <button className="w-64 pt-5 ml-5 items-center text-right text-neutral-800 flex border-b border-neutral-800 justify-between animate-[appear1_1s_ease_1]">
                 <Image
@@ -331,7 +328,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
               </div>
             </div>
           </div>
-        </>
+        </div>
       ) : (
         <div className="max-w-screen-2xl mx-auto">
           <Link href={`/`}>
