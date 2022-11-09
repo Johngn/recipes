@@ -26,6 +26,11 @@ module.exports = {
           "40%": { opacity: 0 },
           "100%": { opacity: 1 },
         },
+        appear4: {
+          "0%": { opacity: 0 },
+          "50%": { opacity: 0 },
+          "100%": { opacity: 1 },
+        },
       },
     },
     fontFamily: {
