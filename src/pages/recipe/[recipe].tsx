@@ -243,13 +243,20 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                 </div>
               </div>
 
-              <div className="w-1/2 text-center">
+              <div className="w-1/2">
                 <h2 className="py-3 text-xs tracking-widest border-b border-neutral-700 text-neutral-700  uppercase text-right">
                   Instructions
                 </h2>
                 {directions?.map(({ order, text }, i) => (
-                  <div key={i} className="">
-                    <h2 className="">{order}.</h2> {text}
+                  <div key={i} className="mt-3 flex">
+                    <h2 className="ml-8">{order}.</h2>
+                    <p className="ml-3 text-justify">{text}</p>
+                    <input
+                      type="checkbox"
+                      id="instruction1"
+                      name="instruction1"
+                      value="instr"
+                    />
                   </div>
                 ))}
               </div>
