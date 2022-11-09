@@ -6,6 +6,7 @@ import prisma from "../../db/client";
 import slugify from "slugify";
 import Router from "next/router";
 import Image from "next/image";
+import Link from "next/link";
 
 const tags = [
   "Asian",
@@ -189,16 +190,18 @@ const Recipe: FunctionComponent<RecipeProps> = ({
       {!editMode ? (
         <>
           <div className="max-w-screen-2xl mx-auto mb-20">
-            <button className="w-64 mt-5 ml-5 items-center text-right text-neutral-800 flex border-b border-neutral-800 justify-between animate-[appear1_1s_ease_1]">
-              <Image
-                className=""
-                width={72}
-                height={10}
-                src=""
-                alt="arrow symbol"
-              />
-              <a>Back to all recipes</a>
-            </button>
+            <Link href={`/`}>
+              <button className="w-64 mt-5 ml-5 items-center text-right text-neutral-800 flex border-b border-neutral-800 justify-between animate-[appear1_1s_ease_1]">
+                <Image
+                  className=""
+                  width={72}
+                  height={10}
+                  src="/arrow-symbol.png"
+                  alt="arrow symbol"
+                />
+                <a>Back to all recipes</a>
+              </button>
+            </Link>
 
             <div className="max-w-6xl w-10/12 mt-27 mb-60 mx-auto flex justify-between animate-[appear2_1.3s_ease_1]">
               <div className="relative w-[500px] h-[700px]">
