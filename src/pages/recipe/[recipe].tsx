@@ -28,7 +28,7 @@ const tags = [
 const buttonClasses =
   "inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out w-full";
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async context => {
   const recipeSlug = context.params["recipe"];
 
   if (!recipeSlug || typeof recipeSlug !== "string") return { notFound: true };
@@ -83,7 +83,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("Breakfast");
 
-  const onDrop = useCallback(async (acceptedFiles) => {
+  const onDrop = useCallback(async acceptedFiles => {
     const file = acceptedFiles[0];
     const filename = encodeURIComponent(file.name);
     const res = await fetch(`/api/upload-url?file=${filename}`); // Get presigned URL
@@ -109,7 +109,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const changeCheckbox = (position) => {
+  const changeCheckbox = position => {
     const updatedCheckedState = checkedState.map((item, i) =>
       i === position ? !item : item
     );
@@ -129,12 +129,12 @@ const Recipe: FunctionComponent<RecipeProps> = ({
         slug,
         title,
         description,
-        ingredients: ingredients.map((ingredient) => ({
+        ingredients: ingredients.map(ingredient => ({
           name: ingredient.name,
           amount: ingredient.amount,
           unit: ingredient.unit,
         })),
-        directions: directions.map((direction) => ({
+        directions: directions.map(direction => ({
           order: direction.order,
           text: direction.text,
         })),
@@ -153,7 +153,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
   };
 
   const onAddIngredient = () => {
-    setIngredients((prevState) => [
+    setIngredients(prevState => [
       ...prevState,
       {
         name: "",
@@ -164,7 +164,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
   };
 
   const onAddDirection = () => {
-    setDirections((prevState) => [
+    setDirections(prevState => [
       ...prevState,
       { order: directions.length + 1, text: "" },
     ]);
@@ -261,7 +261,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                 <h1 className="mb-4 text-8xl font-gothic">{recipe?.title}</h1>
                 <p className="mb-4 text-justify">{recipe?.intro}</p>
                 <div className="flex justify-between font-bold flex-wrap">
-                  {tags.map((tag) => (
+                  {tags.map(tag => (
                     <div key={tag} className="mx-2">
                       {tag}
                     </div>
@@ -351,14 +351,14 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                 placeholder="Enter recipe name"
                 className="w-80 border-b border-neutral-800 placeholder-neutral-500 font-gothic text-3xl text-neutral-700 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                 value={title}
-                onChange={(e) => setTitle(e.currentTarget.value)}
+                onChange={e => setTitle(e.currentTarget.value)}
               />
               <div>
                 <textarea
                   className="w-80 h-16 p-1 mt-4 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                   placeholder="Write a short description of your recipe here"
                   value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  onChange={e => setDescription(e.target.value)}
                 />
               </div>
             </div>
@@ -366,9 +366,9 @@ const Recipe: FunctionComponent<RecipeProps> = ({
               <select
                 className="appearance-none cursor-pointer w-80 border-b border-neutral-800 font-gothic text-3xl rounded-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                 value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                onChange={e => setCategory(e.target.value)}
               >
-                {categoryOptions.map((selectOption) => (
+                {categoryOptions.map(selectOption => (
                   <option key={selectOption}>{selectOption}</option>
                 ))}
               </select>
@@ -398,7 +398,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                       className="w-[calc(100%-13rem)] p-1 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                       value={name}
                       name="name"
-                      onChange={(e) => updateIngredientsArray(e, i)}
+                      onChange={e => updateIngredientsArray(e, i)}
                     />
                     <input
                       placeholder="0"
@@ -406,14 +406,14 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                       type="number"
                       value={amount}
                       name="amount"
-                      onChange={(e) => updateIngredientsArray(e, i)}
+                      onChange={e => updateIngredientsArray(e, i)}
                     />
                     <input
                       placeholder="unit"
                       className="w-16 p-1 ml-3 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                       value={unit}
                       name="unit"
-                      onChange={(e) => updateIngredientsArray(e, i)}
+                      onChange={e => updateIngredientsArray(e, i)}
                     />
                     <button
                       onClick={() => onDeleteIngredient(i)}
@@ -448,7 +448,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                   <textarea
                     className="w-[calc(100%-5rem)] h-[7.5rem] ml-3 p-1 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                     value={text}
-                    onChange={(e) => updateDirectionsArray(e, i)}
+                    onChange={e => updateDirectionsArray(e, i)}
                   />
                   <button onClick={() => onDeleteDirection(i)} className="ml-3">
                     <Image
@@ -472,7 +472,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
           <div className="my-14 text-center animate-[appear3_1.7s_ease_1]">
             <button
               className="px-6 py-3 text-xs uppercase tracking-widest border border-solid border-neutral-700 text-white bg-neutral-700 transition-transform hover:scale-110 active:bg-neutral-500 active:translate-y-1"
-              onClick={(e) => updateRecipe(e)}
+              onClick={e => updateRecipe(e)}
             >
               Save recipe
             </button>

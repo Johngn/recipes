@@ -32,7 +32,7 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
           <input
             type="text"
             placeholder="Search recipes"
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={e => setSearchTerm(e.target.value)}
             className="w-64 border-b border-neutral-700 placeholder-neutral-700"
           />
           <div className="w-5 h-5 absolute left-58">
