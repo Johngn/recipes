@@ -10,6 +10,7 @@ import { categoryOptions } from "../../utils/constants";
 export const getServerSideProps: GetServerSideProps = async () => {
   const data = await prisma.recipe.findMany();
   const recipes = data ? JSON.parse(JSON.stringify(data)) : []; // Need to do this because props need to be serializable
+
   return { props: { recipes } };
 };
 
