@@ -21,7 +21,7 @@ const AddRecipe: FunctionComponent = () => {
     { order: 1, text: "" },
   ]);
 
-  const onDrop = useCallback(async (acceptedFiles) => {
+  const onDrop = useCallback(async acceptedFiles => {
     const file = acceptedFiles[0];
     const filename = encodeURIComponent(file.name);
     const res = await fetch(`/api/upload-url?file=${filename}`); // Get presigned URL
@@ -45,7 +45,7 @@ const AddRecipe: FunctionComponent = () => {
     }
   }, []);
 
-  console.log(image);
+  console.log("image", image);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
@@ -80,7 +80,7 @@ const AddRecipe: FunctionComponent = () => {
   };
 
   const onAddIngredient = () => {
-    setIngredients((prevState) => [
+    setIngredients(prevState => [
       ...prevState,
       {
         name: "",
@@ -91,7 +91,7 @@ const AddRecipe: FunctionComponent = () => {
   };
 
   const onAddDirection = () => {
-    setDirections((prevState) => [
+    setDirections(prevState => [
       ...prevState,
       { order: directions.length + 1, text: "" },
     ]);
@@ -169,14 +169,14 @@ const AddRecipe: FunctionComponent = () => {
               placeholder="Enter recipe name"
               className="w-80 border-b border-neutral-800 placeholder-neutral-500 font-gothic text-3xl text-neutral-700 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
               value={title}
-              onChange={(e) => setTitle(e.currentTarget.value)}
+              onChange={e => setTitle(e.currentTarget.value)}
             />
             <div>
               <textarea
                 className="w-80 h-16 p-1 mt-4 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                 placeholder="Write a short description of your recipe here"
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={e => setDescription(e.target.value)}
               />
             </div>
           </div>
@@ -184,9 +184,9 @@ const AddRecipe: FunctionComponent = () => {
             <select
               className="appearance-none cursor-pointer w-80 border-b border-neutral-800 font-gothic text-3xl rounded-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
               value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={e => setCategory(e.target.value)}
             >
-              {categoryOptions.map((selectOption) => (
+              {categoryOptions.map(selectOption => (
                 <option key={selectOption}>{selectOption}</option>
               ))}
             </select>
@@ -216,7 +216,7 @@ const AddRecipe: FunctionComponent = () => {
                     className="w-[calc(100%-13rem)] p-1 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                     value={name}
                     name="name"
-                    onChange={(e) => updateIngredientsArray(e, i)}
+                    onChange={e => updateIngredientsArray(e, i)}
                   />
                   <input
                     placeholder="0"
@@ -224,14 +224,14 @@ const AddRecipe: FunctionComponent = () => {
                     type="number"
                     value={amount}
                     name="amount"
-                    onChange={(e) => updateIngredientsArray(e, i)}
+                    onChange={e => updateIngredientsArray(e, i)}
                   />
                   <input
                     placeholder="unit"
                     className="w-16 p-1 ml-3 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                     value={unit}
                     name="unit"
-                    onChange={(e) => updateIngredientsArray(e, i)}
+                    onChange={e => updateIngredientsArray(e, i)}
                   />
                   <button
                     onClick={() => onDeleteIngredient(i)}
@@ -262,13 +262,11 @@ const AddRecipe: FunctionComponent = () => {
             </h2>
             {directions.map(({ text }, i) => (
               <div key={i} className="mt-3 flex items-start">
-                <div className="ml-8">
-                  <h2 className="w-4 text-neutral-700">{i + 1}.</h2>
-                </div>
+                <h2 className="ml-8 w-4 text-neutral-700">{i + 1}.</h2>
                 <textarea
                   className="w-[calc(100%-5rem)] h-[7.5rem] ml-3 p-1 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                   value={text}
-                  onChange={(e) => updateDirectionsArray(e, i)}
+                  onChange={e => updateDirectionsArray(e, i)}
                 />
                 <button onClick={() => onDeleteDirection(i)} className="ml-3">
                   <Image
@@ -292,7 +290,7 @@ const AddRecipe: FunctionComponent = () => {
         <div className="my-14 text-center animate-[appear3_1.7s_ease_1]">
           <button
             className="px-6 py-3 text-xs uppercase tracking-widest border border-solid border-neutral-700 text-white bg-neutral-700 transition-transform hover:scale-110 active:bg-neutral-500 active:translate-y-1"
-            onClick={(e) => createRecipe(e)}
+            onClick={e => createRecipe(e)}
           >
             Add recipe
           </button>

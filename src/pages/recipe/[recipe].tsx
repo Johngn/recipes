@@ -1,18 +1,28 @@
-import { FunctionComponent, useEffect, useState } from 'react';
-import { GetServerSideProps } from 'next';
-import { recipeType, ingredientType, directionType } from '../../types/types';
-import Navbar from '../../layout/navbar';
-import HeadWrapper from '../../layout/headWrapper';
-import prisma from '../../db/client';
-import slugify from 'slugify';
-import Router from 'next/router';
+import { FunctionComponent, useEffect, useState } from "react";
+import { GetServerSideProps } from "next";
+import { recipeType, ingredientType, directionType } from "../../types/types";
+import HeadWrapper from "../../layout/headWrapper";
+import prisma from "../../db/client";
+import slugify from "slugify";
+import Router from "next/router";
+import Image from "next/image";
+
+const tags = [
+  "Asian",
+  "Spicy",
+  "Fusion",
+  "Quick dinner",
+  "Vegetarian",
+  "Healthy",
+];
+
 const buttonClasses =
-  'inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out w-full';
+  "inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out w-full";
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const recipeSlug = context.params['recipe'];
+  const recipeSlug = context.params["recipe"];
 
-  if (!recipeSlug || typeof recipeSlug !== 'string') return { notFound: true };
+  if (!recipeSlug || typeof recipeSlug !== "string") return { notFound: true };
 
   const recipe = await prisma.recipe.findFirst({
     where: {
@@ -63,7 +73,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
   ) => {
     event.preventDefault();
 
-    if (title !== '' && ingredients.length > 0 && directions.length > 0) {
+    if (title !== "" && ingredients.length > 0 && directions.length > 0) {
       const slug = slugify(title, { lower: true });
 
       const newRecipe = {
@@ -82,9 +92,9 @@ const Recipe: FunctionComponent<RecipeProps> = ({
       };
 
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/recipe/${recipe.slug}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(newRecipe),
       }).then(() => {
@@ -97,9 +107,9 @@ const Recipe: FunctionComponent<RecipeProps> = ({
     setIngredients(prevState => [
       ...prevState,
       {
-        name: '',
+        name: "",
         amount: 0,
-        unit: '',
+        unit: "",
       },
     ]);
   };
@@ -107,7 +117,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
   const onAddDirection = () => {
     setDirections(prevState => [
       ...prevState,
-      { order: directions.length + 1, text: '' },
+      { order: directions.length + 1, text: "" },
     ]);
   };
 
@@ -136,7 +146,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
           return (ingredient = {
             ...ingredient,
             [e.currentTarget.name]:
-              e.currentTarget.name === 'amount'
+              e.currentTarget.name === "amount"
                 ? parseFloat(e.currentTarget.value)
                 : e.currentTarget.value,
           });
@@ -165,42 +175,94 @@ const Recipe: FunctionComponent<RecipeProps> = ({
   return (
     <>
       <HeadWrapper />
-      <Navbar />
-      <button
-        className={buttonClasses + 'w-5'}
-        onClick={() => setEditMode(!editMode)}
-      >
-        Edit
-      </button>
 
       {!editMode ? (
-        <div className="max-w-3xl m-auto mt-5 mb-5">
-          <h1 className="text-6xl text-lime-700">{recipe?.title}</h1>
+        <>
+          <div className="max-w-screen-2xl mx-auto mb-20">
+            <button className="w-64 mt-5 ml-5 items-center text-right text-neutral-800 flex border-b border-neutral-800 justify-between animate-[appear1_1s_ease_1]">
+              <Image
+                className=""
+                width={72}
+                height={10}
+                src=""
+                alt="arrow symbol"
+              />
+              <a>Back to all recipes</a>
+            </button>
 
-          <div className="flex mt-3 bg-slate-200 rounded-md">
-            <div className="p-10">
-              <h2 className="text-3xl font-bold mb-5">Ingredients</h2>
+            <div className="max-w-6xl w-10/12 mt-27 mb-60 mx-auto flex justify-between animate-[appear2_1.3s_ease_1]">
+              <div className="relative w-[500px] h-[700px]">
+                <Image
+                  className="object-contain"
+                  sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              40%"
+                  layout="fill"
+                  src="/Lemon-polenta-ricotta-cake-01-1.jpg"
+                  alt="food"
+                />
+              </div>
 
-              {ingredients?.map(({ name, amount, unit }, i) => (
-                <div key={i} className="flex justify-between">
-                  <h2>{name}</h2>
-                  <div className="flex">
-                    <h2>{amount + ' ' + unit}</h2>
-                  </div>
+              <div className="w-1/2 ml-20 flex flex-col justify-between">
+                <h2 className="mb-4 tracking-widest uppercase">
+                  {recipe?.category}
+                </h2>
+                <h1 className="mb-10 text-8xl font-gothic">{recipe?.title}</h1>
+                <p className="mb-4 text-justify">{recipe?.intro}</p>
+                <div className="flex justify-between font-bold">
+                  {tags.map(tag => (
+                    <div key={tag} className="mx-2">
+                      {tag}
+                    </div>
+                  ))}
                 </div>
-              ))}
+                <button
+                  className="w-32 px-6 py-3 text-xs tracking-widest border border-solid border-neutral-700 text-neutral-700 transition duration-300 hover:bg-neutral-200"
+                  onClick={() => setEditMode(!editMode)}
+                >
+                  Edit recipe
+                </button>
+              </div>
             </div>
 
-            <div className="p-10 ">
-              <h2 className="text-3xl font-bold mb-5 ">Directions</h2>
-              {directions?.map(({ order, text }, i) => (
-                <div key={i} className="mb-5">
-                  <h2 className="text-xl font-bold">Step {order}:</h2> {text}
+            <div className="max-w-6xl w-10/12 mt-20 mx-auto flex animate-[appear3_1.7s_ease_1]">
+              <div className="w-1/2 border-r border-neutral-700 text-center">
+                <div className="sticky top-8">
+                  <h2 className="py-3 text-xs text-left tracking-widest border-b border-neutral-700 text-neutral-700  uppercase">
+                    Ingredients
+                  </h2>
+
+                  {ingredients?.map(({ name, amount, unit }, i) => (
+                    <div key={i} className="">
+                      <h2>{name}</h2>
+                      <div className="">
+                        <h2>{amount + " " + unit}</h2>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+
+              <div className="w-1/2">
+                <h2 className="py-3 text-xs tracking-widest border-b border-neutral-700 text-neutral-700  uppercase text-right">
+                  Instructions
+                </h2>
+                {directions?.map(({ order, text }, i) => (
+                  <div key={i} className="mt-3 flex">
+                    <h2 className="ml-8">{order}.</h2>
+                    <p className="ml-3 text-justify">{text}</p>
+                    <input
+                      type="checkbox"
+                      id="instruction1"
+                      name="instruction1"
+                      value="instr"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        </>
       ) : (
         <div className="max-w-3xl m-auto mt-5">
           <div className="w-full flex">
