@@ -67,6 +67,16 @@ const Recipe: FunctionComponent<RecipeProps> = ({
   const [ingredients, setIngredients] =
     useState<ingredientType[]>(ingredientsOld);
   const [directions, setDirections] = useState<directionType[]>(directionsOld);
+  const [checkedState, setCheckedState] = useState(
+    new Array(directions.length).fill(false)
+  );
+
+  const changeCheckbox = position => {
+    const updatedCheckedState = checkedState.map((item, i) =>
+      i === position ? !item : item
+    );
+    setCheckedState(updatedCheckedState);
+  };
 
   const updateRecipe = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -226,36 +236,48 @@ const Recipe: FunctionComponent<RecipeProps> = ({
             </div>
 
             <div className="max-w-6xl w-10/12 mt-20 mx-auto flex animate-[appear3_1.7s_ease_1]">
-              <div className="w-1/2 border-r border-neutral-700 text-center">
+              <div className="w-1/3 border-r border-neutral-700 text-center">
                 <div className="sticky top-8">
                   <h2 className="py-3 text-xs text-left tracking-widest border-b border-neutral-700 text-neutral-700  uppercase">
                     Ingredients
                   </h2>
 
                   {ingredients?.map(({ name, amount, unit }, i) => (
-                    <div key={i} className="">
-                      <h2>{name}</h2>
-                      <div className="">
-                        <h2>{amount + " " + unit}</h2>
-                      </div>
+                    <div key={i} className="mt-3 flex">
+                      <h2 className="font-medium lowercase">
+                        {amount + " " + unit}
+                      </h2>
+                      <h2 className="ml-2 lowercase">{name}</h2>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="w-1/2">
+              <div className="w-2/3">
                 <h2 className="py-3 text-xs tracking-widest border-b border-neutral-700 text-neutral-700  uppercase text-right">
                   Instructions
                 </h2>
                 {directions?.map(({ order, text }, i) => (
                   <div key={i} className="mt-3 flex">
                     <h2 className="ml-8">{order}.</h2>
-                    <p className="ml-3 text-justify">{text}</p>
+                    <label
+                      htmlFor={`custom-checkbox-${i}`}
+                      className={
+                        checkedState[i]
+                          ? "instruction ml-3 text-justify text-neutral-300"
+                          : "instruction ml-3 text-justify"
+                      }
+                    >
+                      {text}
+                    </label>
                     <input
+                      className="ml-3 w-20 h-20"
                       type="checkbox"
-                      id="instruction1"
-                      name="instruction1"
-                      value="instr"
+                      id={`custom-checkbox-${i}`}
+                      name={text}
+                      value={text}
+                      checked={checkedState[i]}
+                      onChange={() => changeCheckbox(i)}
                     />
                   </div>
                 ))}
