@@ -15,6 +15,12 @@ const tags = [
   "Quick dinner",
   "Vegetarian",
   "Healthy",
+  "something1",
+  "Two",
+  "Three",
+  "Four",
+  "Five",
+  "Six",
 ];
 
 const buttonClasses =
@@ -216,13 +222,13 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                 />
               </div>
 
-              <div className="w-1/2 ml-20 flex flex-col justify-between">
-                <h2 className="mb-4 tracking-widest uppercase">
+              <div className="w-1/2 h-[800px] ml-20 flex flex-col justify-between">
+                <h2 className="tracking-widest uppercase">
                   {recipe?.category}
                 </h2>
-                <h1 className="mb-10 text-8xl font-gothic">{recipe?.title}</h1>
+                <h1 className="mb-4 text-8xl font-gothic">{recipe?.title}</h1>
                 <p className="mb-4 text-justify">{recipe?.intro}</p>
-                <div className="flex justify-between font-bold">
+                <div className="flex justify-between font-bold flex-wrap">
                   {tags.map(tag => (
                     <div key={tag} className="mx-2">
                       {tag}
