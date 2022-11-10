@@ -20,6 +20,7 @@ const createRecipe = async (req: NextApiRequest, res: NextApiResponse) => {
         directions: {
           create: req.body.directions,
         },
+        tags: req.body.tags,
         intro: req.body.intro,
         image: req.body.image,
         category: req.body.category,
