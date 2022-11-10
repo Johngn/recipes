@@ -1,30 +1,12 @@
-import { FunctionComponent, useEffect, useState, useCallback } from "react";
+import { FunctionComponent, useState } from "react";
 import { GetServerSideProps } from "next";
 import { recipeType, ingredientType, directionType } from "../../types/types";
 import HeadWrapper from "../../layout/headWrapper";
 import prisma from "../../db/client";
-import slugify from "slugify";
 import Router from "next/router";
 import Image from "next/image";
 import Link from "next/link";
-import { useDropzone } from "react-dropzone";
-import { categoryOptions } from "../../../utils/constants";
 import EditRecipe from "../../components/editRecipe";
-
-const tags = [
-  "Asian",
-  "Spicy",
-  "Fusion",
-  "Quick dinner",
-  "Vegetarian",
-  "Healthy",
-  "something1",
-  "Two",
-  "Three",
-  "Four",
-  "Five",
-  "Six",
-];
 
 export const getServerSideProps: GetServerSideProps = async context => {
   const recipeSlug = context.params["recipe"];
@@ -69,16 +51,11 @@ const Recipe: FunctionComponent<RecipeProps> = ({
   ingredientsOld,
   directionsOld,
 }) => {
+  console.log({ recipe, ingredientsOld, directionsOld });
   const [editMode, setEditMode] = useState(false);
-  const [title, setTitle] = useState(recipe.title.toString());
-  const [ingredients, setIngredients] =
-    useState<ingredientType[]>(ingredientsOld);
-  const [directions, setDirections] = useState<directionType[]>(directionsOld);
   const [checkedState, setCheckedState] = useState(
-    new Array(directions.length).fill(false)
+    new Array(directionsOld.length).fill(false)
   );
-  const [image, setImage] = useState("");
-  const [description, setDescription] = useState("");
 
   const changeCheckbox = position => {
     const updatedCheckedState = checkedState.map((item, i) =>
@@ -88,23 +65,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
   };
 
   const updateRecipe = async (newRecipe: recipeType) => {
-    // const newRecipe = {
-    //   id: recipe.id,
-    //   slug,
-    //   title,
-    //   description,
-    //   ingredients: ingredients.map(ingredient => ({
-    //     name: ingredient.name,
-    //     amount: ingredient.amount,
-    //     unit: ingredient.unit,
-    //   })),
-    //   directions: directions.map(direction => ({
-    //     order: direction.order,
-    //     text: direction.text,
-    //   })),
-    // };
-    console.log(newRecipe);
-
+    newRecipe.id = recipe.id;
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/recipe/${recipe.slug}`, {
       method: "PUT",
       headers: {
@@ -113,6 +74,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
       body: JSON.stringify(newRecipe),
     }).then(() => {
       setEditMode(false);
+      Router.push(`/recipe/${newRecipe.slug}`);
     });
   };
 
@@ -156,8 +118,8 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                 <h1 className="mb-4 text-8xl font-gothic">{recipe?.title}</h1>
                 <p className="mb-4 text-justify">{recipe?.intro}</p>
                 <div className="flex justify-between font-bold flex-wrap">
-                  {tags.map(tag => (
-                    <div key={tag} className="mx-2">
+                  {recipe.tags.map((tag, i) => (
+                    <div key={i} className="mx-2">
                       {tag}
                     </div>
                   ))}
@@ -178,7 +140,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                     Ingredients
                   </h2>
 
-                  {ingredients?.map(({ name, amount, unit }, i) => (
+                  {ingredientsOld?.map(({ name, amount, unit }, i) => (
                     <div key={i} className="mt-3 flex">
                       <h2 className="font-medium lowercase">
                         {amount + " " + unit}
@@ -193,7 +155,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                 <h2 className="py-3 mb-10 text-xs tracking-widest border-b border-neutral-700 text-neutral-700  uppercase text-right">
                   Instructions
                 </h2>
-                {directions?.map(({ order, text }, i) => (
+                {directionsOld?.map(({ order, text }, i) => (
                   <div key={i} className="mt-3 flex">
                     <h2
                       className={

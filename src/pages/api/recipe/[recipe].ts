@@ -14,22 +14,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     // delete old ingredients first - not ideal
-    await prisma.ingredient.deleteMany({
-      where: {
-        recipeId: {
-          equals: req.body.id,
-        },
-      },
-    });
+    // await prisma.ingredient.deleteMany({
+    //   where: {
+    //     recipeId: {
+    //       equals: req.body.id,
+    //     },
+    //   },
+    // });
 
-    // same for directions
-    await prisma.direction.deleteMany({
-      where: {
-        recipeId: {
-          equals: req.body.id,
-        },
-      },
-    });
+    // // same for directions
+    // await prisma.direction.deleteMany({
+    //   where: {
+    //     recipeId: {
+    //       equals: req.body.id,
+    //     },
+    //   },
+    // });
 
     try {
       const recipe = await prisma.recipe.update({
