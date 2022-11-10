@@ -81,9 +81,9 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
           )
           .filter(({ title }) => title.includes(searchTerm))
           .map(({ id, title, slug, image, category, intro }) => (
-            <>
+            <div key={id}>
               <Link href={`/recipe/${slug}`}>
-                <div key={id} className="w-64 mx-3 mb-8 cursor-pointer">
+                <div className="w-64 mx-3 mb-8 cursor-pointer">
                   <div className="flex justify-center items-center w-64 h-40 bg-neutral-400 text-white relative">
                     <Image
                       style={{ cursor: "pointer" }}
@@ -112,7 +112,7 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
                   </p>
                 </div>
               </Link>
-            </>
+            </div>
           ))}
       </div>
     </>
