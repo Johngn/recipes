@@ -1,14 +1,15 @@
 /* eslint-disable import/no-anonymous-default-export */
-import prisma from '../../../db/client';
-import { NextApiRequest, NextApiResponse } from 'next';
+import prisma from "../../../db/client";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'PUT') {
-    const recipeSlug = req.query['recipe'];
+  if (req.method === "PUT") {
+    const recipeSlug = req.query["recipe"];
+    console.log(req.body);
 
-    if (!recipeSlug || typeof recipeSlug !== 'string') {
+    if (!recipeSlug || typeof recipeSlug !== "string") {
       res.statusCode = 404;
-      res.send(JSON.stringify({ message: 'Not found' }));
+      res.send(JSON.stringify({ message: "Not found" }));
       return;
     }
 
@@ -49,13 +50,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       if (!recipe) {
         res.statusCode = 404;
-        res.send(JSON.stringify({ message: 'Recipe not found' }));
+        res.send(JSON.stringify({ message: "Recipe not found" }));
         return;
       }
 
       return res.json({ recipe });
     } catch (error) {
-      return res.status(500).json({ message: 'Failed' });
+      return res.status(500).json({ message: "Failed" });
     }
   }
 };
