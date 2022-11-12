@@ -13,6 +13,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return;
     }
 
+    // NEED TO ADD RECIPEID TO INGREDIENTS AND DIRECTIONS
+
     // delete old ingredients first - not ideal
     // await prisma.ingredient.deleteMany({
     //   where: {
