@@ -18,22 +18,18 @@ const EditRecipe: FunctionComponent<EditProps> = ({
   ingredientsOld,
   directionsOld,
 }) => {
-  const [title, setTitle] = useState(
-    recipe.title ? recipe.title.toString() : ""
-  );
+  const [title, setTitle] = useState(recipe ? recipe.title.toString() : "");
   const [category, setCategory] = useState(
-    recipe.category ? recipe.category.toString() : ""
+    recipe ? recipe.category.toString() : ""
   );
   const [description, setDescription] = useState(
-    recipe.intro ? recipe.intro.toString() : ""
+    recipe ? recipe.intro.toString() : ""
   );
-  const [image, setImage] = useState("");
-  const [tags, setTags] = useState<String[]>(
-    recipe.tags.length > 0 ? recipe.tags : []
-  );
+  const [image, setImage] = useState(recipe ? recipe.image.toString() : "");
+  const [tags, setTags] = useState<String[]>(recipe ? recipe.tags : []);
   const [newTag, setNewTag] = useState("");
   const [ingredients, setIngredients] = useState<ingredientType[]>(
-    ingredientsOld.length > 0
+    ingredientsOld?.length > 0
       ? ingredientsOld
       : [
           { name: "", amount: 0, unit: "" },
@@ -42,7 +38,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
         ]
   );
   const [directions, setDirections] = useState<directionType[]>(
-    directionsOld.length > 0 ? directionsOld : [{ order: 1, text: "" }]
+    directionsOld?.length > 0 ? directionsOld : [{ order: 1, text: "" }]
   );
 
   const createRecipeHandler = (

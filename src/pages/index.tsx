@@ -5,7 +5,7 @@ import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { recipeType } from "../types/types";
 import Image from "next/image";
-import { categoryOptions } from "../../utils/constants";
+import { categoryOptions, awsImageUrl } from "../../utils/constants";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const data = await prisma.recipe.findMany();
@@ -19,8 +19,6 @@ type HomeProps = {
 };
 
 const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
-  const awsImageUrl =
-    "https://recipe-builder-pictures.s3.eu-west-1.amazonaws.com";
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 

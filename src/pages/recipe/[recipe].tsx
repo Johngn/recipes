@@ -7,6 +7,7 @@ import Router from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import EditRecipe from "../../components/editRecipe";
+import { awsImageUrl } from "../../../utils/constants";
 
 export const getServerSideProps: GetServerSideProps = async context => {
   const recipeSlug = context.params["recipe"];
@@ -105,7 +106,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
               (max-width: 1200px) 50vw,
               40%"
                   layout="fill"
-                  src="/Lemon-polenta-ricotta-cake-01-1.jpg"
+                  src={`${awsImageUrl}/${recipe.image}`}
                   alt="food"
                 />
               </div>
