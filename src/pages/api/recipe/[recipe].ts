@@ -1,14 +1,14 @@
 /* eslint-disable import/no-anonymous-default-export */
-import prisma from '../../../db/client';
-import { NextApiRequest, NextApiResponse } from 'next';
+import prisma from "../../../db/client";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'PUT') {
-    const recipeSlug = req.query['recipe'];
+  if (req.method === "PUT") {
+    const recipeSlug = req.query["recipe"];
 
-    if (!recipeSlug || typeof recipeSlug !== 'string') {
+    if (!recipeSlug || typeof recipeSlug !== "string") {
       res.statusCode = 404;
-      res.send(JSON.stringify({ message: 'Not found' }));
+      res.send(JSON.stringify({ message: "Not found" }));
       return;
     }
 
@@ -38,24 +38,37 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         data: {
           title: req.body.title,
           slug: req.body.slug,
+          image: req.body.image,
+          intro: req.body.intro,
+          category: req.body.category,
+          tags: req.body.tags,
           ingredients: {
-            create: req.body.ingredients, // create again instead of update
+            // create again instead of update
+            create: req.body.ingredients.map((ingredient: any) => ({
+              name: ingredient.name,
+              unit: ingredient.unit,
+              amount: ingredient.amount,
+            })),
           },
           directions: {
-            create: req.body.directions, // create again instead of update
+            // create again instead of update
+            create: req.body.directions.map((direction: any) => ({
+              order: direction.order,
+              text: direction.text,
+            })),
           },
         },
       });
 
       if (!recipe) {
         res.statusCode = 404;
-        res.send(JSON.stringify({ message: 'Recipe not found' }));
+        res.send(JSON.stringify({ message: "Recipe not found" }));
         return;
       }
 
       return res.json({ recipe });
     } catch (error) {
-      return res.status(500).json({ message: 'Failed' });
+      return res.status(500).json({ message: "Failed" });
     }
   }
 };

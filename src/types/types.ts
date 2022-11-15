@@ -10,12 +10,12 @@ export type directionType = {
 };
 
 export type recipeType = {
-  id: React.Key;
+  id?: React.Key;
   title: String;
   slug: String;
   intro: String;
   category: String;
-  tag: String[];
+  tags: String[];
   image: String;
   directions: directionType[];
   ingredients: ingredientType[];
