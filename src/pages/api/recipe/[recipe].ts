@@ -5,7 +5,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "PUT") {
     const recipeSlug = req.query["recipe"];
-    console.log(req.body);
 
     if (!recipeSlug || typeof recipeSlug !== "string") {
       res.statusCode = 404;
@@ -13,25 +12,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return;
     }
 
-    // NEED TO ADD RECIPEID TO INGREDIENTS AND DIRECTIONS
-
     // delete old ingredients first - not ideal
-    // await prisma.ingredient.deleteMany({
-    //   where: {
-    //     recipeId: {
-    //       equals: req.body.id,
-    //     },
-    //   },
-    // });
+    await prisma.ingredient.deleteMany({
+      where: {
+        recipeId: {
+          equals: req.body.id,
+        },
+      },
+    });
 
-    // // same for directions
-    // await prisma.direction.deleteMany({
-    //   where: {
-    //     recipeId: {
-    //       equals: req.body.id,
-    //     },
-    //   },
-    // });
+    // same for directions
+    await prisma.direction.deleteMany({
+      where: {
+        recipeId: {
+          equals: req.body.id,
+        },
+      },
+    });
 
     try {
       const recipe = await prisma.recipe.update({
@@ -41,11 +38,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         data: {
           title: req.body.title,
           slug: req.body.slug,
+          image: req.body.image,
+          intro: req.body.intro,
+          category: req.body.category,
+          tags: req.body.tags,
           ingredients: {
-            create: req.body.ingredients, // create again instead of update
+            // create again instead of update
+            create: req.body.ingredients.map((ingredient: any) => ({
+              name: ingredient.name,
+              unit: ingredient.unit,
+              amount: ingredient.amount,
+            })),
           },
           directions: {
-            create: req.body.directions, // create again instead of update
+            // create again instead of update
+            create: req.body.directions.map((direction: any) => ({
+              order: direction.order,
+              text: direction.text,
+            })),
           },
         },
       });

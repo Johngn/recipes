@@ -51,7 +51,6 @@ const Recipe: FunctionComponent<RecipeProps> = ({
   ingredientsOld,
   directionsOld,
 }) => {
-  console.log({ recipe, ingredientsOld, directionsOld });
   const [editMode, setEditMode] = useState(false);
   const [checkedState, setCheckedState] = useState(
     new Array(directionsOld.length).fill(false)

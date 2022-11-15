@@ -18,7 +18,6 @@ const EditRecipe: FunctionComponent<EditProps> = ({
   ingredientsOld,
   directionsOld,
 }) => {
-  // console.log({ recipe, ingredientsOld, directionsOld });
   const [title, setTitle] = useState(
     recipe.title ? recipe.title.toString() : ""
   );
@@ -86,7 +85,6 @@ const EditRecipe: FunctionComponent<EditProps> = ({
     });
 
     if (upload.ok) {
-      console.log("Uploaded successfully!");
       setImage(filename);
     } else {
       console.error("Upload failed.");
@@ -197,9 +195,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
           <div className="flex">
             {tags.map((tag, i) => (
               <div key={i} className="mr-2 bg-slate-500 rounded-lg p-1">
-                <button value={tag} onClick={() => removeTag(i)}>
-                  {tag}
-                </button>
+                <button onClick={() => removeTag(i)}>{tag}</button>
               </div>
             ))}
             <div>
