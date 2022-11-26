@@ -85,7 +85,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
 
       {!editMode ? (
         <div className="bg-[url('/bg-yellow.png')] bg-no-repeat bg-fixed">
-          <div className="max-w-screen-2xl h-auto pb-20 mx-auto ">
+          <div className="max-w-screen-xl h-auto pb-20 mx-auto ">
             <Link href={`/`}>
               <button className="w-64 pt-5 ml-5 items-center text-right text-neutral-800 flex border-b border-neutral-800 justify-between animate-[appear1_1s_ease_1]">
                 <Image
