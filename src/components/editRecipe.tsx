@@ -192,7 +192,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
                   onChange={e => setDescription(e.target.value)}
                 />
               </div>
-              <div className="w-80 flex flex-wrap">
+              <div className="w-full lg:w-80 flex flex-wrap">
                 {tags.map((tag, i) => (
                   <button
                     key={i}
@@ -240,8 +240,8 @@ const EditRecipe: FunctionComponent<EditProps> = ({
               </div>
             </div>
           </section>
-          <section className="max-w-6xl w-10/12 mt-20 mx-auto flex animate-[appear3_1.7s_ease_1]">
-            <div className="w-1/2 border-r border-neutral-700 text-center">
+          <section className="max-w-6xl w-11/12 mt-20 mx-auto flex flex-col lg:flex-row animate-[appear3_1.7s_ease_1]">
+            <div className="w-11/12 mx-auto md:w-3/4 lg:mx-0 mb-10 lg:mb-0 lg:w-1/2 lg:border-r border-neutral-700 text-center">
               <div className="sticky top-8">
                 <h2 className="py-3 text-xs text-left tracking-widest border-b border-neutral-700 text-neutral-700  uppercase">
                   Ingredients
@@ -249,7 +249,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
                 {ingredients.map(({ name, amount, unit }, i) => (
                   <div key={i} className="mt-3 flex items-start">
                     <input
-                      className="w-[calc(100%-13rem)] p-1 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
+                      className="w-[calc(100%-11rem)] lg:w-[calc(100%-13rem)] p-1 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                       value={name}
                       name="name"
                       onChange={e => updateIngredientsArray(e, i)}
@@ -271,7 +271,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
                     />
                     <button
                       onClick={() => onDeleteIngredient(i)}
-                      className="ml-3 mr-8"
+                      className="ml-3 lg:mr-8"
                     >
                       <Image
                         className="rotate-45"
@@ -291,16 +291,15 @@ const EditRecipe: FunctionComponent<EditProps> = ({
                 </button>
               </div>
             </div>
-
-            <div className="w-1/2 text-center">
+            <div className="mx-auto w-11/12 md:w-3/4 lg:w-1/2 lg:mx-0 text-center">
               <h2 className="py-3 text-xs tracking-widest border-b border-neutral-700 text-neutral-700  uppercase text-right">
                 Instructions
               </h2>
               {directions.map(({ text }, i) => (
                 <div key={i} className="mt-3 flex items-start">
-                  <h2 className="ml-8 w-4 text-neutral-700">{i + 1}.</h2>
+                  <h2 className="lg:ml-8 w-4 text-neutral-700">{i + 1}.</h2>
                   <textarea
-                    className="w-[calc(100%-5rem)] h-[7.5rem] ml-3 p-1 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
+                    className="w-[calc(100%-3rem)] h-[7.5rem] ml-3 p-1 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                     value={text}
                     onChange={e => updateDirectionsArray(e, i)}
                   />
