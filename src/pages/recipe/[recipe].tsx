@@ -52,6 +52,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
   ingredientsOld,
   directionsOld,
 }) => {
+  console.log(recipe);
   const [editMode, setEditMode] = useState(false);
   const [checkedState, setCheckedState] = useState(
     new Array(directionsOld.length).fill(false)
@@ -118,7 +119,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                 <h1 className="mb-4 text-8xl font-gothic">{recipe?.title}</h1>
                 <p className="mb-4 text-justify">{recipe?.intro}</p>
                 <div className="flex justify-between font-bold flex-wrap">
-                  {recipe.tags.map((tag, i) => (
+                  {["curry", "spicy", "dinner"].map((tag, i) => (
                     <div key={i} className="mx-2">
                       {tag}
                     </div>
