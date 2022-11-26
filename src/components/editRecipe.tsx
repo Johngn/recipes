@@ -176,17 +176,17 @@ const EditRecipe: FunctionComponent<EditProps> = ({
       <div className="min-h-screen bg-[url('/bg-yellow.png')] bg-no-repeat bg-fixed">
         <div className="pt-2 max-w-screen-xl h-auto pb-2 mx-auto ">
           <Nav />
-          <section className="max-w-6xl w-10/12 mt-27 mx-auto flex justify-between animate-[appear2_1.3s_ease_1]">
-            <div>
+          <section className="max-w-6xl w-10/12 mt-27 mx-auto flex flex-col lg:flex-row lg:justify-between animate-[appear2_1.3s_ease_1]">
+            <div className="w-11/12 sm:w-3/4 mx-auto lg:mx-0 lg:w-80">
               <input
                 placeholder="Enter recipe name"
-                className="w-80 border-b border-neutral-800 placeholder-neutral-500 font-gothic text-3xl text-neutral-700 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200 bg-transparent"
+                className="w-full lg:w-80 border-b border-neutral-800 placeholder-neutral-500 font-gothic text-3xl text-neutral-700 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200 bg-transparent"
                 value={title}
                 onChange={e => setTitle(e.currentTarget.value)}
               />
               <div>
                 <textarea
-                  className="w-80 h-16 p-1 mt-4 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
+                  className="w-full lg:w-80 h-16 p-1 mt-4 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                   placeholder="Write a short description of your recipe here"
                   value={description}
                   onChange={e => setDescription(e.target.value)}
@@ -217,9 +217,9 @@ const EditRecipe: FunctionComponent<EditProps> = ({
                 </div>
               </div>
             </div>
-            <div>
+            <div className="w-11/12 mt-5 sm:w-3/4 lg:mt-0 mx-auto lg:mx-0 lg:w-80">
               <select
-                className="appearance-none cursor-pointer w-80 border-b border-neutral-800 font-gothic text-3xl rounded-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200 bg-transparent"
+                className="w-full lg:w-80 appearance-none cursor-pointer border-b border-neutral-800 font-gothic text-3xl rounded-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200 bg-transparent"
                 value={category}
                 onChange={e => setCategory(e.target.value)}
               >
@@ -229,7 +229,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
               </select>
               <div
                 {...getRootProps()}
-                className="w-80 h-16 p-1 mt-4 text-gray-400 bg-neutral-100 transition duration-300 hover:bg-neutral-200 cursor-pointer"
+                className="w-full lg:w-80 h-16 p-1 mt-4 text-gray-400 bg-neutral-100 transition duration-300 hover:bg-neutral-200 cursor-pointer"
               >
                 <input {...getInputProps()} />
                 {isDragActive ? (
