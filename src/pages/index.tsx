@@ -26,7 +26,7 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
   return (
     <>
       <HeadWrapper />
-      <div className="bg-[url('/bg-green.png')] bg-no-repeat bg-fixed">
+      <div className="min-h-screen bg-[url('/bg-green.png')] bg-no-repeat bg-fixed">
         <div className="pt-2 max-w-screen-xl h-auto pb-2 mx-auto ">
           <Nav />
           <section className="mt-10 sm:mt-20 mb-10 flex flex-col sm:flex-row items-center sm:items-end sm:justify-center animate-[appear2_1.3s_ease_1]">
