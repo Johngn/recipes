@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import EditRecipe from "../../components/editRecipe";
 import { awsImageUrl } from "../../../utils/constants";
+import Nav from "../../components/nav";
 
 export const getServerSideProps: GetServerSideProps = async context => {
   const recipeSlug = context.params["recipe"];
@@ -83,25 +84,13 @@ const Recipe: FunctionComponent<RecipeProps> = ({
       <HeadWrapper />
 
       {!editMode ? (
-        <div className="bg-[url('/bg-yellow.png')] bg-no-repeat bg-fixed">
-          <div className="max-w-screen-xl h-auto pb-20 mx-auto ">
-            <Link href={`/`}>
-              <button className="w-64 pt-5 ml-5 items-center text-right text-neutral-800 flex border-b border-neutral-800 justify-between animate-[appear1_1s_ease_1]">
+        <div className="min-h-screen bg-[url('/bg-yellow.png')] bg-no-repeat bg-fixed">
+          <div className="pt-2 max-w-screen-xl h-auto pb-10 mx-auto ">
+            <Nav />
+            <section className="w-11/12 md:min-h-[500px] lg:min-h-[600px] mt-10 mb-20 mx-auto flex flex-col md:flex-row justify-between animate-[appear2_1.3s_ease_1]">
+              <div className="relative w-full h-[200px] md:h-auto md:w-5/12">
                 <Image
-                  className=""
-                  width={72}
-                  height={10}
-                  src="/arrow-symbol.png"
-                  alt="arrow symbol"
-                />
-                <a>Back to all recipes</a>
-              </button>
-            </Link>
-
-            <div className="max-w-6xl w-10/12 mt-27 mb-60 mx-auto flex justify-between animate-[appear2_1.3s_ease_1]">
-              <div className="relative w-[500px] h-[700px]">
-                <Image
-                  className="object-contain"
+                  className="object-cover"
                   sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 50vw,
               40%"
@@ -110,30 +99,42 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                   alt="food"
                 />
               </div>
-
-              <div className="w-1/2 h-[800px] ml-20 flex flex-col justify-between">
-                <h2 className="tracking-widest uppercase">
+              <div className="w-full md:w-7/12 md:ml-20 flex flex-col">
+                <h2 className="mb-2 tracking-widest uppercase">
                   {recipe?.category}
                 </h2>
-                <h1 className="mb-4 text-8xl font-gothic">{recipe?.title}</h1>
+                <h1 className="mb-12 text-5xl md:text-6xl lg:text-8xl font-gothic">
+                  {recipe?.title}
+                </h1>
                 <p className="mb-4 text-justify">{recipe?.intro}</p>
-                <div className="flex justify-between font-bold flex-wrap">
-                  {recipe.tags.map((tag, i) => (
+                <div className="mb-8 flex font-bold flex-wrap">
+                  <p className="mr-2">Tag1</p>
+                  <p className="mr-2">Tag2</p>
+                  <p className="mr-2">Tag3</p>
+                  <p className="mr-2">Tag1</p>
+                  <p className="mr-2">Tag2</p>
+                  <p className="mr-2">Tag3</p>
+                  <p className="mr-2">Tag1</p>
+                  <p className="mr-2">Tag2</p>
+                  <p className="mr-2">Tag3</p>
+                  <p className="mr-2">Tag1</p>
+                  <p className="mr-2">Tag2</p>
+                  <p className="mr-2">Tag3</p>
+                  {/* {recipe.tags.map((tag, i) => (
                     <div key={i} className="mx-2">
                       {tag}
                     </div>
-                  ))}
+                  ))} */}
                 </div>
                 <button
-                  className="w-32 px-6 py-3 text-xs tracking-widest border border-solid border-neutral-700 text-neutral-700 transition duration-300 hover:bg-neutral-200"
+                  className="w-32 px-6 py-3 text-xs tracking-widest border border-solid border-neutral-700 text-neutral-700 transition duration-300 hover:bg-[#f2d3ae]"
                   onClick={() => setEditMode(!editMode)}
                 >
                   Edit recipe
                 </button>
               </div>
-            </div>
-
-            <div className="max-w-6xl w-10/12 mt-20 p-10 mx-auto flex animate-[appear3_1.7s_ease_1] bg-white bg-opacity-70">
+            </section>
+            <section className="w-10/12 mt-20 p-10 mx-auto flex animate-[appear3_1.7s_ease_1] bg-white bg-opacity-70">
               <div className="w-1/3 border-r border-neutral-700 text-center">
                 <div className="sticky top-8">
                   <h2 className="py-3 mb-10 text-xs text-left tracking-widest border-b border-neutral-700 text-neutral-700  uppercase">
@@ -142,9 +143,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
 
                   {ingredientsOld?.map(({ name, amount, unit }, i) => (
                     <div key={i} className="mt-3 flex">
-                      <h2 className="font-medium lowercase">
-                        {amount + " " + unit}
-                      </h2>
+                      <h2 className="lowercase">{amount + " " + unit}</h2>
                       <h2 className="ml-2 lowercase text-left">{name}</h2>
                     </div>
                   ))}
@@ -186,7 +185,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                   </div>
                 ))}
               </div>
-            </div>
+            </section>
           </div>
         </div>
       ) : (
