@@ -258,6 +258,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
                       placeholder="0"
                       className="w-14 p-1 ml-3 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                       type="number"
+                      min={0}
                       value={amount}
                       name="amount"
                       onChange={e => updateIngredientsArray(e, i)}
