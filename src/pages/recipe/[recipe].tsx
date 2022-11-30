@@ -78,6 +78,14 @@ const Recipe: FunctionComponent<RecipeProps> = ({
     });
   };
 
+  const deleteRecipe = () => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/recipe/${recipe.slug}`, {
+      method: "DELETE",
+    }).then(() => {
+      Router.push(`/`);
+    });
+  };
+
   return (
     <>
       <HeadWrapper />
@@ -172,6 +180,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
               </div>
             </section>
           </div>
+          <button onClick={deleteRecipe}>Delete</button>
         </div>
       ) : (
         <EditRecipe
