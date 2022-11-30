@@ -21,7 +21,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
 }) => {
   const [title, setTitle] = useState(recipe ? recipe.title.toString() : "");
   const [category, setCategory] = useState(
-    recipe ? recipe.category.toString() : ""
+    recipe ? recipe.category.toString() : "Breakfast"
   );
   const [description, setDescription] = useState(
     recipe ? recipe.intro.toString() : ""
