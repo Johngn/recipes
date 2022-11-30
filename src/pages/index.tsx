@@ -79,7 +79,9 @@ const Home: FunctionComponent<HomeProps> = ({ recipes }) => {
               .filter(({ category }) =>
                 selectedCategory ? selectedCategory === category : true
               )
-              .filter(({ title }) => title.includes(searchTerm))
+              .filter(({ title }) =>
+                title.toLowerCase().includes(searchTerm.toLowerCase())
+              )
               .map(({ id, title, slug, image, category, intro }) => (
                 <div key={id}>
                   <Link href={`/recipe/${slug}`}>
