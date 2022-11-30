@@ -1,6 +1,6 @@
 import { ingredientType, directionType, recipeType } from "../types/types";
 import slugify from "slugify";
-import { categoryOptions } from "../../utils/constants";
+import { categoryOptions, awsImageUrl } from "../../utils/constants";
 import Image from "next/image";
 import { useDropzone } from "react-dropzone";
 import { FunctionComponent, useState, useCallback } from "react";
@@ -238,6 +238,18 @@ const EditRecipe: FunctionComponent<EditProps> = ({
                   <p>Upload an image of your dish here</p>
                 )}
               </div>
+
+              {image && (
+                <img
+                  style={{
+                    cursor: "pointer",
+                    objectFit: "cover",
+                    width: "100%",
+                  }}
+                  src={`${awsImageUrl}/${image.toString()}`}
+                  alt={title.toString()}
+                />
+              )}
             </div>
           </section>
           <section className="max-w-6xl w-11/12 mt-20 mx-auto flex flex-col lg:flex-row animate-[appear3_1.7s_ease_1]">
