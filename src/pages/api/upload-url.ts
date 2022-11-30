@@ -4,8 +4,8 @@ import aws from 'aws-sdk';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   aws.config.update({
-    accessKeyId: process.env.ACCESS_KEY,
-    secretAccessKey: process.env.SECRET_KEY,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     region: process.env.REGION,
     signatureVersion: 'v4',
   });
