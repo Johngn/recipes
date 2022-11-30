@@ -11,6 +11,7 @@ type EditProps = {
   recipe?: recipeType;
   ingredientsOld?: ingredientType[];
   directionsOld?: directionType[];
+  loading: boolean;
 };
 
 const EditRecipe: FunctionComponent<EditProps> = ({
@@ -18,6 +19,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
   recipe,
   ingredientsOld,
   directionsOld,
+  loading,
 }) => {
   const [title, setTitle] = useState(recipe ? recipe.title.toString() : "");
   const [category, setCategory] = useState(
@@ -339,8 +341,9 @@ const EditRecipe: FunctionComponent<EditProps> = ({
             <button
               className="px-6 py-3 text-xs uppercase tracking-widest border border-solid border-neutral-700 text-white bg-neutral-700 transition-transform hover:scale-110 active:bg-neutral-500 active:translate-y-1"
               onClick={e => createRecipeHandler(e)}
+              disabled={loading}
             >
-              Add recipe
+              {loading ? "Please wait" : "Add recipe"}
             </button>
           </section>
         </div>

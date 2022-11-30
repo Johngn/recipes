@@ -56,6 +56,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
   const [checkedState, setCheckedState] = useState(
     new Array(directionsOld.length).fill(false)
   );
+  const [loading, setLoading] = useState(false);
 
   const changeCheckbox = position => {
     const updatedCheckedState = checkedState.map((item, i) =>
@@ -65,6 +66,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
   };
 
   const updateRecipe = async (newRecipe: recipeType) => {
+    setLoading(true);
     newRecipe.id = recipe.id;
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/recipe/${recipe.slug}`, {
       method: "PUT",
@@ -73,6 +75,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
       },
       body: JSON.stringify(newRecipe),
     }).then(() => {
+      setLoading(false);
       setEditMode(false);
       Router.push(`/recipe/${newRecipe.slug}`);
     });
@@ -188,6 +191,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
           recipe={recipe}
           ingredientsOld={ingredientsOld}
           directionsOld={directionsOld}
+          loading={loading}
         />
       )}
     </>
