@@ -71,4 +71,32 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(500).json({ message: "Failed" });
     }
   }
+
+  if (req.method === "DELETE") {
+    const recipeSlug = req.query["recipe"];
+
+    if (!recipeSlug || typeof recipeSlug !== "string") {
+      res.statusCode = 404;
+      res.send(JSON.stringify({ message: "Not found" }));
+      return;
+    }
+
+    try {
+      const recipeToBeDeleted = await prisma.recipe.findFirst({
+        where: {
+          slug: recipeSlug,
+        },
+      });
+
+      await prisma.recipe.delete({
+        where: {
+          id: recipeToBeDeleted.id,
+        },
+      });
+
+      return res.status(200).json({ message: `Deleted ${recipeSlug}` });
+    } catch (error) {
+      return res.status(500).json({ message: `Server error` });
+    }
+  }
 };
