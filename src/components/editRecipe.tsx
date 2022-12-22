@@ -178,7 +178,12 @@ const EditRecipe: FunctionComponent<EditProps> = ({
       <div className="min-h-screen bg-[url('/bg-yellow.png')] bg-no-repeat bg-fixed">
         <div className="pt-2 max-w-screen-xl h-auto pb-2 mx-auto ">
           <Nav />
-          <section className="max-w-6xl w-10/12 mt-27 mx-auto flex flex-col lg:flex-row lg:justify-between animate-[appear2_1.3s_ease_1]">
+          <div className="max-w-6xl w-11/12 mt-10 mx-auto text-center lg:text-right">
+            <button className="px-2 py-1 text-xs uppercase tracking-widest border border-solid border-red-600 text-red-600 hover:bg-red-500 hover:text-white transition duration-300">
+              Delete recipe
+            </button>
+          </div>
+          <section className="max-w-6xl w-11/12 mt-4 mx-auto flex flex-col lg:flex-row lg:justify-between animate-[appear2_1.3s_ease_1]">
             <div className="w-11/12 sm:w-3/4 mx-auto lg:mx-0 lg:w-80">
               <input
                 placeholder="Enter recipe name"
@@ -188,7 +193,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
               />
               <div>
                 <textarea
-                  className="w-full lg:w-80 h-16 p-1 mt-4 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
+                  className="w-full lg:w-80 h-40 p-1 mt-4 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                   placeholder="Write a short description of your recipe here"
                   value={description}
                   onChange={e => setDescription(e.target.value)}
@@ -231,7 +236,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
               </select>
               <div
                 {...getRootProps()}
-                className="w-full lg:w-80 h-16 p-1 mt-4 text-gray-400 bg-neutral-100 transition duration-300 hover:bg-neutral-200 cursor-pointer"
+                className="w-full lg:w-80 h-8 p-1 mt-4 mb-2 text-gray-400 bg-neutral-100 transition duration-300 hover:bg-neutral-200 cursor-pointer"
               >
                 <input {...getInputProps()} />
                 {isDragActive ? (
@@ -241,16 +246,14 @@ const EditRecipe: FunctionComponent<EditProps> = ({
                 )}
               </div>
 
-              {image && (
+              {image ? (
                 <img
-                  style={{
-                    cursor: "pointer",
-                    objectFit: "cover",
-                    width: "100%",
-                  }}
+                  className="w-full h-[7.5rem] object-cover"
                   src={`${awsImageUrl}/${image.toString()}`}
                   alt={title.toString()}
                 />
+              ) : (
+                <div className="w-[calc(100%-0.5rem)] ml-1 h-[7.5rem] outline-dashed outline-neutral-400"></div>
               )}
             </div>
           </section>
