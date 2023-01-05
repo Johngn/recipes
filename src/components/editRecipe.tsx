@@ -3,6 +3,7 @@ import slugify from 'slugify';
 import { categoryOptions, awsImageUrl } from '../../utils/constants';
 import Image from 'next/image';
 import { useDropzone } from 'react-dropzone';
+import Router from 'next/router';
 import { FunctionComponent, useState, useCallback } from 'react';
 import Nav from '../components/nav';
 
@@ -43,11 +44,24 @@ const EditRecipe: FunctionComponent<EditProps> = ({
   const [directions, setDirections] = useState<directionType[]>(
     directionsOld?.length > 0 ? directionsOld : [{ order: 1, text: '' }]
   );
+  const [password, setPassword] = useState('');
+
+  const deleteRecipe = () => {
+    if (password !== process.env.NEXT_PUBLIC_AUTH_PASSWORD) return;
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/recipe/${recipe.slug}`, {
+      method: 'DELETE',
+    }).then(() => {
+      Router.push(`/`);
+    });
+  };
 
   const createRecipeHandler = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
+
+    if (password !== process.env.NEXT_PUBLIC_AUTH_PASSWORD) return;
 
     if (title !== '' && ingredients.length > 0 && directions.length > 0) {
       const slug = slugify(title, { lower: true });
@@ -180,7 +194,11 @@ const EditRecipe: FunctionComponent<EditProps> = ({
           <Nav />
           <div className="max-w-6xl w-11/12 mt-10 mx-auto text-center lg:text-right">
             {recipe ? (
-              <button className="px-2 py-1 text-xs uppercase tracking-widest border border-solid border-red-600 text-red-600 hover:bg-red-500 hover:text-white transition duration-300">
+              <button
+                onClick={deleteRecipe}
+                disabled={password !== process.env.NEXT_PUBLIC_AUTH_PASSWORD}
+                className="px-2 py-1 text-xs uppercase tracking-widest border border-solid border-red-600 text-red-600 hover:bg-red-500 hover:text-white transition duration-300"
+              >
                 Delete recipe
               </button>
             ) : null}
@@ -343,10 +361,18 @@ const EditRecipe: FunctionComponent<EditProps> = ({
             </div>
           </section>
           <section className="my-14 text-center animate-[appear3_1.7s_ease_1]">
+            <input
+              className="h-10 mr-2 p-3 w-40"
+              placeholder="Password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+            />
             <button
               className="px-6 py-3 text-xs uppercase tracking-widest border border-solid border-neutral-700 text-white bg-neutral-700 transition-transform hover:scale-110 active:bg-neutral-500 active:translate-y-1"
               onClick={e => createRecipeHandler(e)}
-              disabled={loading}
+              disabled={
+                loading || password !== process.env.NEXT_PUBLIC_AUTH_PASSWORD
+              }
             >
               {loading
                 ? 'Please wait'
