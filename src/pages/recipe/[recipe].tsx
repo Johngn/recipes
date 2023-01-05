@@ -98,7 +98,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
               </button>
             </Link>
 
-            <div className="max-w-6xl w-10/12 mt-27 mb-60 mx-auto flex justify-between animate-[appear2_1.3s_ease_1]">
+            <div className="max-w-6xl w-10/12 mt-27 mb-20 mx-auto flex justify-between animate-[appear2_1.3s_ease_1]">
               <div className="relative w-[500px] h-[700px]">
                 <Image
                   className="object-contain"

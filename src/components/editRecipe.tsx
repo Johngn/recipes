@@ -327,7 +327,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
               className="px-6 py-3 text-xs uppercase tracking-widest border border-solid border-neutral-700 text-white bg-neutral-700 transition-transform hover:scale-110 active:bg-neutral-500 active:translate-y-1"
               onClick={e => createRecipeHandler(e)}
             >
-              Add recipe
+              {recipe ? 'Update recipe' : 'Add recipe'}
             </button>
           </section>
         </div>
