@@ -1,16 +1,17 @@
-import { ingredientType, directionType, recipeType } from "../types/types";
-import slugify from "slugify";
-import { categoryOptions } from "../../utils/constants";
-import Image from "next/image";
-import { useDropzone } from "react-dropzone";
-import { FunctionComponent, useState, useCallback } from "react";
-import Nav from "../components/nav";
+import { ingredientType, directionType, recipeType } from '../types/types';
+import slugify from 'slugify';
+import { categoryOptions, awsImageUrl } from '../../utils/constants';
+import Image from 'next/image';
+import { useDropzone } from 'react-dropzone';
+import { FunctionComponent, useState, useCallback } from 'react';
+import Nav from '../components/nav';
 
 type EditProps = {
   createRecipe?: (newRecipe: recipeType) => Promise<void>;
   recipe?: recipeType;
   ingredientsOld?: ingredientType[];
   directionsOld?: directionType[];
+  loading: boolean;
 };
 
 const EditRecipe: FunctionComponent<EditProps> = ({
@@ -18,28 +19,29 @@ const EditRecipe: FunctionComponent<EditProps> = ({
   recipe,
   ingredientsOld,
   directionsOld,
+  loading,
 }) => {
-  const [title, setTitle] = useState(recipe ? recipe.title.toString() : "");
+  const [title, setTitle] = useState(recipe ? recipe.title.toString() : '');
   const [category, setCategory] = useState(
-    recipe ? recipe.category.toString() : ""
+    recipe ? recipe.category.toString() : 'Breakfast'
   );
   const [description, setDescription] = useState(
-    recipe ? recipe.intro.toString() : ""
+    recipe ? recipe.intro.toString() : ''
   );
-  const [image, setImage] = useState(recipe ? recipe.image.toString() : "");
+  const [image, setImage] = useState(recipe ? recipe.image.toString() : '');
   const [tags, setTags] = useState<String[]>(recipe ? recipe.tags : []);
-  const [newTag, setNewTag] = useState("");
+  const [newTag, setNewTag] = useState('');
   const [ingredients, setIngredients] = useState<ingredientType[]>(
     ingredientsOld?.length > 0
       ? ingredientsOld
       : [
-          { name: "", amount: 0, unit: "" },
-          { name: "", amount: 0, unit: "" },
-          { name: "", amount: 0, unit: "" },
+          { name: '', amount: 0, unit: '' },
+          { name: '', amount: 0, unit: '' },
+          { name: '', amount: 0, unit: '' },
         ]
   );
   const [directions, setDirections] = useState<directionType[]>(
-    directionsOld?.length > 0 ? directionsOld : [{ order: 1, text: "" }]
+    directionsOld?.length > 0 ? directionsOld : [{ order: 1, text: '' }]
   );
 
   const createRecipeHandler = (
@@ -47,7 +49,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
   ) => {
     event.preventDefault();
 
-    if (title !== "" && ingredients.length > 0 && directions.length > 0) {
+    if (title !== '' && ingredients.length > 0 && directions.length > 0) {
       const slug = slugify(title, { lower: true });
 
       const newRecipe = {
@@ -77,14 +79,14 @@ const EditRecipe: FunctionComponent<EditProps> = ({
     });
 
     const upload = await fetch(url, {
-      method: "POST",
+      method: 'POST',
       body: formData,
     });
 
     if (upload.ok) {
       setImage(filename);
     } else {
-      console.error("Upload failed.");
+      console.error('Upload failed.');
     }
   }, []);
 
@@ -94,9 +96,9 @@ const EditRecipe: FunctionComponent<EditProps> = ({
     setIngredients(prevState => [
       ...prevState,
       {
-        name: "",
+        name: '',
         amount: 0,
-        unit: "",
+        unit: '',
       },
     ]);
   };
@@ -104,7 +106,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
   const onAddDirection = () => {
     setDirections(prevState => [
       ...prevState,
-      { order: directions.length + 1, text: "" },
+      { order: directions.length + 1, text: '' },
     ]);
   };
 
@@ -133,7 +135,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
           return (ingredient = {
             ...ingredient,
             [e.currentTarget.name]:
-              e.currentTarget.name === "amount"
+              e.currentTarget.name === 'amount'
                 ? parseFloat(e.currentTarget.value)
                 : e.currentTarget.value,
           });
@@ -160,9 +162,9 @@ const EditRecipe: FunctionComponent<EditProps> = ({
   };
 
   const addTagHandler = () => {
-    if (newTag !== "") {
+    if (newTag !== '') {
       setTags(prevState => [...prevState, newTag]);
-      setNewTag("");
+      setNewTag('');
     }
   };
 
@@ -176,7 +178,14 @@ const EditRecipe: FunctionComponent<EditProps> = ({
       <div className="min-h-screen bg-[url('/bg-yellow.png')] bg-no-repeat bg-fixed">
         <div className="pt-2 max-w-screen-xl h-auto pb-2 mx-auto ">
           <Nav />
-          <section className="max-w-6xl w-10/12 mt-27 mx-auto flex flex-col lg:flex-row lg:justify-between animate-[appear2_1.3s_ease_1]">
+          <div className="max-w-6xl w-11/12 mt-10 mx-auto text-center lg:text-right">
+            {recipe ? (
+              <button className="px-2 py-1 text-xs uppercase tracking-widest border border-solid border-red-600 text-red-600 hover:bg-red-500 hover:text-white transition duration-300">
+                Delete recipe
+              </button>
+            ) : null}
+          </div>
+          <section className="max-w-6xl w-11/12 mt-4 mx-auto flex flex-col lg:flex-row lg:justify-between animate-[appear2_1.3s_ease_1]">
             <div className="w-11/12 sm:w-3/4 mx-auto lg:mx-0 lg:w-80">
               <input
                 placeholder="Enter recipe name"
@@ -186,7 +195,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
               />
               <div>
                 <textarea
-                  className="w-full lg:w-80 h-16 p-1 mt-4 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
+                  className="w-full lg:w-80 h-40 p-1 mt-4 bg-neutral-100 resize-none transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                   placeholder="Write a short description of your recipe here"
                   value={description}
                   onChange={e => setDescription(e.target.value)}
@@ -229,7 +238,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
               </select>
               <div
                 {...getRootProps()}
-                className="w-full lg:w-80 h-16 p-1 mt-4 text-gray-400 bg-neutral-100 transition duration-300 hover:bg-neutral-200 cursor-pointer"
+                className="w-full lg:w-80 h-8 p-1 mt-4 mb-2 text-gray-400 bg-neutral-100 transition duration-300 hover:bg-neutral-200 cursor-pointer"
               >
                 <input {...getInputProps()} />
                 {isDragActive ? (
@@ -238,6 +247,16 @@ const EditRecipe: FunctionComponent<EditProps> = ({
                   <p>Upload an image of your dish here</p>
                 )}
               </div>
+
+              {image ? (
+                <img
+                  className="w-full h-[7.5rem] object-cover"
+                  src={`${awsImageUrl}/${image.toString()}`}
+                  alt={title.toString()}
+                />
+              ) : (
+                <div className="w-[calc(100%-0.5rem)] ml-1 h-[7.5rem] outline-dashed outline-neutral-400"></div>
+              )}
             </div>
           </section>
           <section className="max-w-6xl w-11/12 mt-20 mx-auto flex flex-col lg:flex-row animate-[appear3_1.7s_ease_1]">
@@ -258,6 +277,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
                       placeholder="0"
                       className="w-14 p-1 ml-3 bg-neutral-100 transition duration-300 hover:bg-neutral-200 focus:bg-neutral-200"
                       type="number"
+                      min={0}
                       value={amount}
                       name="amount"
                       onChange={e => updateIngredientsArray(e, i)}
@@ -326,8 +346,13 @@ const EditRecipe: FunctionComponent<EditProps> = ({
             <button
               className="px-6 py-3 text-xs uppercase tracking-widest border border-solid border-neutral-700 text-white bg-neutral-700 transition-transform hover:scale-110 active:bg-neutral-500 active:translate-y-1"
               onClick={e => createRecipeHandler(e)}
+              disabled={loading}
             >
-              {recipe ? 'Update recipe' : 'Add recipe'}
+              {loading
+                ? 'Please wait'
+                : recipe
+                ? 'Update recipe'
+                : 'Add recipe'}
             </button>
           </section>
         </div>
