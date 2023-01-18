@@ -1,18 +1,18 @@
-import { FunctionComponent, useState } from 'react';
-import { GetServerSideProps } from 'next';
-import { recipeType, ingredientType, directionType } from '../../types/types';
-import HeadWrapper from '../../layout/headWrapper';
-import prisma from '../../db/client';
-import Router from 'next/router';
-import Image from 'next/image';
-import EditRecipe from '../../components/editRecipe';
-import { awsImageUrl } from '../../../utils/constants';
-import Nav from '../../components/nav';
+import { FunctionComponent, useState } from "react";
+import { GetServerSideProps } from "next";
+import { recipeType, ingredientType, directionType } from "../../types/types";
+import HeadWrapper from "../../layout/headWrapper";
+import prisma from "../../db/client";
+import Router from "next/router";
+import Image from "next/image";
+import EditRecipe from "../../components/editRecipe";
+import { awsImageUrl } from "../../../utils/constants";
+import Nav from "../../components/nav";
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const recipeSlug = context.params['recipe'];
+  const recipeSlug = context.params["recipe"];
 
-  if (!recipeSlug || typeof recipeSlug !== 'string') return { notFound: true };
+  if (!recipeSlug || typeof recipeSlug !== "string") return { notFound: true };
 
   const recipe = await prisma.recipe.findFirst({
     where: {
@@ -69,9 +69,9 @@ const Recipe: FunctionComponent<RecipeProps> = ({
     setLoading(true);
     newRecipe.id = recipe.id;
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/recipe/${recipe.slug}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(newRecipe),
     }).then(() => {
@@ -110,7 +110,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                 </h1>
                 <p className="mb-4 text-justify">{recipe?.intro}</p>
                 <div className="mb-8 flex font-bold flex-wrap">
-                  {recipe.tags.map((tag, i) => (
+                  {recipe.tags.split(" ").map((tag, i) => (
                     <p key={i} className="mr-2">
                       {tag}
                     </p>
@@ -132,7 +132,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                   </h2>
                   {ingredientsOld?.map(({ name, amount, unit }, i) => (
                     <div key={i} className="mt-3 flex">
-                      <h2 className="lowercase">{amount + ' ' + unit}</h2>
+                      <h2 className="lowercase">{amount + " " + unit}</h2>
                       <h2 className="ml-2 lowercase text-left">{name}</h2>
                     </div>
                   ))}
@@ -146,7 +146,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                   <div key={i} className="mt-3 flex">
                     <h2
                       className={
-                        checkedState[i] ? 'sm:ml-8 text-neutral-300' : 'sm:ml-8'
+                        checkedState[i] ? "sm:ml-8 text-neutral-300" : "sm:ml-8"
                       }
                     >
                       {order}.
@@ -155,8 +155,8 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                       htmlFor={`custom-checkbox-${i}`}
                       className={
                         checkedState[i]
-                          ? 'instruction ml-3 text-justify sm:w-[calc(100%-6rem)] text-neutral-300'
-                          : 'instruction ml-3 text-justify sm:w-[calc(100%-6rem)]'
+                          ? "instruction ml-3 text-justify sm:w-[calc(100%-6rem)] text-neutral-300"
+                          : "instruction ml-3 text-justify sm:w-[calc(100%-6rem)]"
                       }
                     >
                       {text}

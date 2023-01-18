@@ -1,12 +1,10 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider             = "postgresql"
-  url                  = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model Ingredient {
@@ -21,7 +19,7 @@ model Ingredient {
 model Direction {
   id       Int     @id @default(autoincrement())
   order    Int
-  text     String  @db.VarChar(1000)
+  text     String
   Recipe   Recipe? @relation(fields: [recipeId], references: [id])
   recipeId Int?
 }
@@ -34,7 +32,7 @@ model Recipe {
   intro       String
   image       String
   category    String
-  tags        String[]
+  tags        String
   ingredients Ingredient[]
   directions  Direction[]
 }

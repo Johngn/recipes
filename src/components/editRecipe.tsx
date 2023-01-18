@@ -1,11 +1,11 @@
-import { ingredientType, directionType, recipeType } from '../types/types';
-import slugify from 'slugify';
-import { categoryOptions, awsImageUrl } from '../../utils/constants';
-import Image from 'next/image';
-import { useDropzone } from 'react-dropzone';
-import Router from 'next/router';
-import { FunctionComponent, useState, useCallback } from 'react';
-import Nav from '../components/nav';
+import { ingredientType, directionType, recipeType } from "../types/types";
+import slugify from "slugify";
+import { categoryOptions, awsImageUrl } from "../../utils/constants";
+import Image from "next/image";
+import { useDropzone } from "react-dropzone";
+import Router from "next/router";
+import { FunctionComponent, useState, useCallback } from "react";
+import Nav from "../components/nav";
 
 type EditProps = {
   createRecipe?: (newRecipe: recipeType) => Promise<void>;
@@ -22,35 +22,37 @@ const EditRecipe: FunctionComponent<EditProps> = ({
   directionsOld,
   loading,
 }) => {
-  const [title, setTitle] = useState(recipe ? recipe.title.toString() : '');
+  const [title, setTitle] = useState(recipe ? recipe.title.toString() : "");
   const [category, setCategory] = useState(
-    recipe ? recipe.category.toString() : 'Breakfast'
+    recipe ? recipe.category.toString() : "Breakfast"
   );
   const [description, setDescription] = useState(
-    recipe ? recipe.intro.toString() : ''
+    recipe ? recipe.intro.toString() : ""
   );
-  const [image, setImage] = useState(recipe ? recipe.image.toString() : '');
-  const [tags, setTags] = useState<String[]>(recipe ? recipe.tags : []);
-  const [newTag, setNewTag] = useState('');
+  const [image, setImage] = useState(recipe ? recipe.image.toString() : "");
+  const [tagsState, setTags] = useState<String[]>(
+    recipe ? recipe.tags.split(" ") : []
+  );
+  const [newTag, setNewTag] = useState("");
   const [ingredients, setIngredients] = useState<ingredientType[]>(
     ingredientsOld?.length > 0
       ? ingredientsOld
       : [
-          { name: '', amount: 0, unit: '' },
-          { name: '', amount: 0, unit: '' },
-          { name: '', amount: 0, unit: '' },
+          { name: "", amount: 0, unit: "" },
+          { name: "", amount: 0, unit: "" },
+          { name: "", amount: 0, unit: "" },
         ]
   );
   const [directions, setDirections] = useState<directionType[]>(
-    directionsOld?.length > 0 ? directionsOld : [{ order: 1, text: '' }]
+    directionsOld?.length > 0 ? directionsOld : [{ order: 1, text: "" }]
   );
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
 
   const deleteRecipe = () => {
     if (password !== process.env.NEXT_PUBLIC_AUTH_PASSWORD) return;
 
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/recipe/${recipe.slug}`, {
-      method: 'DELETE',
+      method: "DELETE",
     }).then(() => {
       Router.push(`/`);
     });
@@ -63,8 +65,10 @@ const EditRecipe: FunctionComponent<EditProps> = ({
 
     if (password !== process.env.NEXT_PUBLIC_AUTH_PASSWORD) return;
 
-    if (title !== '' && ingredients.length > 0 && directions.length > 0) {
+    if (title !== "" && ingredients.length > 0 && directions.length > 0) {
       const slug = slugify(title, { lower: true });
+
+      const tags = tagsState.join(" ");
 
       const newRecipe = {
         slug,
@@ -93,14 +97,14 @@ const EditRecipe: FunctionComponent<EditProps> = ({
     });
 
     const upload = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       body: formData,
     });
 
     if (upload.ok) {
       setImage(filename);
     } else {
-      console.error('Upload failed.');
+      console.error("Upload failed.");
     }
   }, []);
 
@@ -110,9 +114,9 @@ const EditRecipe: FunctionComponent<EditProps> = ({
     setIngredients(prevState => [
       ...prevState,
       {
-        name: '',
+        name: "",
         amount: 0,
-        unit: '',
+        unit: "",
       },
     ]);
   };
@@ -120,7 +124,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
   const onAddDirection = () => {
     setDirections(prevState => [
       ...prevState,
-      { order: directions.length + 1, text: '' },
+      { order: directions.length + 1, text: "" },
     ]);
   };
 
@@ -149,7 +153,7 @@ const EditRecipe: FunctionComponent<EditProps> = ({
           return (ingredient = {
             ...ingredient,
             [e.currentTarget.name]:
-              e.currentTarget.name === 'amount'
+              e.currentTarget.name === "amount"
                 ? parseFloat(e.currentTarget.value)
                 : e.currentTarget.value,
           });
@@ -176,15 +180,15 @@ const EditRecipe: FunctionComponent<EditProps> = ({
   };
 
   const addTagHandler = () => {
-    if (newTag !== '') {
+    if (newTag !== "") {
       setTags(prevState => [...prevState, newTag]);
-      setNewTag('');
+      setNewTag("");
     }
   };
 
   const removeTag = (i: number) => {
-    tags.splice(i, 1);
-    setTags([...tags]);
+    tagsState.splice(i, 1);
+    setTags([...tagsState]);
   };
 
   return (
@@ -220,15 +224,18 @@ const EditRecipe: FunctionComponent<EditProps> = ({
                 />
               </div>
               <div className="w-full lg:w-80 flex flex-wrap">
-                {tags.map((tag, i) => (
-                  <button
-                    key={i}
-                    onClick={() => removeTag(i)}
-                    className="mr-2 mb-1 p-1 rounded-full border border-neutral-700 text-neutral-700 text-xs hover:bg-red-400"
-                  >
-                    {tag}
-                  </button>
-                ))}
+                {tagsState.map(
+                  (tag, i) =>
+                    tag !== "" && (
+                      <button
+                        key={i}
+                        onClick={() => removeTag(i)}
+                        className="mr-2 mb-1 p-1 rounded-full border border-neutral-700 text-neutral-700 text-xs hover:bg-red-400"
+                      >
+                        {tag}
+                      </button>
+                    )
+                )}
                 <div className="flex items-center">
                   <input
                     value={newTag}
@@ -375,10 +382,10 @@ const EditRecipe: FunctionComponent<EditProps> = ({
               }
             >
               {loading
-                ? 'Please wait'
+                ? "Please wait"
                 : recipe
-                ? 'Update recipe'
-                : 'Add recipe'}
+                ? "Update recipe"
+                : "Add recipe"}
             </button>
           </section>
         </div>

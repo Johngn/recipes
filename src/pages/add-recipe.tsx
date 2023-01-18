@@ -1,7 +1,5 @@
 import { useState } from "react";
 import Router from "next/router";
-import Link from "next/link";
-import Image from "next/image";
 import { FunctionComponent } from "react";
 import EditRecipe from "../components/editRecipe";
 import { recipeType } from "../types/types";
@@ -23,11 +21,7 @@ const AddRecipe: FunctionComponent = () => {
     });
   };
 
-  return (
-    <>
-      <EditRecipe createRecipe={createRecipe} loading={loading} />
-    </>
-  );
+  return <EditRecipe createRecipe={createRecipe} loading={loading} />;
 };
 
 export default AddRecipe;
