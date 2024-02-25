@@ -105,7 +105,7 @@ const Recipe: FunctionComponent<RecipeProps> = ({
                 <h2 className="mb-2 tracking-widest uppercase">
                   {recipe?.category}
                 </h2>
-                <h1 className="mb-12 text-5xl md:text-6xl lg:text-8xl font-gothic">
+                <h1 className="mb-12 text-5xl md:text-6xl lg:text-7xl font-gothic">
                   {recipe?.title}
                 </h1>
                 <p className="mb-4 text-justify">{recipe?.intro}</p>
